@@ -154,9 +154,10 @@ Dotykając ich — sprawdź drugą stronę.
   `npm run build`.
 - **Nie uruchamiaj `scripts/generate-cv-pdf.mjs`** bez zgody — nadpisuje zacommitowane
   `public/Maciej Skorus - CV [PL|EN].pdf`.
-- **Nie kasuj zaparkowanych komponentów.** `src/components/Experience/` i
-  `src/components/Skills/` nie są nigdzie importowane **celowo** — wracają na `/o-firmie`
-  (etap E2.3). Wyglądają na martwe, nie są.
+- **Dane CV zostają, mimo że sekcje główne zniknęły.** `src/components/Experience/` i
+  `src/components/Skills/` **usunięto** (2026-08-08, pivot skasował `/o-firmie`). Ale
+  `experiences` (`ExperienceEntry`) i nagłówki `resumeHeader*` **wciąż renderuje `/cv`** —
+  nie kasuj ich. `techCategoryGroups` w `techMap.ts` używa `TechStrip` + test — też zostaje.
 - **Nie sprzątaj długu ad hoc.** Znany martwy kod (`src/lib/generatePdf.ts`), `vercel.json`
   z legacy `builds`, `puppeteer` w `dependencies` — wszystko rozpisane w `CONVERSION.md` §E4.
   Zgłoś, jeśli znajdziesz więcej; nie łącz z bieżącą partią.

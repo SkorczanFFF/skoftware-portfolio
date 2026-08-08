@@ -77,7 +77,7 @@ Partia 6 celowo **okrojona**: pełny podział słowników na moduły odłożony 
 | D6 | `puppeteer` w `dependencies`, używany tylko przez skrypt PDF | `package.json` (T9) | `devDependencies` |
 | D7 | Kłamiący komentarz (deklaruje `cv-en.pdf`, zapisuje inną nazwę) | `generate-cv-pdf.mjs:9-10` | opisać realną ścieżkę |
 | D8 | Słowniki płaskie, niemodularne | `src/locale/*` | podział typów i danych po domenie od startu |
-| D9 | `Experience`/`Skills` — martwe po pivocie (cel `/o-firmie` skasowany; fakty żyją w `Industries`/`TechStrip`/`WhyMe`) | `src/components/{Experience,Skills}/` | nie portować; usunąć (czeka na OK Macieja — §7 CLAUDE.md) |
+| ~~D9~~ | **USUNIĘTE 2026-08-08** (za zgodą Macieja): komponenty `Experience`/`Skills` skasowane wraz z osieroconymi kluczami (`navExperience/Skills`, `experienceSectionTitle`, `techCategory*`). Dane `experiences` + `resumeHeader*` zostają — używa ich `/cv` | — | zrobione |
 
 ---
 

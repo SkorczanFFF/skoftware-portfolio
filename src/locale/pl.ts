@@ -16,8 +16,6 @@ export const pl: Dictionary = {
 
   navHome: 'Strona główna',
   navIndustries: 'Branże',
-  navExperience: 'Doświadczenie',
-  navSkills: 'Umiejętności',
   navPortfolio: 'Portfolio',
   navContact: 'Kontakt',
   navResume: 'CV',
@@ -69,14 +67,7 @@ export const pl: Dictionary = {
     'Kod, który zespół może rozwijać dalej',
   ],
 
-  experienceSectionTitle: 'DOŚWIADCZENIE',
   experiences,
-
-  techCategoryFrontend: 'frontend',
-  techCategoryBackend: 'backend',
-  techCategoryDatabase: 'bazy danych',
-  techCategoryDesign: 'design',
-  techCategoryTools: 'narzędzia',
 
   portfolioTitle: 'PORTFOLIO',
   portfolioRepo: 'repozytorium',

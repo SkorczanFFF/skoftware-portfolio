@@ -73,10 +73,6 @@ export type Dictionary = {
 
   navHome: string;
   navIndustries: string;
-  /** Retired from the main nav in the conversion; reused on /o-firmie. */
-  navExperience: string;
-  /** Retired from the main nav in the conversion; reused on /o-firmie. */
-  navSkills: string;
   navPortfolio: string;
   navContact: string;
   navResume: string;
@@ -124,14 +120,7 @@ export type Dictionary = {
   whyMeBody: string;
   whyMePoints: string[];
 
-  experienceSectionTitle: string;
   experiences: ExperienceEntry[];
-
-  techCategoryFrontend: string;
-  techCategoryBackend: string;
-  techCategoryDatabase: string;
-  techCategoryDesign: string;
-  techCategoryTools: string;
 
   portfolioTitle: string;
   portfolioRepo: string;
