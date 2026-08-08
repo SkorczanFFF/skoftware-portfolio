@@ -67,6 +67,30 @@ export const en: Dictionary = {
     'Code your team can keep building on',
   ],
 
+  processSectionTitle: 'HOW I WORK',
+  processSteps: [
+    {
+      title: 'Conversation & brief',
+      description:
+        'You describe the project and the goal — I ask questions and flag risks before we start.',
+    },
+    {
+      title: 'Quote & plan',
+      description:
+        'You get a clear scope, a quote, and a timeline — before you commit.',
+    },
+    {
+      title: 'Build with previews',
+      description:
+        'I work in stages and show progress as it goes — you see what is taking shape and can steer.',
+    },
+    {
+      title: 'Launch & upkeep',
+      description:
+        'Deployment, handover, and — if you want — ongoing development and technical support.',
+    },
+  ],
+
   experiences,
 
   portfolioTitle: 'PORTFOLIO',

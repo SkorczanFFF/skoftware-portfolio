@@ -63,6 +63,11 @@ export type IndustryEntry = {
   proof: string[];
 };
 
+export type ProcessStep = {
+  title: string;
+  description: string;
+};
+
 export type Dictionary = {
   seoTitle: string;
   seoSiteName: string;
@@ -119,6 +124,9 @@ export type Dictionary = {
   whyMeHeading: string;
   whyMeBody: string;
   whyMePoints: string[];
+
+  processSectionTitle: string;
+  processSteps: ProcessStep[];
 
   experiences: ExperienceEntry[];
 

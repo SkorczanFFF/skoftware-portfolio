@@ -67,6 +67,30 @@ export const pl: Dictionary = {
     'Kod, który zespół może rozwijać dalej',
   ],
 
+  processSectionTitle: 'JAK PRACUJĘ',
+  processSteps: [
+    {
+      title: 'Rozmowa i brief',
+      description:
+        'Opowiadasz o projekcie i celu — ja zadaję pytania i wyłapuję ryzyka, zanim zaczniemy.',
+    },
+    {
+      title: 'Wycena i plan',
+      description:
+        'Dostajesz jasny zakres, wycenę i termin — zanim zapadnie decyzja.',
+    },
+    {
+      title: 'Budowa z podglądami',
+      description:
+        'Pracuję etapami i pokazuję postępy na bieżąco — widzisz, co powstaje, i możesz reagować.',
+    },
+    {
+      title: 'Wdrożenie i utrzymanie',
+      description:
+        'Publikacja, przekazanie i — jeśli chcesz — dalszy rozwój oraz wsparcie techniczne.',
+    },
+  ],
+
   experiences,
 
   portfolioTitle: 'PORTFOLIO',

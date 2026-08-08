@@ -5,6 +5,7 @@ import Industries from '@/components/Industries/Industries';
 import Footer from '@/components/layout/Footer/Footer';
 import Layout from '@/components/layout/Layout';
 import Portfolio from '@/components/Portfolio/Portfolio';
+import Process from '@/components/Process/Process';
 import Seo from '@/components/Seo';
 import Services from '@/components/Services/Services';
 import TechStrip from '@/components/TechStrip/TechStrip';
@@ -17,6 +18,7 @@ export default function HomePage() {
       <main className='overflow-x-clip'>
         <Hero />
         <Services />
+        <Process />
         <TechStrip />
         <Industries />
         <WhyMe />
