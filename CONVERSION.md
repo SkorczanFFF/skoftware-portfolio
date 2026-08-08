@@ -56,7 +56,9 @@ do decyzji; **9** (case studies) staje się głównym silnikiem zaufania (nadal 
 | hero | mirror sceny: portret w prawo, strumień particli odwrócony | `d6e47bb` |
 | hero | copy left-align + skalowanie 1440p | `ae8ac9b` |
 | 7 | usługi w duchu craft: `deliverables`, nota o wycenie, CTA; rename About→Services (D2/D3/T10/T11) | `7401592` |
-| 8 | sekcja `WhyMe` (zamiast strony `/o-firmie`) + trust-chipy NIP/faktura w stopce | — (świeże) |
+| 8 | sekcja `WhyMe` (zamiast strony `/o-firmie`) + trust-chipy NIP/faktura w stopce | `74b6261` |
+| 8+ | usunięcie martwych `Experience`/`Skills` + osieroconych kluczy (D9) | `512794b` |
+| 10a | sekcja `Process` („Jak pracuję", 4 kroki) — FAQ (10b) odłożone | — (świeże) |
 
 Partia 6 celowo **okrojona**: pełny podział słowników na moduły odłożony (patrz D8) — moduły
 `cases/marketing/legal` byłyby pustym rusztowaniem przed swoją treścią.
