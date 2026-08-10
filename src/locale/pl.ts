@@ -91,6 +91,34 @@ export const pl: Dictionary = {
     },
   ],
 
+  faqSectionTitle: 'FAQ',
+  faqItems: [
+    {
+      q: 'Ile kosztuje projekt?',
+      a: 'Każdy projekt wyceniam indywidualnie — zależy od zakresu i złożoności. Opisz, co chcesz zrobić, a wrócę z konkretną wyceną i terminem.',
+    },
+    {
+      q: 'Wystawiasz fakturę VAT?',
+      a: 'Tak. Działam jako zarejestrowana firma (SKOFTWARE Maciej Skorus) i wystawiam faktury VAT.',
+    },
+    {
+      q: 'Pracujesz zdalnie czy na miejscu?',
+      a: 'Zdalnie z klientami z całego świata, a na Śląsku również na miejscu.',
+    },
+    {
+      q: 'W jakich technologiach pracujesz?',
+      a: 'React, Next.js, TypeScript, Python, Three.js, React Native i pokrewne. Stack dobieram do problemu, nie odwrotnie.',
+    },
+    {
+      q: 'Zajmujesz się utrzymaniem po wdrożeniu?',
+      a: 'Tak — rozwój funkcji, optymalizacja i bieżące wsparcie to osobna usługa (Utrzymanie i rozwój).',
+    },
+    {
+      q: 'W jakim języku się komunikujemy?',
+      a: 'Po polsku i po angielsku.',
+    },
+  ],
+
   experiences,
 
   portfolioTitle: 'PORTFOLIO',

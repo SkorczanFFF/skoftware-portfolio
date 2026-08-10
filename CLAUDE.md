@@ -110,7 +110,7 @@ Dotykając ich — sprawdź drugą stronę.
 | Sprzężenie | Gdzie | Co się stanie po cichu |
 |---|---|---|
 | Event `hero:ready` | dispatch `HeroScene.tsx:135` → listener `useTactilePulse.ts:72` | `useTactilePulse` podpina `pointerdown` do `<canvas>`, którego nie ma przy pierwszym montażu — event to jego jedyny sygnał do ponowienia. Bez dispatchu tap-ripple po prostu nie działa |
-| Białe strzałki między sekcjami | `Portfolio.tsx:40` ma `arrow-down white` przy górnej krawędzi | Sekcja **nad** Portfolio musi mieć białe tło (dziś `WhyMe` z `bg-white`, wcześniej `Industries`). Zmiana tła = biała strzałka na kolorowym tle |
+| Białe strzałki między sekcjami | `Portfolio.tsx:40` ma `arrow-down white` przy górnej krawędzi | Sekcja **nad** Portfolio musi mieć białe tło (dziś `Faq`, nad nim `WhyMe` — obie `bg-white`). Zmiana tła = biała strzałka na kolorowym tle |
 | Kotwice nawigacji | `Header.tsx:38` (`SECTION_IDS`) i `Header.tsx:102-108` (`links`) | Muszą pokrywać się z realnymi `id=` w DOM. Martwa kotwica nie rzuca błędu — po prostu nic nie robi |
 | Trasy zaszyte w skryptach | `scripts/generate-cv-pdf.mjs:33,171` → `/cv` | Zmiana routingu cicho psuje generowanie PDF. Zorientujesz się przy następnej regeneracji |
 | Klasy Tailwind | wzorzec: `ACCENTS` w `Industries.tsx:20` | Tailwind 4 skanuje **tekst źródłowy**. `text-${kolor}` nie wygeneruje klasy. Zawsze pełne literały |

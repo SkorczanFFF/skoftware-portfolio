@@ -91,6 +91,34 @@ export const en: Dictionary = {
     },
   ],
 
+  faqSectionTitle: 'FAQ',
+  faqItems: [
+    {
+      q: 'How much does a project cost?',
+      a: 'I quote every project individually — it depends on scope and complexity. Tell me what you want to build and I will come back with a concrete quote and timeline.',
+    },
+    {
+      q: 'Do you issue VAT invoices?',
+      a: 'Yes. I operate as a registered business (SKOFTWARE Maciej Skorus) and issue VAT invoices.',
+    },
+    {
+      q: 'Do you work remotely or on-site?',
+      a: 'Remotely with clients worldwide, and on-site in the Silesia region of Poland.',
+    },
+    {
+      q: 'Which technologies do you work with?',
+      a: 'React, Next.js, TypeScript, Python, Three.js, React Native, and related tools. I pick the stack to fit the problem, not the other way around.',
+    },
+    {
+      q: 'Do you handle maintenance after launch?',
+      a: 'Yes — feature development, optimization, and ongoing support are a dedicated service (Maintenance & growth).',
+    },
+    {
+      q: 'What language do we communicate in?',
+      a: 'Polish and English.',
+    },
+  ],
+
   experiences,
 
   portfolioTitle: 'PORTFOLIO',

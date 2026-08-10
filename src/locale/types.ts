@@ -68,6 +68,11 @@ export type ProcessStep = {
   description: string;
 };
 
+export type FaqItem = {
+  q: string;
+  a: string;
+};
+
 export type Dictionary = {
   seoTitle: string;
   seoSiteName: string;
@@ -127,6 +132,9 @@ export type Dictionary = {
 
   processSectionTitle: string;
   processSteps: ProcessStep[];
+
+  faqSectionTitle: string;
+  faqItems: FaqItem[];
 
   experiences: ExperienceEntry[];
 
