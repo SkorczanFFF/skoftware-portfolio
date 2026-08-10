@@ -60,6 +60,7 @@ do decyzji; **9** (case studies) staje się głównym silnikiem zaufania (nadal 
 | 8+ | usunięcie martwych `Experience`/`Skills` + osieroconych kluczy (D9) | `512794b` |
 | 10a | sekcja `Process` („Jak pracuję", 4 kroki) | — (świeże) |
 | 10b | sekcja `Faq` (6 pytań + `FAQPage` schema); treść z zatwierdzonych faktów | — (świeże) |
+| 14 (część) | dług D4–D7 posprzątany: martwy kod, `vercel.json` `builds`, `puppeteer`→dev, komentarz | — (świeże) |
 
 Partia 6 celowo **okrojona**: pełny podział słowników na moduły odłożony (patrz D8) — moduły
 `cases/marketing/legal` byłyby pustym rusztowaniem przed swoją treścią.
@@ -75,10 +76,10 @@ Partia 6 celowo **okrojona**: pełny podział słowników na moduły odłożony 
 | D1 | Hero copy: magic numbers + własny breakpoint `min-[2000px]` (łatki na gap i 1440p) | `HeroCopy.tsx` | zaprojektować jako grid 2-kol + fluid `clamp()`, bez ręcznych progów |
 | D2 | Podwójny `max-w` na jednym elemencie — `1200px` martwe, `800px` wygrywa | `About.tsx:220` (T11) | jeden świadomy `max-w` |
 | D3 | Katalog `components/About/` eksportuje komponent `Services` | (T10) | od razu `components/Services/` |
-| D4 | Martwy kod `generatePdf.ts` (html-to-image + jspdf), zero importerów | `src/lib/generatePdf.ts` | nie portować |
-| D5 | `vercel.json` z legacy `builds` (nadpisuje zero-config) | `vercel.json` | sam `framework: nextjs` |
-| D6 | `puppeteer` w `dependencies`, używany tylko przez skrypt PDF | `package.json` (T9) | `devDependencies` |
-| D7 | Kłamiący komentarz (deklaruje `cv-en.pdf`, zapisuje inną nazwę) | `generate-cv-pdf.mjs:9-10` | opisać realną ścieżkę |
+| ~~D4~~ | **USUNIĘTE:** martwy `generatePdf.ts` + osierocone `html-to-image`/`jspdf` z `dependencies` | — | zrobione |
+| ~~D5~~ | **USUNIĘTE:** legacy `builds` z `vercel.json` (zostaje zero-config `framework: nextjs`) | — | zrobione |
+| ~~D6~~ | **PRZENIESIONE:** `puppeteer` → `devDependencies` (nie w `postbuild`, więc Vercel go nie potrzebuje) | — | zrobione |
+| ~~D7~~ | **POPRAWIONE:** komentarz w `generate-cv-pdf.mjs` opisuje realne nazwy plików | — | zrobione |
 | D8 | Słowniki płaskie, niemodularne | `src/locale/*` | podział typów i danych po domenie od startu |
 | ~~D9~~ | **USUNIĘTE 2026-08-08** (za zgodą Macieja): komponenty `Experience`/`Skills` skasowane wraz z osieroconymi kluczami (`navExperience/Skills`, `experienceSectionTitle`, `techCategory*`). Dane `experiences` + `resumeHeader*` zostają — używa ich `/cv` | — | zrobione |
 
