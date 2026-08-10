@@ -58,7 +58,8 @@ do decyzji; **9** (case studies) staje się głównym silnikiem zaufania (nadal 
 | 7 | usługi w duchu craft: `deliverables`, nota o wycenie, CTA; rename About→Services (D2/D3/T10/T11) | `7401592` |
 | 8 | sekcja `WhyMe` (zamiast strony `/o-firmie`) + trust-chipy NIP/faktura w stopce | `74b6261` |
 | 8+ | usunięcie martwych `Experience`/`Skills` + osieroconych kluczy (D9) | `512794b` |
-| 10a | sekcja `Process` („Jak pracuję", 4 kroki) — FAQ (10b) odłożone | — (świeże) |
+| 10a | sekcja `Process` („Jak pracuję", 4 kroki) | — (świeże) |
+| 10b | sekcja `Faq` (6 pytań + `FAQPage` schema); treść z zatwierdzonych faktów | — (świeże) |
 
 Partia 6 celowo **okrojona**: pełny podział słowników na moduły odłożony (patrz D8) — moduły
 `cases/marketing/legal` byłyby pustym rusztowaniem przed swoją treścią.
