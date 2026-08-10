@@ -5,9 +5,9 @@
  *   1. Start dev server:  npm run dev
  *   2. Run this script:   node scripts/generate-cv-pdf.mjs
  *
- * Outputs:
- *   public/cv-en.pdf
- *   public/cv-pl.pdf
+ * Outputs (in public/):
+ *   Maciej Skorus - CV [EN].pdf
+ *   Maciej Skorus - CV [PL].pdf
  */
 
 import puppeteer from 'puppeteer';

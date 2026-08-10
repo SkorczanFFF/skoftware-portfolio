@@ -158,9 +158,9 @@ Dotykając ich — sprawdź drugą stronę.
   `src/components/Skills/` **usunięto** (2026-08-08, pivot skasował `/o-firmie`). Ale
   `experiences` (`ExperienceEntry`) i nagłówki `resumeHeader*` **wciąż renderuje `/cv`** —
   nie kasuj ich. `techCategoryGroups` w `techMap.ts` używa `TechStrip` + test — też zostaje.
-- **Nie sprzątaj długu ad hoc.** Znany martwy kod (`src/lib/generatePdf.ts`), `vercel.json`
-  z legacy `builds`, `puppeteer` w `dependencies` — wszystko rozpisane w `CONVERSION.md` §E4.
-  Zgłoś, jeśli znajdziesz więcej; nie łącz z bieżącą partią.
+- **Nie sprzątaj długu ad hoc.** Dług D4–D7 (martwy `generatePdf.ts`, `vercel.json` `builds`,
+  `puppeteer` w `dependencies`, kłamiący komentarz) **już posprzątany**. Zostaje D8 (modularizacja
+  słowników) — rozpisane w `CONVERSION.md`. Zgłoś, jeśli znajdziesz więcej; nie łącz z bieżącą partią bez zgody.
 - **Nie commituj `.claude/settings.local.json`** — plik narzędziowy, nie część projektu.
 
 ---

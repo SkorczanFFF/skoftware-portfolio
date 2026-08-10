@@ -123,7 +123,6 @@ src/
 │   ├── gsap.ts                # GSAP + ScrollTrigger registration
 │   ├── breakpoints.ts         # Responsive breakpoint constants
 │   ├── scrambleReveal.ts      # Text scramble/reveal animation
-│   ├── generatePdf.ts         # HTML-to-PDF export utility
 │   └── shared/
 │       ├── Icons.tsx          # Centralized icon exports
 │       └── techMap.ts         # Tech-to-icon mappings
