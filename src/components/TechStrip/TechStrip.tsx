@@ -21,6 +21,12 @@ const HEADLINE_TECH = [
   'TailwindCSS',
 ] as const;
 
+/**
+ * Load-bearing tech, on the same raspberry ground as Process above — the two
+ * read as one chapter, so there is no arrow between them; the raspberry→white
+ * handoff arrow lives on Industries below (CLAUDE.md §4). Lead and icons go
+ * light, and the icon hover flips to white (raspberry-on-raspberry vanishes).
+ */
 export default function TechStrip(): React.JSX.Element {
   const { t } = useLocale();
   const rowRef = useRef<HTMLUListElement>(null);
@@ -52,10 +58,10 @@ export default function TechStrip(): React.JSX.Element {
   return (
     <section
       aria-label='Technologie'
-      className='font-grotesk w-full bg-white px-6 pb-[60px] pt-[40px] md:pb-[80px]'
+      className='font-grotesk w-full bg-raspberry px-6 pb-[60px] pt-[24px] md:pb-[80px]'
     >
       <div className='mx-auto flex max-w-[1000px] flex-col items-center gap-8'>
-        <p className='text-deep-blue/50 max-w-[520px] text-center text-[13px] leading-relaxed'>
+        <p className='max-w-[520px] text-center text-[13px] leading-relaxed text-white/70'>
           {t.techStripLead}
         </p>
 
@@ -69,7 +75,7 @@ export default function TechStrip(): React.JSX.Element {
             return (
               <li key={label}>
                 <Icon
-                  className='text-deep-blue/35 hover:text-raspberry text-3xl transition-colors duration-200 md:text-4xl'
+                  className='text-3xl text-white/45 transition-colors duration-200 hover:text-white md:text-4xl'
                   role='img'
                   aria-label={label}
                 />

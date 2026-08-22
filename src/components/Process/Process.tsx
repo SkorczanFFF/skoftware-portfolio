@@ -6,8 +6,10 @@ import { useScrollTriggers } from '@/hooks/useScrollTriggers';
 import { useLocale } from '@/locale/LocaleContext';
 
 /**
- * "How I work" — the process beat of the craft-leaning home. Numbered steps
- * with alternating accent (full literal classes; Tailwind scans source text).
+ * "How I work" — the process beat of the craft-leaning home, on a raspberry
+ * ground that breaks the white body (transition arrows, CLAUDE.md §4). Accents
+ * must be light literals: raspberry-on-raspberry vanishes, and Tailwind scans
+ * source text, so no interpolated color classes.
  */
 export default function Process(): React.JSX.Element {
   const { t } = useLocale();
@@ -40,9 +42,10 @@ export default function Process(): React.JSX.Element {
   return (
     <section
       id='process'
-      className='font-grotesk relative w-full overflow-hidden bg-white pb-[100px] pt-[80px] md:pb-[130px] md:pt-[120px] [contain:paint]'
+      className='font-grotesk relative w-full overflow-hidden bg-raspberry pb-[40px] pt-[80px] md:pb-[56px] md:pt-[120px] [contain:paint]'
     >
-      <h2 className='font-grotesk text-primary-blue text-center text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:left-[80px] xl:top-[60px] xl:origin-top-left xl:rotate-90 xl:py-0'>
+      <div className='arrow-down white absolute -top-[2px] left-0 right-0 mx-auto'></div>
+      <h2 className='font-grotesk text-center text-xl font-normal leading-3 tracking-[10px] text-white xl:absolute xl:left-[80px] xl:top-[60px] xl:origin-top-left xl:rotate-90 xl:py-0'>
         {t.processSectionTitle}
       </h2>
 
@@ -55,19 +58,19 @@ export default function Process(): React.JSX.Element {
           return (
             <div key={step.title} className='process-step'>
               <span
-                className={`font-unica text-5xl leading-none tracking-tighter md:text-6xl ${isOdd ? 'text-orange/20' : 'text-raspberry/20'}`}
+                className={`font-unica text-5xl leading-none tracking-tighter md:text-6xl ${isOdd ? 'text-white/30' : 'text-white/30'}`}
                 aria-hidden='true'
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
               <span
-                className={`mb-4 mt-4 block h-[2px] w-10 ${isOdd ? 'bg-orange' : 'bg-raspberry'}`}
+                className={`mb-4 mt-4 block h-[2px] w-10 ${isOdd ? 'bg-white' : 'bg-white'}`}
                 aria-hidden='true'
               />
-              <h3 className='font-unica text-primary-blue text-xl uppercase leading-tight tracking-tight md:text-2xl'>
+              <h3 className='font-unica text-xl uppercase leading-tight tracking-tight text-white md:text-2xl'>
                 {step.title}
               </h3>
-              <p className='text-primary-blue/70 mt-3 text-[14px] font-light leading-relaxed md:text-[15px]'>
+              <p className='mt-3 text-[14px] font-light leading-relaxed text-white/70 md:text-[15px]'>
                 {step.description}
               </p>
             </div>

@@ -92,8 +92,8 @@ Trwa przebudowa z portfolio programisty pod rekrutację na stronę usługodawcy 
 | Domena, e-mail, telefon, NIP, nazwa firmy, socjale | `src/lib/site.ts` | **jedyne** miejsce, gdzie te wartości są literalne |
 | To samo dla sitemapy | `next-sitemap.config.js` | CommonJS poza buildem TS — **nie może** importować z `src/`. Synchronizacja ręczna; w pliku jest o tym komentarz |
 | Domena/e-mail w prozie prawnej | placeholdery `{domain}`, `{email}` + `fill()` w `src/pages/cookies/index.tsx` | nie wklejaj wartości do słowników |
-| Wszystkie teksty widoczne dla użytkownika | `src/locale/{pl,en}.ts` + `src/locale/data/{pl,en}.ts` | **zero stringów w komponentach** |
-| Kształt słownika | `src/locale/types.ts` | `pl` i `en` muszą iść w parze — typ to wymusi |
+| Wszystkie teksty widoczne dla użytkownika | `src/locale/{pl,en}.ts` + `src/locale/data/{pl,en}/` (per-tablica: `services`/`industries`/`experiences`/`projects`, barrel `index.ts`) | **zero stringów w komponentach** |
+| Kształt słownika | `src/locale/types/` (barrel `index.ts` składa `Dictionary` z `common`/`marketing`/`cv`/`legal` + `entries.ts`) | `pl` i `en` muszą iść w parze — typ to wymusi |
 | Ikony technologii | `src/lib/shared/techMap.ts` | |
 | Ikony SVG | `src/lib/shared/Icons.tsx` | |
 | Punkty łamania | `src/lib/breakpoints.ts` | nie hardkoduj pikseli w JS |
@@ -110,7 +110,7 @@ Dotykając ich — sprawdź drugą stronę.
 | Sprzężenie | Gdzie | Co się stanie po cichu |
 |---|---|---|
 | Event `hero:ready` | dispatch `HeroScene.tsx:135` → listener `useTactilePulse.ts:72` | `useTactilePulse` podpina `pointerdown` do `<canvas>`, którego nie ma przy pierwszym montażu — event to jego jedyny sygnał do ponowienia. Bez dispatchu tap-ripple po prostu nie działa |
-| Białe strzałki między sekcjami | `Portfolio.tsx:40` ma `arrow-down white` przy górnej krawędzi | Sekcja **nad** Portfolio musi mieć białe tło (dziś `Faq`, nad nim `WhyMe` — obie `bg-white`). Zmiana tła = biała strzałka na kolorowym tle |
+| Strzałki przejść między sekcjami | `arrow-down {kolor}` przy **górnej** krawędzi dolnej sekcji; klasy `.white/.raspberry/.blue` w `globals.css:134-144` | Reguła: strzałkę emituje **dolna** sekcja, jej kolor = tło **górnej**. Działa tylko przy kontraście. Aktualna mapa tła: Hero(granat)·Services(biały)·**Process(raspberry)**·**TechStrip(raspberry)**·Industries(biały)·**WhyMe(granat)**·Faq(biały)·Portfolio(granat). Process+TechStrip to jeden ciągły blok raspberry — **między nimi nie ma strzałki**. Stąd strzałki: Process←`white`, Industries←`raspberry`, WhyMe←`white`, Faq←`blue`, Portfolio←`white` (`Portfolio.tsx:40`). **Faq musi zostać biały** — karmi strzałkę Portfolio. Zmiana tła sekcji = popraw obie jej strzałki i akcenty (raspberry-na-raspberry znika) |
 | Kotwice nawigacji | `Header.tsx:38` (`SECTION_IDS`) i `Header.tsx:102-108` (`links`) | Muszą pokrywać się z realnymi `id=` w DOM. Martwa kotwica nie rzuca błędu — po prostu nic nie robi |
 | Trasy zaszyte w skryptach | `scripts/generate-cv-pdf.mjs:33,171` → `/cv` | Zmiana routingu cicho psuje generowanie PDF. Zorientujesz się przy następnej regeneracji |
 | Klasy Tailwind | wzorzec: `ACCENTS` w `Industries.tsx:20` | Tailwind 4 skanuje **tekst źródłowy**. `text-${kolor}` nie wygeneruje klasy. Zawsze pełne literały |
@@ -159,8 +159,9 @@ Dotykając ich — sprawdź drugą stronę.
   `experiences` (`ExperienceEntry`) i nagłówki `resumeHeader*` **wciąż renderuje `/cv`** —
   nie kasuj ich. `techCategoryGroups` w `techMap.ts` używa `TechStrip` + test — też zostaje.
 - **Nie sprzątaj długu ad hoc.** Dług D4–D7 (martwy `generatePdf.ts`, `vercel.json` `builds`,
-  `puppeteer` w `dependencies`, kłamiący komentarz) **już posprzątany**. Zostaje D8 (modularizacja
-  słowników) — rozpisane w `CONVERSION.md`. Zgłoś, jeśli znajdziesz więcej; nie łącz z bieżącą partią bez zgody.
+  `puppeteer` w `dependencies`, kłamiący komentarz) **już posprzątany**. D8 (modularizacja
+  słowników) **też zrobione** — `types.ts` i `data/{pl,en}.ts` rozbite na moduły z barrelami.
+  Zgłoś, jeśli znajdziesz więcej; nie łącz z bieżącą partią bez zgody.
 - **Nie commituj `.claude/settings.local.json`** — plik narzędziowy, nie część projektu.
 
 ---

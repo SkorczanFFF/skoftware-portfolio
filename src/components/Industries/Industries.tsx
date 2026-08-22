@@ -125,6 +125,7 @@ export default function Industries(): React.JSX.Element {
       id='industries'
       className='font-grotesk relative w-full overflow-hidden bg-white pb-[100px] pt-[80px] md:pb-[130px] md:pt-[120px] [contain:paint]'
     >
+      <div className='arrow-down raspberry absolute -top-[2px] left-0 right-0 mx-auto'></div>
       <h2 className='font-grotesk text-primary-blue text-center text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:left-[80px] xl:top-[60px] xl:origin-top-left xl:rotate-90 xl:py-0'>
         {t.industriesSectionTitle}
       </h2>
