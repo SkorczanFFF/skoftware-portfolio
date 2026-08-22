@@ -1,16 +1,23 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+
+import { gsap } from '@/lib/gsap';
 
 import { useLocale } from '@/locale/LocaleContext';
 
 /**
- * FAQ built on native <details> — accordion behaviour with zero JS, and the
- * answers ship in the SSR HTML for crawlers. Emits FAQPage JSON-LD (same
- * pattern as Seo.tsx). Kept `bg-white`: it sits directly above Portfolio, whose
- * top `arrow-down white` needs a white section above it (CLAUDE.md §4).
+ * Controlled GSAP accordion: exactly one panel open at a time, with a height +
+ * fade reveal. Answers still ship in the SSR HTML (panels are in the DOM,
+ * collapsed via `height:0`) and the FAQPage JSON-LD mirrors them, so crawlers
+ * read the Q&A even though opening now needs JS. Honours prefers-reduced-motion.
+ * Kept `bg-white`: it sits directly above Portfolio, whose top `arrow-down
+ * white` needs a white section above it. Its own top carries an `arrow-down
+ * blue` — the dark-blue WhyMe above dripping in (CLAUDE.md §4).
  */
 export default function Faq(): React.JSX.Element {
   const { t } = useLocale();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const panelsRef = useRef<Array<HTMLDivElement | null>>([]);
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -22,11 +29,76 @@ export default function Faq(): React.JSX.Element {
     })),
   };
 
+  const prefersReducedMotion = () =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const openPanel = (i: number) => {
+    const panel = panelsRef.current[i];
+    if (!panel) return;
+    const inner = panel.firstElementChild;
+    gsap.killTweensOf([panel, inner]);
+    if (prefersReducedMotion()) {
+      gsap.set(panel, { height: 'auto' });
+      gsap.set(inner, { opacity: 1, y: 0 });
+      return;
+    }
+    // Measure the natural height, then tween from 0; restore `auto` so the panel
+    // stays responsive to later reflows.
+    gsap.set(panel, { height: 'auto' });
+    const full = panel.offsetHeight;
+    gsap.fromTo(
+      panel,
+      { height: 0 },
+      {
+        height: full,
+        duration: 0.5,
+        ease: 'power3.out',
+        onComplete: () => {
+          gsap.set(panel, { height: 'auto' });
+        },
+      },
+    );
+    gsap.fromTo(
+      inner,
+      { opacity: 0, y: 10 },
+      { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', delay: 0.08 },
+    );
+  };
+
+  const closePanel = (i: number) => {
+    const panel = panelsRef.current[i];
+    if (!panel) return;
+    const inner = panel.firstElementChild;
+    gsap.killTweensOf([panel, inner]);
+    if (prefersReducedMotion()) {
+      gsap.set(panel, { height: 0 });
+      gsap.set(inner, { opacity: 0 });
+      return;
+    }
+    gsap.set(panel, { height: panel.offsetHeight });
+    gsap.to(panel, { height: 0, duration: 0.38, ease: 'power2.inOut' });
+    gsap.to(inner, { opacity: 0, y: 6, duration: 0.25, ease: 'power1.in' });
+  };
+
+  const handleToggle = (i: number) => {
+    const current = openIndex;
+    if (current === i) {
+      closePanel(i);
+      setOpenIndex(null);
+      return;
+    }
+    if (current !== null) closePanel(current);
+    openPanel(i);
+    setOpenIndex(i);
+  };
+
   return (
     <section
       id='faq'
       className='font-grotesk relative w-full overflow-hidden bg-white pb-[100px] pt-[80px] md:pb-[130px] md:pt-[120px] [contain:paint]'
     >
+      <div className='arrow-down blue absolute -top-[2px] left-0 right-0 mx-auto'></div>
       <Head>
         <script
           type='application/ld+json'
@@ -39,26 +111,47 @@ export default function Faq(): React.JSX.Element {
       </h2>
 
       <ul className='mx-auto w-full max-w-[820px] px-6 md:px-10'>
-        {t.faqItems.map((item) => (
-          <li key={item.q} className='border-primary-blue/10 border-t last:border-b'>
-            <details className='group'>
-              <summary className='flex cursor-pointer list-none items-center justify-between gap-6 py-5'>
-                <span className='font-unica text-primary-blue text-lg uppercase leading-tight tracking-tight md:text-xl'>
+        {t.faqItems.map((item, i) => {
+          const isOpen = openIndex === i;
+          return (
+            <li key={item.q} className='border-primary-blue/10 border-t last:border-b'>
+              <button
+                type='button'
+                id={`faq-header-${i}`}
+                aria-expanded={isOpen}
+                aria-controls={`faq-panel-${i}`}
+                onClick={() => handleToggle(i)}
+                className='flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left'
+              >
+                <span
+                  className={`font-unica text-lg uppercase leading-tight tracking-tight transition-colors duration-300 md:text-xl ${isOpen ? 'text-raspberry' : 'text-primary-blue'}`}
+                >
                   {item.q}
                 </span>
                 <span
-                  className='text-raspberry shrink-0 text-2xl leading-none transition-transform duration-300 group-open:rotate-45'
+                  className={`text-raspberry shrink-0 text-2xl leading-none transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}
                   aria-hidden='true'
                 >
                   +
                 </span>
-              </summary>
-              <p className='text-primary-blue/70 max-w-[680px] pb-5 text-[15px] leading-relaxed'>
-                {item.a}
-              </p>
-            </details>
-          </li>
-        ))}
+              </button>
+              <div
+                id={`faq-panel-${i}`}
+                role='region'
+                aria-labelledby={`faq-header-${i}`}
+                ref={(el) => {
+                  panelsRef.current[i] = el;
+                }}
+                className='overflow-hidden'
+                style={{ height: 0 }}
+              >
+                <p className='text-primary-blue/70 max-w-[680px] pb-5 text-[15px] leading-relaxed'>
+                  {item.a}
+                </p>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
