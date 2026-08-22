@@ -51,7 +51,7 @@ function ServiceCard({
         onMouseMove={onMouseMove}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        className='card-inner group relative flex h-full flex-col bg-primary-blue will-change-transform'
+        className={`card-inner group relative flex h-full flex-col bg-primary-blue shadow-[0_4px_16px_-8px_rgba(0,0,0,0.35)] transition-shadow duration-500 will-change-transform ${isOdd ? 'hover:shadow-[0_30px_60px_-18px_rgba(153,34,16,0.45)]' : 'hover:shadow-[0_30px_60px_-18px_rgba(128,24,52,0.45)]'}`}
         style={{ transformStyle: 'preserve-3d' }}
       >
         {/* Accent top bar */}
@@ -156,34 +156,74 @@ export default function Services(): React.JSX.Element {
     if (!cards.length) return [];
 
     const isDesktop3Col = window.innerWidth >= BREAKPOINTS.xl;
-    const OFFSET = 24;
     const triggers: ScrollTrigger[] = [];
 
-    // Entrance animation — even from left, odd from right
-    cards.forEach((card, i) => {
-      const fromX = i % 2 === 0 ? -80 : 80;
-      const endY = isDesktop3Col && i % 3 === 1 ? OFFSET : 0;
-
-      gsap.set(card, { opacity: 0, x: fromX, y: endY });
-
-      const tween = gsap.to(card, {
-        opacity: 1,
-        x: 0,
-        y: endY,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: card,
+    // Reduced motion: opacity-only reveal, no 3D. Column offsets are pure CSS
+    // now (see the grid), so nothing to position here.
+    if (prefersReducedMotion) {
+      gsap.set(cards, { opacity: 0 });
+      triggers.push(
+        ...ScrollTrigger.batch(cards, {
           start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-      });
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              opacity: 1,
+              duration: 0.5,
+              stagger: 0.06,
+              overwrite: true,
+            }),
+          onLeaveBack: (batch) => gsap.set(batch, { opacity: 0 }),
+        }),
+      );
+      return triggers;
+    }
 
-      if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
+    // Entrance — one cohesive 3D depth-settle for every card: they start tipped
+    // back and scaled down, then rise flat into place. ScrollTrigger.batch
+    // staggers each row as it enters, so the same motion reads on 1/2/3-col
+    // (was: parity-based left/right slide, decoupled from the grid).
+    gsap.set(cards, {
+      opacity: 0,
+      y: 28,
+      rotationX: -12,
+      scale: 0.94,
+      transformPerspective: 800,
+      transformOrigin: '50% 100%',
     });
 
-    // Hover simulation on scroll — 1-col and 2-col layouts
+    triggers.push(
+      ...ScrollTrigger.batch(cards, {
+        start: 'top 85%',
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            stagger: 0.09,
+            overwrite: true,
+          }),
+        onLeaveBack: (batch) =>
+          gsap.to(batch, {
+            opacity: 0,
+            y: 28,
+            rotationX: -12,
+            scale: 0.94,
+            duration: 0.4,
+            ease: 'power2.in',
+            overwrite: true,
+          }),
+      }),
+    );
+
+    // Touch fallback for hover — cards lift (scale + shadow + glow + title
+    // spacing) as they pass through the viewport, mirroring the desktop hover.
     if (!isDesktop3Col) {
+      const BASE_SHADOW = '0 4px 16px -8px rgba(0,0,0,0.35)';
+      const LIFT_SHADOW = '0 24px 50px -18px rgba(0,0,0,0.45)';
+
       cards.forEach((card) => {
         const inner = card.querySelector<HTMLElement>('.card-inner');
         const title = card.querySelector<HTMLElement>('h4');
@@ -193,7 +233,12 @@ export default function Services(): React.JSX.Element {
 
         const activate = () => {
           if (inner)
-            gsap.to(inner, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+            gsap.to(inner, {
+              scale: 1.04,
+              boxShadow: LIFT_SHADOW,
+              duration: 0.35,
+              ease: 'power2.out',
+            });
           if (title)
             gsap.to(title, {
               letterSpacing: '1px',
@@ -205,7 +250,12 @@ export default function Services(): React.JSX.Element {
         };
         const deactivate = () => {
           if (inner)
-            gsap.to(inner, { scale: 1, duration: 0.3, ease: 'power2.out' });
+            gsap.to(inner, {
+              scale: 1,
+              boxShadow: BASE_SHADOW,
+              duration: 0.35,
+              ease: 'power2.out',
+            });
           if (title)
             gsap.to(title, {
               letterSpacing: '0px',
@@ -249,7 +299,7 @@ export default function Services(): React.JSX.Element {
         {t.services.map((service, i) => (
           <div
             key={service.slug}
-            className={`service-card mx-auto max-w-[370px] w-full transition-[opacity,filter] duration-300 ${i % 2 === 1 ? 'md:mt-[60px] xl:mt-0' : ''}`}
+            className={`service-card mx-auto w-full max-w-[370px] ${i % 2 === 1 ? 'md:mt-[60px]' : ''} ${i % 3 === 1 ? 'xl:mt-[24px]' : 'xl:mt-0'}`}
           >
             <ServiceCard
               service={service}
