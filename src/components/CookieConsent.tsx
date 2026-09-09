@@ -87,7 +87,7 @@ export default function CookieConsentBanner() {
   if (!visible) return null;
 
   return (
-    <div className='fixed bottom-4 left-4 mr-4 z-9998 md:bottom-6 md:left-6'>
+    <div className='fixed bottom-4 right-4 ml-4 z-9998 md:bottom-6 md:right-6'>
       <div className='rounded-[3px] p-[4px] backdrop-blur-[10px]'>
         <div className='font-grotesk relative w-full max-w-[520px] overflow-hidden rounded-[3px] border-2 border-raspberry/20 bg-primary-blue text-white'>
           {/* Cookie watermark */}
