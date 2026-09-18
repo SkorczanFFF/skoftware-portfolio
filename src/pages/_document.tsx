@@ -8,7 +8,7 @@ import NextDocument, {
 
 function Document({ locale }: { locale: string }) {
   return (
-    <Html lang={locale || 'en'} className='scroll-smooth'>
+    <Html lang={locale || 'pl'} className='scroll-smooth'>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
       </Head>
@@ -22,9 +22,8 @@ function Document({ locale }: { locale: string }) {
 
 Document.getInitialProps = async (ctx: DocumentContext) => {
   const initialProps = await NextDocument.getInitialProps(ctx);
-  const cookie = ctx.req?.headers?.cookie ?? '';
-  const match = cookie.match(/(?:^|;\s*)locale=(en|pl)/);
-  return { ...initialProps, locale: match?.[1] ?? 'en' };
+  // Provided by Next's i18n routing — derived from the URL prefix.
+  return { ...initialProps, locale: ctx.locale ?? 'pl' };
 };
 
 export default Document;
