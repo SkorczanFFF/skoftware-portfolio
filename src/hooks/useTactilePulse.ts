@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
+import { prefersReducedMotion } from '@/lib/motion';
+
 export type Pulse = {
   startedAt: number;
   ndcX: number;
@@ -7,7 +9,7 @@ export type Pulse = {
 };
 
 export type TactilePulseRefs = {
-  pulses: React.MutableRefObject<Pulse[]>;
+  pulses: React.RefObject<Pulse[]>;
   duration: number;
 };
 
@@ -27,15 +29,15 @@ export function useTactilePulse(opts: Options): TactilePulseRefs {
 
   // Ref-stashed so callback identity changes don't reattach DOM listeners.
   const onTapRef = useRef(onTap);
-  onTapRef.current = onTap;
+  useEffect(() => {
+    onTapRef.current = onTap;
+  }, [onTap]);
 
   useEffect(() => {
     let canvas: HTMLCanvasElement | null = null;
     let attached = false;
 
-    const reduceMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const reduceMotion = prefersReducedMotion();
 
     const onDown = (e: PointerEvent) => {
       if (!canvas) return;

@@ -5,8 +5,6 @@ import { CookieIcon, WrenchIcon } from '@/lib/shared/Icons';
 
 import { useLocale } from '@/locale/LocaleContext';
 
-/* ── Cookie helpers ── */
-
 const COOKIE_NAME = 'cookie_consent';
 export const COOKIE_DAYS = 182;
 
@@ -41,8 +39,6 @@ let openModalFn: (() => void) | null = null;
 export function showCookiePreferences() {
   openModalFn?.();
 }
-
-/* ── Component ── */
 
 export default function CookieConsentBanner() {
   const { t } = useLocale();
@@ -87,10 +83,9 @@ export default function CookieConsentBanner() {
   if (!visible) return null;
 
   return (
-    <div className='fixed bottom-4 left-4 mr-4 z-9998 md:bottom-6 md:left-6'>
+    <div className='fixed bottom-4 right-4 ml-4 z-9998 md:bottom-6 md:right-6'>
       <div className='rounded-[3px] p-[4px] backdrop-blur-[10px]'>
         <div className='font-grotesk relative w-full max-w-[520px] overflow-hidden rounded-[3px] border-2 border-raspberry/20 bg-primary-blue text-white'>
-          {/* Cookie watermark */}
           <div
             className='pointer-events-none absolute -top-4 -right-4 h-[300px] w-[300px]'
             aria-hidden='true'
@@ -98,17 +93,17 @@ export default function CookieConsentBanner() {
             <CookieIcon className='h-full w-full text-deep-blue' />
           </div>
 
-          {/* Content */}
           <div className='relative z-10 p-4'>
-            {/* Header */}
             <div className='mb-3 flex items-center gap-3'>
-              <CookieIcon className='shrink-0 text-2xl text-raspberry' aria-hidden='true' />
+              <CookieIcon
+                className='shrink-0 text-2xl text-raspberry'
+                aria-hidden='true'
+              />
               <h2 className='text-lg font-semibold tracking-wide'>
                 {t.cookieTitle}
               </h2>
             </div>
 
-            {/* Description */}
             <p className='mb-5 text-sm leading-relaxed text-white/70'>
               {t.cookieDescription}{' '}
               <Link
@@ -121,7 +116,6 @@ export default function CookieConsentBanner() {
               .
             </p>
 
-            {/* Settings dropdown */}
             <div className='mb-4'>
               <button
                 type='button'
@@ -129,10 +123,17 @@ export default function CookieConsentBanner() {
                 className='flex w-full items-center justify-between rounded-[3px] border-2 border-raspberry/50 bg-primary-blue/60 px-3 py-2 text-sm font-semibold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-raspberry/20 backdrop-blur-[3px]'
               >
                 <span className='flex items-center gap-2'>
-                  <WrenchIcon className='text-base text-raspberry' aria-hidden='true' />
+                  <WrenchIcon
+                    className='text-base text-raspberry'
+                    aria-hidden='true'
+                  />
                   {t.cookieSettings}
                 </span>
-                <span className={`text-xs transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`}>▾</span>
+                <span
+                  className={`text-xs transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`}
+                >
+                  ▾
+                </span>
               </button>
 
               <div
@@ -140,7 +141,6 @@ export default function CookieConsentBanner() {
               >
                 <div className='overflow-hidden'>
                   <div className='mt-2 space-y-2'>
-                    {/* Necessary — always on */}
                     <div className='flex items-center justify-between rounded-[3px] bg-primary-blue/80 px-4 py-3 backdrop-blur-[3px]'>
                       <div>
                         <p className='text-sm font-medium'>
@@ -150,10 +150,13 @@ export default function CookieConsentBanner() {
                           {t.cookieNecessaryDescription}
                         </p>
                       </div>
-                      <Toggle checked disabled aria-label={t.cookieNecessaryTitle} />
+                      <Toggle
+                        checked
+                        disabled
+                        aria-label={t.cookieNecessaryTitle}
+                      />
                     </div>
 
-                    {/* Analytics — toggleable */}
                     <div className='flex items-center justify-between rounded-[3px] bg-primary-blue/80 px-4 py-3 backdrop-blur-[3px]'>
                       <div>
                         <p className='text-sm font-medium'>
@@ -170,7 +173,6 @@ export default function CookieConsentBanner() {
                       />
                     </div>
 
-                    {/* Save preferences */}
                     <button
                       type='button'
                       onClick={savePreferences}
@@ -183,7 +185,6 @@ export default function CookieConsentBanner() {
               </div>
             </div>
 
-            {/* Buttons */}
             <div className='flex flex-wrap gap-2'>
               <button
                 type='button'
@@ -207,8 +208,6 @@ export default function CookieConsentBanner() {
   );
 }
 
-/* ── Toggle switch ── */
-
 function Toggle({
   checked,
   disabled,
@@ -228,16 +227,18 @@ function Toggle({
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={onChange}
-      className={`relative ml-4 flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 ${checked
-        ? disabled
-          ? 'bg-orange opacity-80'
-          : 'bg-raspberry cursor-pointer'
-        : 'bg-primary-blue/50 cursor-pointer'
-        } ${disabled ? 'cursor-default' : ''}`}
+      className={`relative ml-4 flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 ${
+        checked
+          ? disabled
+            ? 'bg-orange opacity-80'
+            : 'bg-raspberry cursor-pointer'
+          : 'bg-primary-blue/50 cursor-pointer'
+      } ${disabled ? 'cursor-default' : ''}`}
     >
       <span
-        className={`inline-block h-4 w-4 rounded-full bg-white shadow-xs transition-transform duration-200 ${checked ? 'translate-x-[22px]' : 'translate-x-1'
-          }`}
+        className={`inline-block h-4 w-4 rounded-full bg-white shadow-xs transition-transform duration-200 ${
+          checked ? 'translate-x-[22px]' : 'translate-x-1'
+        }`}
       />
     </button>
   );

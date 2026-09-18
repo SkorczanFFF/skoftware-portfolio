@@ -2,6 +2,12 @@ import Link from 'next/link';
 import React from 'react';
 
 import { CookieIcon } from '@/lib/shared/Icons';
+import {
+  COMPANY_NAME,
+  CONTACT_EMAIL,
+  SITE_DOMAIN,
+  VAT_NUMBER,
+} from '@/lib/site';
 
 import { COOKIE_DAYS, showCookiePreferences } from '@/components/CookieConsent';
 import Layout from '@/components/layout/Layout';
@@ -9,41 +15,41 @@ import Seo from '@/components/Seo';
 
 import { useLocale } from '@/locale/LocaleContext';
 
+// Legal prose carries placeholders so `@/lib/site` stays the only place the
+// domain, e-mail and NIP are spelled out.
+const fill = (text: string) =>
+  text
+    .replace('{domain}', SITE_DOMAIN)
+    .replace('{email}', CONTACT_EMAIL)
+    .replace('{vatId}', VAT_NUMBER);
+
 export default function CookiesPage() {
   const { t } = useLocale();
 
   const cookieTable = [
     {
       name: t.cookiePolicyCookieCC,
-      provider: (process.env.NEXT_PUBLIC_SITE_URL || 'https://skoftware.pl').replace(/^https?:\/\//, ''),
+      provider: SITE_DOMAIN,
       purpose: t.cookiePolicyCookieCCPurpose,
       category: t.cookieNecessaryTitle,
-      type: 'HTTP Cookie',
-      duration: `${COOKIE_DAYS} days`,
-    },
-    {
-      name: t.cookiePolicyCookieLocale,
-      provider: (process.env.NEXT_PUBLIC_SITE_URL || 'https://skoftware.pl').replace(/^https?:\/\//, ''),
-      purpose: t.cookiePolicyCookieLocalePurpose,
-      category: t.cookieNecessaryTitle,
-      type: 'localStorage',
-      duration: 'Persistent',
+      type: t.cookieTypeHttp,
+      duration: t.cookieDurationDays.replace('{days}', String(COOKIE_DAYS)),
     },
     {
       name: t.cookiePolicyCookieVercelAnalytics,
       provider: 'Vercel Inc.',
       purpose: t.cookiePolicyCookieVercelAnalyticsPurpose,
       category: t.cookieAnalyticsTitle,
-      type: 'Cookieless script',
-      duration: 'Session',
+      type: t.cookieTypeScript,
+      duration: t.cookieDurationSession,
     },
     {
       name: t.cookiePolicyCookieVercelSpeed,
       provider: 'Vercel Inc.',
       purpose: t.cookiePolicyCookieVercelSpeedPurpose,
       category: t.cookieAnalyticsTitle,
-      type: 'Cookieless script',
-      duration: 'Session',
+      type: t.cookieTypeScript,
+      duration: t.cookieDurationSession,
     },
   ];
 
@@ -63,7 +69,6 @@ export default function CookiesPage() {
       <Seo templateTitle={t.cookiePolicyTitle} />
       <main className='font-grotesk min-h-screen bg-white pt-[60px] text-primary-blue'>
         <section className='mx-auto max-w-4xl px-6 pb-24 pt-20 md:px-12'>
-          {/* Header */}
           <div className='mb-12 flex items-start gap-4'>
             <CookieIcon className='shrink-0 text-4xl text-raspberry md:text-[80px]' />
             <div>
@@ -76,24 +81,20 @@ export default function CookiesPage() {
             </div>
           </div>
 
-          {/* Intro */}
           <p className='mb-12 text-base leading-relaxed text-primary-blue/70'>
-            <StyledText text={t.cookiePolicyIntro} />
+            <StyledText text={fill(t.cookiePolicyIntro)} />
           </p>
 
-          {/* 1. What Are Cookies */}
           <Section title={t.cookiePolicyWhatAreCookiesTitle}>
             <p>{t.cookiePolicyWhatAreCookies}</p>
           </Section>
 
-          {/* 2. Data Controller */}
           <Section title={t.cookiePolicyControllerTitle}>
             <p>
-              <StyledText text={t.cookiePolicyController} />
+              <StyledText text={fill(t.cookiePolicyController)} />
             </p>
           </Section>
 
-          {/* 3. Cookies We Use */}
           <Section title={t.cookiePolicyCookiesWeUseTitle}>
             <p className='mb-6'>{t.cookiePolicyCookiesWeUseIntro}</p>
             <div className='overflow-x-auto rounded-[3px] border-2 border-raspberry/20'>
@@ -157,12 +158,10 @@ export default function CookiesPage() {
             </div>
           </Section>
 
-          {/* 4. Legal Basis */}
           <Section title={t.cookiePolicyLegalBasisTitle}>
             <p>{t.cookiePolicyLegalBasis}</p>
           </Section>
 
-          {/* 5. How to Manage Consent */}
           <Section title={t.cookiePolicyManageTitle}>
             <p className='mb-4'>{t.cookiePolicyManage}</p>
             <button
@@ -176,12 +175,10 @@ export default function CookiesPage() {
             <p>{t.cookiePolicyManageBrowser}</p>
           </Section>
 
-          {/* 6. Third-Party Services */}
           <Section title={t.cookiePolicyThirdPartyTitle}>
             <p>{t.cookiePolicyThirdParty}</p>
           </Section>
 
-          {/* 7. GDPR Rights */}
           <Section title={t.cookiePolicyRightsTitle}>
             <p className='mb-4'>{t.cookiePolicyRightsIntro}</p>
             <ul className='mb-4 list-inside list-disc space-y-2 pl-2 text-primary-blue/70'>
@@ -189,20 +186,17 @@ export default function CookiesPage() {
                 <li key={right}>{right}</li>
               ))}
             </ul>
-            <p>{t.cookiePolicyRightsOutro}</p>
+            <p>{fill(t.cookiePolicyRightsOutro)}</p>
           </Section>
 
-          {/* 8. International Transfers */}
           <Section title={t.cookiePolicyTransfersTitle}>
             <p>{t.cookiePolicyTransfers}</p>
           </Section>
 
-          {/* 9. Changes */}
           <Section title={t.cookiePolicyChangesTitle}>
             <p>{t.cookiePolicyChanges}</p>
           </Section>
 
-          {/* Back link */}
           <div className='mt-16 border-t-2 border-primary-blue/10 pt-8'>
             <Link
               href='/'
@@ -217,9 +211,7 @@ export default function CookiesPage() {
   );
 }
 
-const COMPANY_NAME = 'SKOFTWARE Maciej Skorus';
-
-/** Renders text with "SKOFTWARE Maciej Skorus" in font-unica. */
+/** Sets the company name in the display face wherever the prose mentions it. */
 function StyledText({ text }: { text: string }) {
   const idx = text.indexOf(COMPANY_NAME);
   if (idx === -1) return <>{text}</>;

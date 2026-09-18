@@ -6,11 +6,13 @@ import { useCallback, useEffect, useState } from 'react';
 
 import '@/styles/globals.css';
 
+import { prefersReducedMotion } from '@/lib/motion';
+
 import CookieConsentBanner from '@/components/CookieConsent';
 import CustomCursor from '@/components/CustomCursor';
+import Header from '@/components/layout/Header/Header';
 import LoaderOverlay from '@/components/LoaderOverlay';
 import ScrollToTop from '@/components/ScrollToTop';
-import Header from '@/components/layout/Header/Header';
 
 import { LocaleProvider } from '@/locale/LocaleContext';
 
@@ -44,11 +46,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeStart', onStart);
       router.events.off('routeChangeComplete', onEnd);
       router.events.off('routeChangeError', onEnd);
-};
+    };
   }, [router, onStart, onEnd]);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (prefersReducedMotion()) return;
 
     const lenis = new Lenis({
       duration: 1.2,

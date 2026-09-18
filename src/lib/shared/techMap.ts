@@ -8,11 +8,12 @@ import {
   CursorIcon,
   DockerIcon,
   FigmaIcon,
-  GitIcon,
   FirebaseIcon,
+  GitIcon,
   GitlabIcon,
   GsapIcon,
   HtmlIcon,
+  type IconType,
   JavaIcon,
   JavascriptIcon,
   LaravelIcon,
@@ -36,8 +37,6 @@ import {
   TypescriptIcon,
   WordpressIcon,
 } from './Icons';
-
-type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
 
 /** Canonical label → Icon component. Superset of all tech icons used across the app. */
 export const techIconMap: Record<string, IconType> = {
@@ -83,47 +82,40 @@ export const techIconMap: Record<string, IconType> = {
   MobX: MobxIcon,
 };
 
-/** Category grouping for the Skills section. Values are keys into techIconMap. */
-export const techCategoryGroups: Record<string, string[]> = {
-  frontend: [
-    'HTML5',
-    'CSS3',
-    'TypeScript',
-    'React',
-    'Next.js',
-    'React Native',
-    'Redux',
-    'Three.js',
-    'TailwindCSS',
-    'Sass',
-    'GSAP',
-  ],
-  backend: [
-    'Python',
-    'PHP',
-    'Node.js',
-    'Laravel',
-    'Wordpress',
-    'Java',
-    'Sanity',
-  ],
-  database: ['MySQL', 'PostgreSQL', 'MongoDB', 'Firebase'],
-  design: ['Photoshop', '3Ds Max', 'Blender', 'Figma', 'Canva'],
-  tools: ['Docker', 'GitHub', 'CursorAI', 'Claude', 'npm'],
-};
-
 /** Flat ordered list for the resume skills section — manually sorted for symmetric 3-per-row wrapping. */
 export const resumeTechList: string[] = [
-  'TypeScript', 'React', 'Next.js',       // frontend core
-  'React Native', 'Redux', 'MobX',        // frontend state
-  'TailwindCSS', 'Sass', 'GSAP',          // frontend styling
-  'Three.js', 'HTML5', 'CSS3',            // frontend web/3D
-  'Python', 'Node.js', 'Java',            // backend languages
+  'TypeScript',
+  'React',
+  'Next.js', // frontend core
+  'React Native',
+  'Redux',
+  'MobX', // frontend state
+  'TailwindCSS',
+  'Sass',
+  'GSAP', // frontend styling
+  'Three.js',
+  'HTML5',
+  'CSS3', // frontend web/3D
+  'Python',
+  'Node.js',
+  'Java', // backend languages
 
-  'PHP', 'Laravel', 'Wordpress',           // backend frameworks
-  'Sanity', 'PostgreSQL', 'MySQL',         // CMS + databases
-  'MongoDB', 'Firebase', 'Docker',         // databases + devops
-  'Photoshop', '3Ds Max', 'Blender',      // design 3D
-  'Figma', 'Canva', 'GitHub',             // design + VCS
-  'npm', 'CursorAI', 'Claude',            // tools + AI
+  'PHP',
+  'Laravel',
+  'Wordpress', // backend frameworks
+  'Sanity',
+  'PostgreSQL',
+  'MySQL', // CMS + databases
+  'MongoDB',
+  'Firebase',
+  'Docker', // databases + devops
+  'Photoshop',
+  '3Ds Max',
+  'Blender', // design 3D
+  'Figma',
+  'Canva',
+  'GitHub', // design + VCS
+  'npm',
+  'CursorAI',
+  'Claude', // tools + AI
 ];

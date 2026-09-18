@@ -2,9 +2,10 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
+import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
+
 import bioFragShader from '@/components/Hero/Partials/shaders/bioParticles.frag.glsl';
 import bioVertShader from '@/components/Hero/Partials/shaders/bioParticles.vert.glsl';
-import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
 
 const PARTICLE_COUNT = 8000;
 const DURATION = 60;
@@ -42,19 +43,20 @@ function buildParticleGeometry(): THREE.BufferGeometry {
 
     aOffset[i] = (i / PARTICLE_COUNT) * DURATION;
 
-    aStartPosition[i3] = -16;
+    // The stream flows right→left, toward the portrait (Scene SCENE_CONFIG).
+    aStartPosition[i3] = 16;
     aStartPosition[i3 + 1] = -4;
     aStartPosition[i3 + 2] = -8;
 
-    aControlPoint1[i3] = randFloat(-37, 9);
+    aControlPoint1[i3] = randFloat(-9, 37);
     aControlPoint1[i3 + 1] = randFloat(-3, 22);
     aControlPoint1[i3 + 2] = randFloat(-6, -26);
 
-    aControlPoint2[i3] = randFloat(-15, 25);
+    aControlPoint2[i3] = randFloat(-25, 15);
     aControlPoint2[i3 + 1] = randFloat(-35, 35);
     aControlPoint2[i3 + 2] = randFloat(-30, -15);
 
-    aEndPosition[i3] = 30;
+    aEndPosition[i3] = -30;
     aEndPosition[i3 + 1] = 5;
     aEndPosition[i3 + 2] = 10;
 

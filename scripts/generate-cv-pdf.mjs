@@ -5,9 +5,9 @@
  *   1. Start dev server:  npm run dev
  *   2. Run this script:   node scripts/generate-cv-pdf.mjs
  *
- * Outputs:
- *   public/cv-en.pdf
- *   public/cv-pl.pdf
+ * Outputs (in public/):
+ *   Maciej Skorus - CV [EN].pdf
+ *   Maciej Skorus - CV [PL].pdf
  */
 
 import puppeteer from 'puppeteer';
@@ -30,14 +30,8 @@ async function generatePdf(locale) {
 
   await page.setViewport({ width: 1280, height: 900 });
 
-  const url = `${BASE_URL}/resume`;
-  await page.goto(url, { waitUntil: 'networkidle0' });
-
-  // Set locale and reload
-  await page.evaluate((loc) => {
-    localStorage.setItem('locale', loc);
-    document.cookie = `locale=${loc};path=/;max-age=31536000`;
-  }, locale);
+  // Locale lives in the URL (next.config.js i18n): PL is the default, EN is prefixed.
+  const url = locale === 'pl' ? `${BASE_URL}/cv` : `${BASE_URL}/${locale}/cv`;
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   // Wait for fonts
@@ -52,17 +46,22 @@ async function generatePdf(locale) {
     const captured = {};
     for (const v of fontVars) {
       // Walk up from the resume element to find the variable
-      let el = document.querySelector('div[class*="overflow-hidden"][class*="w-[794px]"]');
+      let el = document.querySelector(
+        'div[class*="overflow-hidden"][class*="w-[794px]"]',
+      );
       while (el) {
         const val = getComputedStyle(el).getPropertyValue(v).trim();
-        if (val) { captured[v] = val; break; }
+        if (val) {
+          captured[v] = val;
+          break;
+        }
         el = el.parentElement;
       }
     }
 
     // The resume ref div is the one with exact 794x1123 dimensions
     const resumeEl = document.querySelector(
-      'div[class*="overflow-hidden"][class*="w-[794px]"]'
+      'div[class*="overflow-hidden"][class*="w-[794px]"]',
     );
     if (!resumeEl) {
       const allDivs = document.querySelectorAll('div');
@@ -73,7 +72,8 @@ async function generatePdf(locale) {
           break;
         }
       }
-      if (!document.body.children.length) throw new Error('Could not find resume container');
+      if (!document.body.children.length)
+        throw new Error('Could not find resume container');
     } else {
       document.body.innerHTML = '';
       document.body.appendChild(resumeEl);
@@ -93,27 +93,35 @@ async function generatePdf(locale) {
   });
 
   // Inject Space Grotesk as TTF — Chromium's PDF renderer doesn't embed woff2 fonts
-  const grotesk400 = readFileSync(resolve(FONTS_DIR, 'SpaceGrotesk-400.ttf')).toString('base64');
-  const grotesk700 = readFileSync(resolve(FONTS_DIR, 'SpaceGrotesk-700.ttf')).toString('base64');
+  const grotesk400 = readFileSync(
+    resolve(FONTS_DIR, 'SpaceGrotesk-400.ttf'),
+  ).toString('base64');
+  const grotesk700 = readFileSync(
+    resolve(FONTS_DIR, 'SpaceGrotesk-700.ttf'),
+  ).toString('base64');
 
-  await page.evaluate(({ g400, g700 }) => {
-    // Remove existing woff2-based @font-face rules for spaceGrotesk
-    for (const sheet of document.styleSheets) {
-      try {
-        const toDelete = [];
-        for (let i = 0; i < sheet.cssRules.length; i++) {
-          const rule = sheet.cssRules[i];
-          if (rule instanceof CSSFontFaceRule && rule.style.fontFamily === 'spaceGrotesk') {
-            toDelete.push(i);
+  await page.evaluate(
+    ({ g400, g700 }) => {
+      // Remove existing woff2-based @font-face rules for spaceGrotesk
+      for (const sheet of document.styleSheets) {
+        try {
+          const toDelete = [];
+          for (let i = 0; i < sheet.cssRules.length; i++) {
+            const rule = sheet.cssRules[i];
+            if (
+              rule instanceof CSSFontFaceRule &&
+              rule.style.fontFamily === 'spaceGrotesk'
+            ) {
+              toDelete.push(i);
+            }
           }
-        }
-        for (const idx of toDelete.reverse()) sheet.deleteRule(idx);
-      } catch {}
-    }
+          for (const idx of toDelete.reverse()) sheet.deleteRule(idx);
+        } catch {}
+      }
 
-    // Inject TTF-based @font-face rules
-    const style = document.createElement('style');
-    style.textContent = `
+      // Inject TTF-based @font-face rules
+      const style = document.createElement('style');
+      style.textContent = `
       @font-face {
         font-family: 'spaceGrotesk';
         src: url(data:font/truetype;base64,${g400}) format('truetype');
@@ -127,8 +135,10 @@ async function generatePdf(locale) {
         font-display: swap;
       }
     `;
-    document.head.appendChild(style);
-  }, { g400: grotesk400, g700: grotesk700 });
+      document.head.appendChild(style);
+    },
+    { g400: grotesk400, g700: grotesk700 },
+  );
 
   // Wait for injected fonts to load
   await page.evaluateHandle('document.fonts.ready');
@@ -152,7 +162,12 @@ async function generatePdf(locale) {
     `,
   });
 
-  const outPath = resolve(__dirname, '..', 'public', `Maciej Skorus - CV [${locale.toUpperCase()}].pdf`);
+  const outPath = resolve(
+    __dirname,
+    '..',
+    'public',
+    `Maciej Skorus - CV [${locale.toUpperCase()}].pdf`,
+  );
 
   await page.pdf({
     path: outPath,
@@ -164,11 +179,11 @@ async function generatePdf(locale) {
   });
 
   await browser.close();
-  console.log(`  cv-${locale}.pdf -> ${outPath}`);
+  console.log(`  ${locale}: ${url} -> ${outPath}`);
 }
 
 console.log('Generating CV PDFs...');
-console.log(`Using: ${BASE_URL}/resume\n`);
+console.log(`Using: ${BASE_URL}\n`);
 
 await generatePdf('en');
 await generatePdf('pl');

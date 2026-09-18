@@ -1,9 +1,10 @@
+import { useRouter } from 'next/router';
 import React, {
   createContext,
   useCallback,
   useContext,
   useEffect,
-  useState,
+  useMemo,
 } from 'react';
 
 import { en } from '@/locale/en';
@@ -12,6 +13,9 @@ import type { Dictionary, Locale } from '@/locale/types';
 
 const dictionaries: Record<Locale, Dictionary> = { en, pl };
 
+/** Must match `defaultLocale` in next.config.js. */
+export const DEFAULT_LOCALE: Locale = 'pl';
+
 type LocaleContextValue = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
@@ -19,48 +23,49 @@ type LocaleContextValue = {
 };
 
 const LocaleContext = createContext<LocaleContextValue>({
-  locale: 'en',
+  locale: DEFAULT_LOCALE,
   setLocale: () => {},
-  t: en,
+  t: dictionaries[DEFAULT_LOCALE],
 });
 
-function getStoredLocale(): Locale {
-  if (typeof window === 'undefined') return 'en';
-  try {
-    const stored = localStorage.getItem('locale');
-    if (stored === 'en' || stored === 'pl') return stored;
-  } catch {
-    /* private browsing or quota exceeded */
-  }
-  const browserLang = navigator.language?.slice(0, 2);
-  return browserLang === 'pl' ? 'pl' : 'en';
+function isLocale(value: string | undefined): value is Locale {
+  return value === 'en' || value === 'pl';
 }
 
+/**
+ * Reads the active locale from the router rather than from browser storage,
+ * so the server renders the right language on the first byte. Switching a
+ * locale is a navigation — the URL is the source of truth.
+ */
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('en');
+  const router = useRouter();
+  const locale = isLocale(router?.locale) ? router.locale : DEFAULT_LOCALE;
 
-  useEffect(() => {
-    setLocaleState(getStoredLocale());
-  }, []);
+  const setLocale = useCallback(
+    (next: Locale) => {
+      if (!router || next === locale) return;
+      router.push(
+        { pathname: router.pathname, query: router.query },
+        router.asPath,
+        { locale: next, scroll: false },
+      );
+    },
+    [router, locale],
+  );
 
+  // `_document` sets `lang` on the server; client-side locale switches are
+  // soft navigations that never re-render <html>, so keep it in sync here.
   useEffect(() => {
     document.documentElement.lang = locale;
-    document.cookie = `locale=${locale};path=/;max-age=31536000;SameSite=Lax`;
-    try {
-      localStorage.setItem('locale', locale);
-    } catch {
-      /* private browsing or quota exceeded */
-    }
   }, [locale]);
 
-  const setLocale = useCallback((l: Locale) => setLocaleState(l), []);
+  const value = useMemo(
+    () => ({ locale, setLocale, t: dictionaries[locale] }),
+    [locale, setLocale],
+  );
 
   return (
-    <LocaleContext.Provider
-      value={{ locale, setLocale, t: dictionaries[locale] }}
-    >
-      {children}
-    </LocaleContext.Provider>
+    <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
   );
 }
 

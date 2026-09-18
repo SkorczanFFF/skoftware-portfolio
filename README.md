@@ -1,6 +1,6 @@
 # SKOFTWARE - Portfolio
 
-Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer. Built with Next.js 16, React 19, TypeScript, and Three.js. Features an interactive 3D hero scene with image-to-particle conversion, custom GLSL shaders, GSAP scroll-driven animations, bilingual content (EN/PL), cookie consent management, and a built-in web resume with PDF export.
+Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer. Built with Next.js 16, React 19, TypeScript, and Three.js. Features an interactive 3D hero scene with image-to-particle conversion, custom GLSL shaders, GSAP scroll-driven animations, bilingual content (PL/EN) routed by URL, cookie consent management, and a built-in web CV.
 
 **Live:** [mskorus.vercel.app](https://mskorus.vercel.app/)
 
@@ -14,7 +14,7 @@ Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer
 | ----------- | ------- | -------------------------------------- |
 | Next.js     | 16.2    | Framework (SSR, routing, optimization) |
 | React       | 19.2    | UI library                             |
-| TypeScript  | 6.0     | Type safety                            |
+| TypeScript  | 5.9     | Type safety                            |
 | TailwindCSS | 4.2     | Utility-first styling                  |
 
 ### 3D & Animation
@@ -30,14 +30,13 @@ Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer
 
 ### Utilities
 
-| Technology                  | Purpose                          |
-| --------------------------- | -------------------------------- |
-| react-icons                 | Icon library (50+ tech icons)    |
-| react-error-boundary        | Error boundary for WebGL canvas  |
-| react-intersection-observer | Viewport visibility detection    |
-| html2canvas-pro + jsPDF     | Resume PDF export                |
-| @vercel/analytics           | Usage analytics                  |
-| @vercel/speed-insights      | Performance monitoring           |
+| Technology                  | Purpose                         |
+| --------------------------- | ------------------------------- |
+| react-icons                 | Icon library (50+ tech icons)   |
+| react-error-boundary        | Error boundary for WebGL canvas |
+| react-intersection-observer | Viewport visibility detection   |
+| @vercel/analytics           | Usage analytics                 |
+| @vercel/speed-insights      | Performance monitoring          |
 
 ---
 
@@ -56,21 +55,20 @@ Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer
 
 - Horizontal-scroll portfolio gallery (desktop) with per-panel entrance/exit animations
 - Vertical fade-in portfolio cards (mobile)
-- Parallax experience slides with staggered entrances
 - Service card reveal animations
-- Technology icon scale/fade effects
+- Section reveals via a shared `useReveal` hook
 - Text scramble reveal animations
 
 ### Internationalization
 
-- English and Polish with full content translation
-- Browser language auto-detection with localStorage persistence
-- Covers navigation, sections, projects, experience, services, and contact
+- Polish (`/`) and English (`/en/*`) via Next.js i18n routing — no detection, no persistence
+- Canonical and hreflang links per locale
+- Every user-facing string lives in `src/locale`
 
-### Resume
+### CV
 
-- Dedicated `/resume` page with sidebar + content layout
-- One-click PDF export via html2canvas + jsPDF (locale-aware filename)
+- Dedicated `/cv` page (noindex) with sidebar + content layout
+- Static PDFs regenerated with `node scripts/generate-cv-pdf.mjs` against a running dev server
 
 ### Cookie Consent & Privacy
 
@@ -83,7 +81,7 @@ Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer
 - Custom cursor (desktop only, fine pointer)
 - Active section tracking in header navigation
 - SEO: sitemap generation, Schema.org structured data, meta tags
-- Responsive design with custom breakpoints (480–1480px)
+- Responsive design with custom breakpoints (480–2000px)
 
 ---
 
@@ -92,47 +90,56 @@ Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer
 ```
 src/
 ├── components/
-│   ├── Hero/                  # 3D canvas, particles, background scene
+│   ├── Hero/                  # Offer copy over the 3D scene
+│   │   ├── HeroCopy.tsx       # Server-rendered headline + CTAs
+│   │   ├── HeroScene.tsx      # R3F canvas (client only)
 │   │   └── Partials/
 │   │       ├── imageParticles/  # Image-to-particle pipeline
 │   │       └── shaders/         # GLSL vertex & fragment shaders
+│   ├── Services/              # Craft cards with deliverables
+│   ├── Process/               # "How I work" steps
+│   ├── TechStrip/             # Load-bearing stack icons
+│   ├── WhyMe/                 # Trust block
+│   ├── Faq/                   # Single-open accordion + FAQPage schema
 │   ├── Portfolio/             # Horizontal scroll project showcase
-│   ├── Experience/            # Work history timeline
-│   ├── About/                 # Services section
-│   ├── Skills/                # Technology grid
-│   ├── Resume/                # CV sidebar + content components
+│   ├── ui/                    # Section, SectionTitle, SectionArrow, Button, ExternalLink
 │   ├── layout/
 │   │   ├── Header/            # Nav with locale toggle (desktop + mobile)
-│   │   ├── Footer/            # Contact info
-│   │   └── Layout.tsx         # Root layout wrapper
+│   │   ├── Footer/            # Contact, socials, CV links
+│   │   └── Layout.tsx         # Consent-gated analytics wrapper
 │   ├── CookieConsent.tsx      # GDPR cookie consent banner
 │   ├── CustomCursor.tsx
-│   └── Seo.tsx                # Meta tags, structured data
+│   └── Seo.tsx                # Meta tags, canonical/hreflang, structured data
 ├── pages/
 │   ├── index.tsx              # Home (all sections)
-│   ├── resume/index.tsx       # CV page with PDF export
+│   ├── cv/index.tsx           # CV page (noindex)
 │   ├── cookies/index.tsx      # Cookie policy page
 │   ├── 404.tsx
-│   ├── _app.tsx               # Lenis + LocaleProvider
-│   └── _document.tsx          # Fonts, HTML structure
+│   ├── _app.tsx               # Fonts, Lenis, LocaleProvider
+│   └── _document.tsx          # <html lang> from the URL locale
 ├── locale/
-│   ├── LocaleContext.tsx      # i18n context + useLocale hook
-│   ├── types.ts               # Dictionary, entry types
-│   └── data/                  # en.ts, pl.ts content files
+│   ├── LocaleContext.tsx      # Locale from the router + useLocale hook
+│   ├── types/                 # Dictionary shape, split per area
+│   ├── data/{pl,en}/          # services, projects, experiences
+│   └── {pl,en}.ts             # Dictionaries
 ├── lib/
+│   ├── site.ts                # Domain and business identity (single source)
 │   ├── gsap.ts                # GSAP + ScrollTrigger registration
-│   ├── breakpoints.ts         # Responsive breakpoint constants
+│   ├── motion.ts              # prefers-reduced-motion helpers
+│   ├── breakpoints.ts         # Breakpoints mirrored from globals.css
 │   ├── scrambleReveal.ts      # Text scramble/reveal animation
-│   ├── generatePdf.ts         # HTML-to-PDF export utility
 │   └── shared/
 │       ├── Icons.tsx          # Centralized icon exports
 │       └── techMap.ts         # Tech-to-icon mappings
 ├── hooks/
 │   ├── useScrollTriggers.ts   # GSAP trigger lifecycle management
-│   ├── useIsMobile.ts         # Responsive mobile detection hook
+│   ├── useReveal.ts           # Stagger fade-in on scroll
+│   ├── useViewport.ts         # Width, height and breakpoint tier
+│   ├── usePrefersReducedMotion.ts
+│   ├── useTilt.ts             # Pointer-following card tilt
 │   └── usePortfolioScroll.ts  # Portfolio scroll animation hook
 ├── styles/
-│   └── globals.css            # Global styles, animations, scrollbar
+│   └── globals.css            # Theme tokens, section arrows, scrollbar
 └── __tests__/
 ```
 
@@ -144,7 +151,7 @@ src/
 | --------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Polonez Autodrive**       | JavaScript, Three.js, 3D Studio Max            | [Live](https://polonez-autodrive.vercel.app/) · [Repo](https://github.com/SkorczanFFF/Polonez-Autodrive)                                               |
 | **VAT-OFF**                 | JavaScript, Chrome Extension API, CSS          | [Chrome Web Store](https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl) · [Repo](https://github.com/SkorczanFFF/VAT-OFF) |
-| **Chandrastic** [WIP]       | React, TypeScript, Python, FastAPI             | —                                                                                                                                                      |
+| **Pokédex**                 | React, TypeScript, Vite, TanStack Query        | [Live](https://www.pokedex.skoftware.pl/) · [Repo](https://github.com/SkorczanFFF/pokedex)                                                                 |
 | **SKOFTWARE Portfolio**     | Next.js, TypeScript, TailwindCSS, R3F, Blender | [Live](https://mskorus.vercel.app/) · [Repo](https://github.com/SkorczanFFF/mskorus-remaster)                                                          |
 | **Yet Another Weather App** | React, JavaScript, Sass, Vanta.js, Open-Meteo  | [Live](https://yet-another-weather-app.vercel.app/) · [Repo](https://github.com/SkorczanFFF/YetAnotherWeatherApp/)                                     |
 

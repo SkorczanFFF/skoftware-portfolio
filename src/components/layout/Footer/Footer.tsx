@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 
-import BottomBar from '@/components/layout/BottomBar';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { scrambleReveal } from '@/lib/scrambleReveal';
 import {
@@ -12,22 +11,17 @@ import {
   MailIcon,
   PdfIcon,
 } from '@/lib/shared/Icons';
+import { SOCIALS, VAT_NUMBER } from '@/lib/site';
+
+import BottomBar from '@/components/layout/BottomBar';
+import ExternalLink from '@/components/ui/ExternalLink';
 
 import { useLocale } from '@/locale/LocaleContext';
 
+const SOCIAL_ICONS = { GitHub: GithubIcon, LinkedIn: LinkedinIcon } as const;
 
-const networkLinks = [
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/mskorus/',
-    icon: LinkedinIcon,
-  },
-  {
-    label: 'GitHub',
-    href: 'https://github.com/SkorczanFFF',
-    icon: GithubIcon,
-  },
-] as const;
+const FOOTER_LINK =
+  'flex items-center gap-2 font-bold text-deep-blue/60 transition-all duration-200 hover:translate-x-1 hover:text-raspberry md:flex-row-reverse';
 
 const FOREIGN_HEADINGS = [
   'LASS UNS REDEN.', // German
@@ -100,17 +94,14 @@ export default function Footer(): React.JSX.Element {
 
   return (
     <footer id='contact' className='font-grotesk w-full overflow-hidden'>
-      {/* Gradient bar + arrows */}
       <div className='relative flex w-full flex-col items-center top-6'>
         <div className='gradient h-[8px] w-full' />
         <div className='arrow-down gradient' />
         <div className='arrow-down blue absolute -top-[2px]' />
       </div>
 
-      {/* Main footer content */}
-      <div className='w-full bg-[#f9f9f9] pt-4'>
+      <div className='w-full bg-off-white pt-4'>
         <div className='mx-auto flex max-w-7xl flex-col gap-16 px-[22px] sm:px-8 py-24 md:flex-row md:justify-between md:gap-24 md:px-12'>
-          {/* Narrative column */}
           <div className='md:w-3/5'>
             <h2
               ref={headingRef}
@@ -132,19 +123,24 @@ export default function Footer(): React.JSX.Element {
                 className='group flex items-center gap-2 text-lg font-semibold text-deep-blue transition-all duration-200 hover:translate-x-1 hover:text-raspberry'
               >
                 {t.contactEmail}
-                <MailIcon className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100' aria-hidden='true' />
+                <MailIcon
+                  className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100'
+                  aria-hidden='true'
+                />
               </a>
               <a
                 href={`tel:${t.contactPhone.replace(/\s/g, '')}`}
                 className='group flex items-center gap-2 text-lg font-semibold text-deep-blue transition-all duration-200 hover:translate-x-1 hover:text-raspberry'
               >
                 {t.contactPhone}
-                <CallIcon className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100' aria-hidden='true' />
+                <CallIcon
+                  className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100'
+                  aria-hidden='true'
+                />
               </a>
             </div>
           </div>
 
-          {/* Identity & links column */}
           <div className='flex flex-col items-start justify-between text-left md:w-1/3 md:items-end md:text-right'>
             <div className='mb-12 md:mb-0'>
               <div className='mb-8'>
@@ -157,6 +153,9 @@ export default function Footer(): React.JSX.Element {
                 <p className='mt-1 text-sm font-medium tracking-wide text-deep-blue/60'>
                   {t.contactCompanyInfo}
                 </p>
+                <p className='mt-2 text-xs tracking-wide text-deep-blue/45'>
+                  NIP {VAT_NUMBER} · {t.footerInvoiceNote}
+                </p>
               </div>
 
               <div className='flex flex-col gap-4 md:items-end'>
@@ -164,19 +163,20 @@ export default function Footer(): React.JSX.Element {
                   {t.footerNetworkLabel}
                 </span>
                 <nav className='flex flex-col gap-3 md:items-end'>
-                  {networkLinks.map(({ label, href, icon: Icon }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      aria-label={`${label} (opens in new tab)`}
-                      className='flex items-center gap-2 font-bold text-deep-blue/60 transition-all duration-200 hover:translate-x-1 hover:text-raspberry md:flex-row-reverse'
-                    >
-                      <Icon className='text-base' aria-hidden='true' />
-                      <span>{label}</span>
-                    </a>
-                  ))}
+                  {SOCIALS.map(({ label, href }) => {
+                    const Icon = SOCIAL_ICONS[label];
+                    return (
+                      <ExternalLink
+                        key={label}
+                        href={href}
+                        label={label}
+                        className={FOOTER_LINK}
+                      >
+                        <Icon className='text-base' aria-hidden='true' />
+                        <span>{label}</span>
+                      </ExternalLink>
+                    );
+                  })}
                 </nav>
               </div>
 
@@ -185,17 +185,14 @@ export default function Footer(): React.JSX.Element {
                   {t.footerResume}
                 </span>
                 <nav className='flex flex-col gap-3 md:items-end'>
-                  <Link
-                    href='/resume'
-                    className='flex items-center gap-2 font-bold text-deep-blue/60 transition-all duration-200 hover:translate-x-1 hover:text-raspberry md:flex-row-reverse'
-                  >
+                  <Link href='/cv' className={FOOTER_LINK}>
                     <GlobeIcon className='text-base' aria-hidden='true' />
                     <span>{t.footerResumeOnline}</span>
                   </Link>
                   <a
                     href={`/Maciej Skorus - CV [${locale.toUpperCase()}].pdf`}
                     download
-                    className='flex items-center gap-2 font-bold text-deep-blue/60 transition-all duration-200 hover:translate-x-1 hover:text-raspberry md:flex-row-reverse'
+                    className={FOOTER_LINK}
                   >
                     <PdfIcon className='text-base' aria-hidden='true' />
                     <span>{t.footerResumeDownload}</span>
@@ -213,7 +210,6 @@ export default function Footer(): React.JSX.Element {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <BottomBar />
     </footer>
   );

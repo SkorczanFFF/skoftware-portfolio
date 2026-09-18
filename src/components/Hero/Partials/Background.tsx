@@ -4,6 +4,8 @@ import { easing } from 'maath';
 import React, { useRef } from 'react';
 import * as THREE from 'three';
 
+import type { GyroRef } from '@/hooks/useDeviceOrientation';
+
 import { colors } from '@/components/Hero/Partials/colors';
 
 export type Vector3Tuple = [number, number, number];
@@ -19,9 +21,15 @@ const FONT_URL = '/fonts/UnicaOne-Regular.ttf';
 const SHIFT_STRENGTH = 4;
 const DAMP_SMOOTHING = 0.25;
 
-type GyroRef = React.MutableRefObject<{ x: number; y: number }>;
-
-function AnimatedTextRow({ item, index, gyroRef }: { item: TextConfig; index: number; gyroRef?: GyroRef }) {
+function AnimatedTextRow({
+  item,
+  index,
+  gyroRef,
+}: {
+  item: TextConfig;
+  index: number;
+  gyroRef?: GyroRef;
+}) {
   const groupRef = useRef<THREE.Group>(null);
   const direction = index % 2 === 0 ? 1 : -1;
 
@@ -196,7 +204,12 @@ const Background = ({ variant, gyroRef }: BackgroundProps) => {
   return (
     <>
       {config.map((item, index) => (
-        <AnimatedTextRow key={index} item={item} index={index} gyroRef={gyroRef} />
+        <AnimatedTextRow
+          key={index}
+          item={item}
+          index={index}
+          gyroRef={gyroRef}
+        />
       ))}
     </>
   );

@@ -1,5 +1,6 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import mockRouter from 'next-router-mock';
 
 import { LocaleProvider, useLocale } from '@/locale/LocaleContext';
 
@@ -8,107 +9,85 @@ function TestConsumer() {
   return (
     <div>
       <span data-testid='locale'>{locale}</span>
-      <span data-testid='title'>{t.seoTitle}</span>
+      <span data-testid='nav-home'>{t.navHome}</span>
       <button onClick={() => setLocale('pl')}>Switch to PL</button>
       <button onClick={() => setLocale('en')}>Switch to EN</button>
     </div>
   );
 }
 
+function renderProvider() {
+  return render(
+    <LocaleProvider>
+      <TestConsumer />
+    </LocaleProvider>,
+  );
+}
+
 describe('LocaleContext', () => {
   beforeEach(() => {
-    localStorage.clear();
+    mockRouter.reset();
+    mockRouter.locale = undefined;
+    mockRouter.setCurrentUrl('/');
     document.documentElement.lang = '';
+    localStorage.clear();
   });
 
-  it('defaults to "en" locale', () => {
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
+  it('falls back to Polish when the router reports no locale', () => {
+    renderProvider();
+    expect(screen.getByTestId('locale')).toHaveTextContent('pl');
+    expect(screen.getByTestId('nav-home')).toHaveTextContent('Strona główna');
+  });
+
+  it('follows the locale supplied by the router', () => {
+    mockRouter.locale = 'en';
+    renderProvider();
     expect(screen.getByTestId('locale')).toHaveTextContent('en');
+    expect(screen.getByTestId('nav-home')).toHaveTextContent('Home');
   });
 
-  it('provides English translations by default', () => {
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
-    expect(screen.getByTestId('title').textContent).toBeTruthy();
-  });
-
-  it('switches to Polish when setLocale("pl") is called', async () => {
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
-
-    await userEvent.click(screen.getByText('Switch to PL'));
+  it('ignores an unsupported router locale', () => {
+    mockRouter.locale = 'de';
+    renderProvider();
     expect(screen.getByTestId('locale')).toHaveTextContent('pl');
   });
 
-  it('persists locale to localStorage', async () => {
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
+  it('switches locale by navigating, and swaps the dictionary', async () => {
+    renderProvider();
 
-    await userEvent.click(screen.getByText('Switch to PL'));
-    expect(localStorage.getItem('locale')).toBe('pl');
+    await userEvent.click(screen.getByText('Switch to EN'));
+
+    expect(mockRouter.locale).toBe('en');
+    expect(screen.getByTestId('locale')).toHaveTextContent('en');
+    expect(screen.getByTestId('nav-home')).toHaveTextContent('Home');
   });
 
-  it('reads stored locale from localStorage on mount', () => {
-    localStorage.setItem('locale', 'pl');
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
-    // After useEffect runs, locale should be 'pl'
-    act(() => {}); // flush effects
-    expect(screen.getByTestId('locale')).toHaveTextContent('pl');
-  });
-
-  it('sets document.documentElement.lang', async () => {
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
+  it('does not navigate when the locale is unchanged', async () => {
+    const push = jest.spyOn(mockRouter, 'push');
+    renderProvider();
 
     await userEvent.click(screen.getByText('Switch to PL'));
+
+    expect(push).not.toHaveBeenCalled();
+    push.mockRestore();
+  });
+
+  it('keeps <html lang> in sync with the active locale', async () => {
+    renderProvider();
     expect(document.documentElement.lang).toBe('pl');
+
+    await userEvent.click(screen.getByText('Switch to EN'));
+    expect(document.documentElement.lang).toBe('en');
   });
 
-  it('ignores invalid stored locale', () => {
-    localStorage.setItem('locale', 'de');
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
-    // Should fall back to browser detection or 'en'
-    expect(screen.getByTestId('locale')).toHaveTextContent('en');
-  });
+  it('persists nothing to browser storage', async () => {
+    // The cookie policy no longer declares a language cookie or localStorage
+    // entry. Re-introducing persistence here would make that document false.
+    renderProvider();
 
-  it('handles localStorage errors gracefully', () => {
-    const spy = jest
-      .spyOn(Storage.prototype, 'getItem')
-      .mockImplementation(() => {
-        throw new Error('Quota exceeded');
-      });
+    await userEvent.click(screen.getByText('Switch to EN'));
 
-    render(
-      <LocaleProvider>
-        <TestConsumer />
-      </LocaleProvider>,
-    );
-    // Should not crash, falls back to 'en'
-    expect(screen.getByTestId('locale')).toHaveTextContent('en');
-    spy.mockRestore();
+    expect(localStorage.getItem('locale')).toBeNull();
+    expect(document.cookie).not.toContain('locale=');
   });
 });

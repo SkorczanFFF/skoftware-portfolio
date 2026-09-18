@@ -45,9 +45,9 @@ import {
   SiFirebase,
   SiGitlab,
   SiGreensock,
-  SiMobx,
   SiJavascript,
   SiLaravel,
+  SiMobx,
   SiNextdotjs,
   SiNodedotjs,
   SiNpm,
@@ -63,7 +63,7 @@ import {
   SiVercel,
 } from 'react-icons/si';
 
-type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
+export type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
 
 export const GithubIcon = BsGithub as IconType;
 export const LinkedinIcon = BsLinkedin as IconType;

@@ -2,12 +2,12 @@
 // interpolation between explicit anchor points. Width is also clamped to the
 // available viewport width so wide-but-short windows can't overflow.
 
-export const ANCHORS: ReadonlyArray<readonly [number, number]> = [
+const ANCHORS: ReadonlyArray<readonly [number, number]> = [
   [600, 680],
   [720, 900],
-  [900, 1150], // baseline — must match historic fixed value
+  [900, 1150],
   [1080, 1280],
-  [1440, 1550], // user target
+  [1440, 1550],
   [1800, 1700],
   [2160, 1830],
   [2400, 1920],

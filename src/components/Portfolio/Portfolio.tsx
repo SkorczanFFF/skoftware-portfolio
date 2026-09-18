@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
 import { ScrollTrigger } from '@/lib/gsap';
-import {
-  computePanelWidth,
-  isShortViewport,
-} from '@/lib/portfolioPanelWidth';
+import { computePanelWidth, isShortViewport } from '@/lib/portfolioPanelWidth';
 import { usePortfolioScroll } from '@/hooks/usePortfolioScroll';
-import { useViewportSize } from '@/hooks/useViewportSize';
+import { useViewport } from '@/hooks/useViewport';
+
+import SectionArrow from '@/components/ui/SectionArrow';
+import SectionTitle from '@/components/ui/SectionTitle';
 
 import { useLocale } from '@/locale/LocaleContext';
 
@@ -17,7 +17,7 @@ export default function Portfolio(): React.JSX.Element {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
-  const { width: vw, height: vh } = useViewportSize();
+  const { width: vw, height: vh } = useViewport();
   const panelW = computePanelWidth(vh, vw);
   const short = isShortViewport(vh);
 
@@ -33,14 +33,20 @@ export default function Portfolio(): React.JSX.Element {
     <section
       ref={sectionRef}
       id='portfolio'
-      aria-label='Portfolio projects'
+      aria-label={t.portfolioLabel}
       className='font-grotesk bg-primary-blue relative w-full overflow-hidden md:h-screen'
       style={{ ['--panel-w' as string]: `${panelW}px` }}
     >
-      <div className='arrow-down white absolute -top-[2px] left-0 right-0 mx-auto'></div>
-      <h2 className='font-grotesk z-10 py-2 text-xl font-normal leading-3 tracking-[10px] text-white xl:absolute xl:origin-top-left xl:rotate-90 xl:left-[95px] xl:top-[60px] xl:p-4 w-full backdrop-blur-[10px] lg:mt-[80px] text-center xl:text-left xl:mt-0 md:-mb-[100px] mt-[100px] pb-2'>
+      <SectionArrow color='white' />
+      {/* Floats over the pinned track: blurred backdrop, pushed clear of the
+          first panel on small screens, left-aligned once rotated. */}
+      <SectionTitle
+        tone='light'
+        layout='bare'
+        className='z-10 mt-[100px] w-full py-2 pb-2 text-center backdrop-blur-[10px] md:-mb-[100px] lg:mt-[80px] xl:left-[95px] xl:top-[60px] xl:mt-0 xl:p-4 xl:text-left'
+      >
         {t.portfolioTitle}
-      </h2>
+      </SectionTitle>
 
       <div
         ref={trackRef}

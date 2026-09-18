@@ -10,21 +10,17 @@
   --breakpoint-xxl: 2000px;
 
   --color-primary-blue: #001a25;
-  --color-secondary-blue: #0b0d16;
   --color-real-white: #ffffff;
   --color-white: #e4e4e4;
   --color-raspberry: #801834;
   --color-raspberry-dark: #820025;
   --color-orange: #992210;
-  --color-shadow: #161616;
   --color-orange-dark: #972b1a;
   --color-deep-blue: #0c2835;
-}
+  --color-off-white: #f9f9f9;
 
-@utility font-primary {
-  font-family:
-    var(--font-grotesk), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --container-wide: 1100px;
+  --container-prose: 820px;
 }
 
 @utility font-grotesk {
@@ -45,7 +41,6 @@
 }
 
 @layer base {
-
   /*
     Tailwind CSS v4 changed the default border color to `currentcolor`.
     This keeps v3 behavior — add explicit border-color utilities to remove.
@@ -100,20 +95,27 @@ body {
   }
 }
 
-.gradient,
-.gradient-slow {
-  background: linear-gradient(270deg,
-      var(--color-orange-dark),
-      var(--color-raspberry));
+/* Brand gradient on badges and bars; the slow drift is part of the look. */
+.gradient {
+  background: linear-gradient(
+    270deg,
+    var(--color-orange-dark),
+    var(--color-raspberry)
+  );
+  background-size: 200% 400%;
   animation: gradientAnimationX 7s ease infinite;
 }
 
-.gradient {
-  background-size: 200% 400%;
-}
-
-.gradient-slow {
-  background-size: 400% 200%;
+@keyframes gradientAnimationX {
+  0% {
+    background-position: 0% 51%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 51%;
+  }
 }
 
 .arrow-down {
@@ -135,16 +137,13 @@ body {
   border-color: var(--color-white) transparent transparent transparent;
 }
 
-.raspberry {
-  border-color: var(--color-raspberry) transparent transparent transparent;
-}
-
 .blue {
   border-color: var(--color-primary-blue) transparent transparent transparent;
 }
 
 .blue-hero {
-  border-color: transparent var(--color-white) var(--color-white) var(--color-white);
+  border-color: transparent var(--color-white) var(--color-white)
+    var(--color-white);
   margin-top: -20px;
   z-index: 20;
 }
@@ -193,28 +192,6 @@ body {
   }
 }
 
-.arrow-top-left {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 30px 30px 0 0;
-}
-
-.arrow-bottom-right {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 0 30px 30px;
-}
-
-.cv-arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 12px 0 12px 18px;
-  border-color: transparent transparent transparent var(--color-raspberry);
-}
-
 .loader {
   color: var(--color-orange-dark);
   position: relative;
@@ -244,7 +221,6 @@ body {
 }
 
 @keyframes escaleY {
-
   0%,
   80%,
   100% {
@@ -262,10 +238,6 @@ body {
 ::selection {
   background-color: var(--color-raspberry);
   color: #fff;
-}
-
-li::marker {
-  padding-right: 10px;
 }
 
 .invert-cursor {
@@ -311,7 +283,6 @@ html.custom-cursor * {
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
@@ -319,5 +290,20 @@ html.custom-cursor * {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Hero tap feedback (TapRipple.tsx). */
+@keyframes tapRipple {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
   }
 }

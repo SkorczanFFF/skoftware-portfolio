@@ -1,12 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 
-// Allow router mocks.
-
 jest.mock('next/router', () => require('next-router-mock'));
 
-// Avoid ESM parsing issues in Jest for Vercel client components.
-
+// Vercel client components ship ESM Jest cannot parse.
 jest.mock('@vercel/analytics/react', () => ({
   Analytics: () => React.createElement(React.Fragment),
 }));

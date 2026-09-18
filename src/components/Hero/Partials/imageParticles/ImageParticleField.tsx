@@ -7,16 +7,17 @@ import {
 import React, { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
+import { pulseEnvelope } from '@/lib/envelope';
+import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
+
 import {
   getImageSourceFromTexture,
   sampleTextureToParticleGeometry,
 } from '@/components/Hero/Partials/imageParticles/geometryFromImageSource';
 import fragmentShader from '@/components/Hero/Partials/shaders/heroParticles.frag.glsl';
 import vertexShader from '@/components/Hero/Partials/shaders/heroParticles.vert.glsl';
-import { pulseEnvelope } from '@/lib/envelope';
-import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
 
-export type ImageParticleFieldCoreProps = ThreeElements['group'] & {
+type CoreProps = ThreeElements['group'] & {
   texture: THREE.Texture;
   threshold?: number;
   targetWidth?: number;
@@ -95,7 +96,7 @@ function ImageParticleFieldCore({
   pulse,
   excludeY,
   ...props
-}: ImageParticleFieldCoreProps) {
+}: CoreProps) {
   const groupRef = useRef<THREE.Group>(null);
   const particleMeshRef = useRef<THREE.Mesh>(null);
   const hoveringRef = useRef(false);
@@ -335,31 +336,14 @@ function ImageParticleFieldCore({
   );
 }
 
-export type ImageParticleFieldFromPathProps = Omit<
-  ImageParticleFieldCoreProps,
-  'texture'
-> & {
+type ImageParticleFieldProps = Omit<CoreProps, 'texture'> & {
   imagePath: string;
 };
 
-export function ImageParticleFieldFromPath({
+export default function ImageParticleField({
   imagePath,
   ...rest
-}: ImageParticleFieldFromPathProps) {
+}: ImageParticleFieldProps) {
   const texture = useLoader(THREE.TextureLoader, imagePath);
   return <ImageParticleFieldCore texture={texture} {...rest} />;
-}
-
-export type ImageParticleFieldProps =
-  | ImageParticleFieldFromPathProps
-  | (ImageParticleFieldCoreProps & { imagePath?: undefined });
-
-export default function ImageParticleField(props: ImageParticleFieldProps) {
-  if ('texture' in props && props.texture) {
-    return <ImageParticleFieldCore {...props} />;
-  }
-  if (props.imagePath) {
-    return <ImageParticleFieldFromPath {...props} />;
-  }
-  return null;
 }

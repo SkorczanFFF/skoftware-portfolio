@@ -53,7 +53,10 @@ export default function LoaderOverlay({ visible }: { visible: boolean }) {
       style={{ display: visible ? 'flex' : 'none', opacity: visible ? 1 : 0 }}
     >
       <span className='font-unica select-none text-5xl font-bold relative'>
-        <span className='absolute right-[-1.5px] bottom-[-1.5px] pointer-events-none' aria-hidden='true'>
+        <span
+          className='absolute right-[-1.5px] bottom-[-1.5px] pointer-events-none'
+          aria-hidden='true'
+        >
           <span className='text-white'>SKOFT</span>
           <span className='text-raspberry'>ware</span>
         </span>

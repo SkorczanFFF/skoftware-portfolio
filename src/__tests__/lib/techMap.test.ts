@@ -1,8 +1,4 @@
-import {
-  resumeTechList,
-  techCategoryGroups,
-  techIconMap,
-} from '@/lib/shared/techMap';
+import { resumeTechList, techIconMap } from '@/lib/shared/techMap';
 
 describe('techMap data integrity', () => {
   describe('techIconMap', () => {
@@ -13,38 +9,6 @@ describe('techMap data integrity', () => {
     it('every value is a function (React component)', () => {
       for (const [_label, icon] of Object.entries(techIconMap)) {
         expect(typeof icon).toBe('function');
-      }
-    });
-  });
-
-  describe('techCategoryGroups', () => {
-    it('has all expected categories', () => {
-      expect(Object.keys(techCategoryGroups)).toEqual(
-        expect.arrayContaining([
-          'frontend',
-          'backend',
-          'database',
-          'design',
-          'tools',
-        ]),
-      );
-    });
-
-    it('every label in every category exists in techIconMap', () => {
-      const missing: string[] = [];
-      for (const [category, labels] of Object.entries(techCategoryGroups)) {
-        for (const label of labels) {
-          if (!(label in techIconMap)) {
-            missing.push(`${category}/${label}`);
-          }
-        }
-      }
-      expect(missing).toEqual([]);
-    });
-
-    it('has no empty categories', () => {
-      for (const [_category, labels] of Object.entries(techCategoryGroups)) {
-        expect(labels.length).toBeGreaterThan(0);
       }
     });
   });
