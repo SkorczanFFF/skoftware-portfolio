@@ -24,15 +24,11 @@ export const en: Dictionary = {
   heroH1Line1: 'Ideas in.',
   heroH1Line2: 'Working software out.',
   heroSubtitle:
-    'Websites, web and mobile apps, AI and 3D integrations — for companies that need it to simply work. From idea to launch to maintenance. One contractor, VAT invoicing.',
+    'Websites, web and mobile apps, AI and 3D integrations — built around your business, not a template. From idea to launch to maintenance. One contractor, VAT invoicing.',
   heroCtaPrimary: 'Describe your idea — quote in 48 h',
   heroCtaSecondary: 'See the tech showcase',
   heroTrust: ['VAT invoicing', 'Silesia & remote', 'PL / EN support'],
   heroErrorFallback: '3D scene could not be loaded.',
-  // transitional: read by the old Hero until the new one lands, removed with it
-  heroGreeting: "Hey, I'm Maciej.",
-  heroName: 'Skorus Maciej.',
-  heroHeadline: 'Ideas in. Software out.',
 
   footerCopyright: '© {year} SKOFTWARE Maciej Skorus',
   footerResume: 'RESUME',

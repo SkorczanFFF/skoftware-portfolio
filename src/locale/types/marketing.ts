@@ -18,10 +18,6 @@ export type MarketingStrings = {
   heroCtaSecondary: string;
   heroTrust: string[];
   heroErrorFallback: string;
-  // transitional: read by the old Hero until the new one lands, removed with it
-  heroGreeting: string;
-  heroName: string;
-  heroHeadline: string;
 
   servicesSectionTitle: string;
   /** Pricing is individual — every card shows this instead of a figure. */

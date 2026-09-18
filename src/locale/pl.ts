@@ -24,15 +24,11 @@ export const pl: Dictionary = {
   heroH1Line1: 'Pomysły na wejściu.',
   heroH1Line2: 'Software na wyjściu.',
   heroSubtitle:
-    'Strony, aplikacje webowe i mobilne, integracje AI i 3D — dla firm, które potrzebują, żeby to po prostu działało. Od pomysłu, przez wdrożenie, po utrzymanie. Jeden wykonawca, faktura VAT.',
+    'Strony, aplikacje webowe i mobilne, integracje AI i 3D — zaprojektowane pod Twój biznes, nie pod szablon. Od pomysłu, przez wdrożenie, po utrzymanie. Jeden wykonawca, faktura VAT.',
   heroCtaPrimary: 'Opisz projekt — wycena w 48 h',
   heroCtaSecondary: 'Zobacz, co buduję',
   heroTrust: ['Faktura VAT', 'Śląsk i zdalnie', 'Obsługa PL / EN'],
   heroErrorFallback: 'Nie udało się załadować sceny 3D.',
-  // transitional: read by the old Hero until the new one lands, removed with it
-  heroGreeting: 'Hej, jestem Maciej.',
-  heroName: 'Skorus Maciej.',
-  heroHeadline: 'Pomysły na wejściu. Software na wyjściu.',
 
   footerCopyright: '© {year} SKOFTWARE Maciej Skorus',
   footerResume: 'ŻYCIORYS',

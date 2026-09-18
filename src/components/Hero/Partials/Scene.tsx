@@ -1,5 +1,5 @@
 import { ThreeElements, useLoader } from '@react-three/fiber';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import * as THREE from 'three';
 
 import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
@@ -15,64 +15,56 @@ useLoader.preload(THREE.TextureLoader, '/me.png');
 
 type GyroRef = React.MutableRefObject<{ x: number; y: number }>;
 
+// The portrait sits on the right, opposite the offer copy, and centred on
+// phones where the copy splits above and below it (HeroCopy).
 const SCENE_CONFIG = {
   mobile: { scale: 0.9, groupX: 0, targetX: 0 },
-  tablet: { scale: 1.15, groupX: -4, targetX: -1 },
-  desktop: { scale: 1.5, groupX: -10, targetX: -6 },
+  tablet: { scale: 1.15, groupX: 4, targetX: 1 },
+  desktop: { scale: 1.5, groupX: 10, targetX: 6 },
 } as const;
 
-const Scene = (
-  props: ThreeElements['group'] & {
-    onReady?: () => void;
-    isMobile?: boolean;
-    viewport?: ViewportTier;
-    gyroRef?: GyroRef;
-    pulse?: TactilePulseRefs;
-  },
-) => {
-  const {
-    onReady,
-    isMobile = false,
-    viewport = 'desktop',
-    gyroRef,
-    pulse,
-    ...groupProps
-  } = props;
-  const group = useRef<THREE.Group | null>(null);
+type SceneProps = ThreeElements['group'] & {
+  onReady?: () => void;
+  isMobile?: boolean;
+  viewport?: ViewportTier;
+  gyroRef?: GyroRef;
+  pulse?: TactilePulseRefs;
+};
+
+const Scene = ({
+  onReady,
+  isMobile = false,
+  viewport = 'desktop',
+  gyroRef,
+  pulse,
+  ...groupProps
+}: SceneProps) => {
   const cfg = SCENE_CONFIG[viewport];
 
   useEffect(() => {
     if (onReady) requestAnimationFrame(() => onReady());
   }, [onReady]);
-  const groupScale = cfg.scale;
-  const portraitGroupX = cfg.groupX;
-  const portraitWorldTargetX = cfg.targetX;
-  const portraitParticlesLocalX =
-    (portraitWorldTargetX - portraitGroupX) / groupScale;
+
+  const portraitParticlesLocalX = (cfg.targetX - cfg.groupX) / cfg.scale;
 
   return (
-    <>
-      <group ref={group} {...groupProps} dispose={null} scale={groupScale}>
-        <ImageParticleField
-          position={
-            [portraitGroupX, isMobile ? -2.429 : -1.029, -2.504] as Vector3Tuple
-          }
-          imagePath='/me.png'
-          targetWidth={12.5}
-          threshold={80}
-          maxSampleWidth={220}
-          particlesPosition={[portraitParticlesLocalX, 0, 0]}
-          enableHover={!isMobile}
-          pulse={pulse}
-          excludeY={[106, 432]}
-        />
-        <HeroBioParticles pulse={pulse} isMobile={isMobile} />
-        <Background
-          variant={isMobile ? 'mobile' : 'desktop'}
-          gyroRef={gyroRef}
-        />
-      </group>
-    </>
+    <group {...groupProps} dispose={null} scale={cfg.scale}>
+      <ImageParticleField
+        position={
+          [cfg.groupX, isMobile ? -2.429 : -1.029, -2.504] as Vector3Tuple
+        }
+        imagePath='/me.png'
+        targetWidth={12.5}
+        threshold={80}
+        maxSampleWidth={220}
+        particlesPosition={[portraitParticlesLocalX, 0, 0]}
+        enableHover={!isMobile}
+        pulse={pulse}
+        excludeY={[106, 432]}
+      />
+      <HeroBioParticles pulse={pulse} isMobile={isMobile} />
+      <Background variant={isMobile ? 'mobile' : 'desktop'} gyroRef={gyroRef} />
+    </group>
   );
 };
 
