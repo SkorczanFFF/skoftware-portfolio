@@ -1,3 +1,5 @@
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY } from '@/lib/site';
+
 import type { Dictionary } from '@/locale/types';
 
 import { experiences, projects, services } from './data/en';
@@ -13,18 +15,24 @@ export const en: Dictionary = {
   notFoundBack: 'Back to Home',
 
   navHome: 'Home',
-  navExperience: 'Experience',
-  navSkills: 'Skills',
   navPortfolio: 'Portfolio',
   navContact: 'Contact',
-  navResume: 'Resume',
   toggleMenu: 'Toggle Menu',
   navMenuLabel: 'Main navigation',
 
+  heroEyebrow: 'SKOFTWARE',
+  heroH1Line1: 'Ideas in.',
+  heroH1Line2: 'Working software out.',
+  heroSubtitle:
+    'Websites, web and mobile apps, AI and 3D integrations — for companies that need it to simply work. From idea to launch to maintenance. One contractor, VAT invoicing.',
+  heroCtaPrimary: 'Describe your idea — quote in 48 h',
+  heroCtaSecondary: 'See the tech showcase',
+  heroTrust: ['VAT invoicing', 'Silesia & remote', 'PL / EN support'],
+  heroErrorFallback: '3D scene could not be loaded.',
+  // transitional: read by the old Hero until the new one lands, removed with it
   heroGreeting: "Hey, I'm Maciej.",
   heroName: 'Skorus Maciej.',
   heroHeadline: 'Ideas in. Software out.',
-  heroErrorFallback: '3D scene could not be loaded.',
 
   footerCopyright: '© {year} SKOFTWARE Maciej Skorus',
   footerResume: 'RESUME',
@@ -35,27 +43,88 @@ export const en: Dictionary = {
     'Seeking a partner to translate complex requirements into elegant technical solutions? Reach out to start a conversation about your next venture.',
   footerDirectLabel: 'Direct Communication',
   footerNetworkLabel: 'Network',
+  footerInvoiceNote: 'VAT invoices',
 
   navServices: 'Services',
   servicesSectionTitle: 'SERVICES',
+  servicesPricingNote: 'Individual pricing',
+  servicesCtaLabel: 'Describe your project',
   services,
 
-  experienceSectionTitle: 'WORK EXP',
-  experiences,
+  techStripLead:
+    'I build on technology with support and a community behind it — not on whatever is trending this season.',
 
-  techCategoryFrontend: 'frontend',
-  techCategoryBackend: 'backend',
-  techCategoryDatabase: 'database',
-  techCategoryDesign: 'design',
-  techCategoryTools: 'tools',
+  whyMeSectionTitle: 'WHY ME',
+  whyMeHeading: 'One maker. From idea to upkeep.',
+  whyMeBody:
+    'No middlemen, no hand-offs — you talk to the person who writes the code. A creative fullstack with hands-on work across web and mobile apps, internal systems, 3D, and AI model integration.',
+  whyMePoints: [
+    'You talk to the person who writes the code',
+    'From idea, through delivery, to upkeep',
+    'Code your team can keep building on',
+  ],
+
+  processSectionTitle: 'HOW I WORK',
+  processSteps: [
+    {
+      title: 'Conversation & brief',
+      description:
+        'You describe the project and the goal — I ask questions and flag risks before we start.',
+    },
+    {
+      title: 'Quote & plan',
+      description:
+        'You get a clear scope, a quote, and a timeline — before you commit.',
+    },
+    {
+      title: 'Build with previews',
+      description:
+        'I work in stages and show progress as it goes — you see what is taking shape and can steer.',
+    },
+    {
+      title: 'Launch & upkeep',
+      description:
+        'Deployment, handover, and — if you want — ongoing development and technical support.',
+    },
+  ],
+
+  faqSectionTitle: 'FAQ',
+  faqItems: [
+    {
+      q: 'How much does a project cost?',
+      a: 'I quote every project individually — it depends on scope and complexity. Tell me what you want to build and I will come back with a concrete quote and timeline.',
+    },
+    {
+      q: 'Do you issue VAT invoices?',
+      a: 'Yes. I operate as a registered business (SKOFTWARE Maciej Skorus) and issue VAT invoices.',
+    },
+    {
+      q: 'Do you work remotely or on-site?',
+      a: 'Remotely with clients worldwide, and on-site in the Silesia region of Poland.',
+    },
+    {
+      q: 'Which technologies do you work with?',
+      a: 'React, Next.js, TypeScript, Python, Three.js, React Native, and related tools. I pick the stack to fit the problem, not the other way around.',
+    },
+    {
+      q: 'Do you handle maintenance after launch?',
+      a: 'Yes — feature development, optimization, and ongoing support are a dedicated service (Maintenance & growth).',
+    },
+    {
+      q: 'What language do we communicate in?',
+      a: 'Polish and English.',
+    },
+  ],
+
+  experiences,
 
   portfolioTitle: 'PORTFOLIO',
   portfolioRepo: 'repo',
   portfolioLiveDemo: 'live demo',
   projects,
 
-  contactPhone: '+48 668 366 648',
-  contactEmail: 'skorusmaciej94@gmail.com',
+  contactPhone: CONTACT_PHONE_DISPLAY,
+  contactEmail: CONTACT_EMAIL,
   contactCompanyInfo: 'Creative Fullstack Developer - Available for projects',
   contactLocation: 'Silesia, Poland',
   contactInvoiceInfo: 'Worldwide',
@@ -112,13 +181,13 @@ export const en: Dictionary = {
     'Help me understand how visitors interact with the site. All data is anonymized.',
   cookiePolicyTitle: 'Cookie Policy',
   cookiePolicyIntro:
-    'This Cookie Policy explains how SKOFTWARE Maciej Skorus ("we", "us", "our") uses cookies and similar technologies on skoftware.dev ("the Website"). This policy is designed to comply with the EU General Data Protection Regulation (GDPR, Regulation 2016/679), the ePrivacy Directive (2002/58/EC, as amended), and applicable national implementations.',
+    'This Cookie Policy explains how SKOFTWARE Maciej Skorus ("we", "us", "our") uses cookies and similar technologies on {domain} ("the Website"). This policy is designed to comply with the EU General Data Protection Regulation (GDPR, Regulation 2016/679), the ePrivacy Directive (2002/58/EC, as amended), and applicable national implementations.',
   cookiePolicyWhatAreCookiesTitle: '1. What Are Cookies?',
   cookiePolicyWhatAreCookies:
     'Cookies are small text files that are placed on your device when you visit a website. They are widely used to make websites work efficiently, provide information to site owners, and improve the user experience. Similar technologies include localStorage (which stores data locally in your browser without an expiration date) and analytics scripts that collect anonymized usage data.',
   cookiePolicyControllerTitle: '2. Data Controller',
   cookiePolicyController:
-    'The data controller responsible for the processing of your personal data through this Website is: SKOFTWARE Maciej Skorus, Silesia, Poland, NIP: 6252501911. For any questions regarding this policy or your data, contact: skorusmaciej94@gmail.com.',
+    'The data controller responsible for the processing of your personal data through this Website is: SKOFTWARE Maciej Skorus, Silesia, Poland, NIP: {vatId}. For any questions regarding this policy or your data, contact: {email}.',
   cookiePolicyCookiesWeUseTitle: '3. Cookies and Technologies We Use',
   cookiePolicyCookiesWeUseIntro:
     'Below is a complete list of cookies and similar technologies used on this Website, organized by category:',
@@ -128,12 +197,13 @@ export const en: Dictionary = {
   cookiePolicyTableCategory: 'Category',
   cookiePolicyTableType: 'Type',
   cookiePolicyTableDuration: 'Duration',
-  cookiePolicyCookieCC: 'cc_cookie',
+  cookieTypeHttp: 'HTTP cookie',
+  cookieTypeScript: 'Cookieless script',
+  cookieDurationSession: 'Session',
+  cookieDurationDays: '{days} days',
+  cookiePolicyCookieCC: 'cookie_consent',
   cookiePolicyCookieCCPurpose:
     'Stores your cookie consent preferences (which categories you accepted or rejected).',
-  cookiePolicyCookieLocale: 'locale',
-  cookiePolicyCookieLocalePurpose:
-    'Stores your preferred language (English or Polish) so it persists between visits.',
   cookiePolicyCookieVercelAnalytics: 'Vercel Web Analytics',
   cookiePolicyCookieVercelAnalyticsPurpose:
     'Collects anonymized, aggregated page view and visitor data. Cookieless — uses a daily-rotating anonymized hash instead of persistent identifiers. No personally identifiable information is stored.',
@@ -142,10 +212,10 @@ export const en: Dictionary = {
     'Measures Core Web Vitals performance metrics (LCP, FID, CLS). Cookieless — collects only technical performance data with no user identification.',
   cookiePolicyLegalBasisTitle: '4. Legal Basis for Processing',
   cookiePolicyLegalBasis:
-    'Strictly necessary cookies (consent storage, language preference) are set based on our legitimate interest in providing a functional website (Art. 6(1)(f) GDPR) and are exempt from consent requirements under Art. 5(3) of the ePrivacy Directive. Analytics technologies are only activated after you provide explicit consent (Art. 6(1)(a) GDPR, Art. 5(3) ePrivacy Directive). You may withdraw your consent at any time. Withdrawing consent does not affect the lawfulness of processing carried out before the withdrawal.',
+    'Strictly necessary cookies (consent storage) are set based on our legitimate interest in providing a functional website (Art. 6(1)(f) GDPR) and are exempt from consent requirements under Art. 5(3) of the ePrivacy Directive. Analytics technologies are only activated after you provide explicit consent (Art. 6(1)(a) GDPR, Art. 5(3) ePrivacy Directive). You may withdraw your consent at any time. Withdrawing consent does not affect the lawfulness of processing carried out before the withdrawal.',
   cookiePolicyManageTitle: '5. How to Manage Your Consent',
   cookiePolicyManage:
-    'You can change or withdraw your cookie preferences at any time by clicking the button below or via the "Cookie Settings" link in the website footer. This will reopen the cookie preferences panel where you can toggle individual categories on or off.',
+    'You can change or withdraw your cookie preferences at any time by clicking the button below. This will reopen the cookie preferences panel where you can toggle individual categories on or off.',
   cookiePolicyManageBrowser:
     "You can also manage cookies through your browser settings. Most browsers allow you to block or delete cookies. Please note that blocking strictly necessary cookies may impair the functionality of the Website. For instructions, refer to your browser's help documentation.",
   cookiePolicyResetButton: 'Open Cookie Preferences',
@@ -172,13 +242,23 @@ export const en: Dictionary = {
   cookiePolicyRightComplaint:
     'Right to lodge a complaint with a supervisory authority (Art. 77). In Poland, the supervisory authority is: Prezes Urzędu Ochrony Danych Osobowych (UODO), ul. Stawki 2, 00-193 Warszawa, uodo.gov.pl.',
   cookiePolicyRightsOutro:
-    'To exercise any of these rights, contact us at: skorusmaciej94@gmail.com.',
+    'To exercise any of these rights, contact us at: {email}.',
   cookiePolicyTransfersTitle: '8. International Data Transfers',
   cookiePolicyTransfers:
     'If you consent to analytics, anonymized data may be transferred to Vercel Inc. in the United States. Vercel participates in the EU-U.S. Data Privacy Framework, providing adequate safeguards for data transfers outside the EEA in accordance with Art. 45 GDPR.',
   cookiePolicyChangesTitle: '9. Changes to This Policy',
   cookiePolicyChanges:
     'We may update this Cookie Policy from time to time to reflect changes in the technologies we use or applicable regulations. Any updates will be posted on this page with a revised "Last Updated" date. We encourage you to review this policy periodically.',
-  cookiePolicyLastUpdated: 'Last updated: March 27, 2026',
+  cookiePolicyLastUpdated: 'Last updated: July 28, 2026',
   cookiePolicyBackHome: 'Back to Home',
+
+  opensInNewTab: '(opens in a new tab)',
+  screenshotOf: 'Screenshot of {title}',
+  screenshotAltView: 'Screenshot of {title} — alternate view',
+  scrollToTop: 'Scroll to top',
+  scrollToServices: 'Go to the services section',
+  backToHome: 'SKOFTWARE — back to home',
+  switchLanguage: 'Switch to Polish',
+  techStripLabel: 'Technologies',
+  portfolioLabel: 'Portfolio projects',
 };
