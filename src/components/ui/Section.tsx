@@ -2,12 +2,13 @@ import React from 'react';
 
 import SectionArrow, { type ArrowColor } from '@/components/ui/SectionArrow';
 
-type Tone = 'white' | 'dark' | 'raspberry';
+type Tone = 'white' | 'dark' | 'gradient';
 
 const TONE_CLASS: Record<Tone, string> = {
   white: 'bg-white',
   dark: 'bg-primary-blue',
-  raspberry: 'bg-raspberry',
+  // The animated brand gradient (globals.css `.gradient`).
+  gradient: 'gradient',
 };
 
 type SectionProps = {

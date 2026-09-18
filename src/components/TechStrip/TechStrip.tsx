@@ -20,9 +20,10 @@ const HEADLINE_TECH = [
 ] as const;
 
 /**
- * A raspberry band splitting the dark-blue Process above from the dark-blue
- * WhyMe below, so it carries arrows on both sides (`blue` in, `raspberry` out
- * on WhyMe). Lead and icons stay light; the icon opacity is a contrast floor.
+ * A brand-gradient band splitting the dark-blue Process above from the
+ * dark-blue WhyMe below, so it carries arrows on both sides (`blue` in,
+ * `gradient` out on WhyMe). Lead and icons stay light; the icon opacity is a
+ * contrast floor.
  */
 export default function TechStrip(): React.JSX.Element {
   const { t } = useLocale();
@@ -39,7 +40,7 @@ export default function TechStrip(): React.JSX.Element {
 
   return (
     <Section
-      tone='raspberry'
+      tone='gradient'
       arrow='blue'
       aria-label={t.techStripLabel}
       className='px-6 pb-[60px] pt-[56px] md:pb-[80px] md:pt-[80px]'

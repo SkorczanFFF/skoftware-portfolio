@@ -137,10 +137,6 @@ body {
   border-color: var(--color-white) transparent transparent transparent;
 }
 
-.raspberry {
-  border-color: var(--color-raspberry) transparent transparent transparent;
-}
-
 .blue {
   border-color: var(--color-primary-blue) transparent transparent transparent;
 }

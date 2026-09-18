@@ -21,7 +21,7 @@ export default function WhyMe(): React.JSX.Element {
     <Section
       id='why-me'
       tone='dark'
-      arrow='raspberry'
+      arrow='gradient'
       className='pb-[100px] pt-[80px] md:pb-[130px] md:pt-[120px]'
     >
       <SectionTitle tone='light'>{t.whyMeSectionTitle}</SectionTitle>
