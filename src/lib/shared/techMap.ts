@@ -13,6 +13,7 @@ import {
   GitlabIcon,
   GsapIcon,
   HtmlIcon,
+  type IconType,
   JavaIcon,
   JavascriptIcon,
   LaravelIcon,
@@ -36,8 +37,6 @@ import {
   TypescriptIcon,
   WordpressIcon,
 } from './Icons';
-
-type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
 
 /** Canonical label → Icon component. Superset of all tech icons used across the app. */
 export const techIconMap: Record<string, IconType> = {
@@ -81,35 +80,6 @@ export const techIconMap: Record<string, IconType> = {
   GitLab: GitlabIcon,
   Bitbucket: BitbucketIcon,
   MobX: MobxIcon,
-};
-
-/** Category grouping for the Skills section. Values are keys into techIconMap. */
-export const techCategoryGroups: Record<string, string[]> = {
-  frontend: [
-    'HTML5',
-    'CSS3',
-    'TypeScript',
-    'React',
-    'Next.js',
-    'React Native',
-    'Redux',
-    'Three.js',
-    'TailwindCSS',
-    'Sass',
-    'GSAP',
-  ],
-  backend: [
-    'Python',
-    'PHP',
-    'Node.js',
-    'Laravel',
-    'Wordpress',
-    'Java',
-    'Sanity',
-  ],
-  database: ['MySQL', 'PostgreSQL', 'MongoDB', 'Firebase'],
-  design: ['Photoshop', '3Ds Max', 'Blender', 'Figma', 'Canva'],
-  tools: ['Docker', 'GitHub', 'CursorAI', 'Claude', 'npm'],
 };
 
 /** Flat ordered list for the resume skills section — manually sorted for symmetric 3-per-row wrapping. */

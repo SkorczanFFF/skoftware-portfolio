@@ -63,7 +63,7 @@ import {
   SiVercel,
 } from 'react-icons/si';
 
-type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
+export type IconType = React.FC<React.SVGProps<SVGSVGElement>>;
 
 export const GithubIcon = BsGithub as IconType;
 export const LinkedinIcon = BsLinkedin as IconType;

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ScrollTrigger } from '@/lib/gsap';
@@ -47,26 +46,12 @@ function LocaleToggle({ className }: { className?: string }) {
   );
 }
 
-const SECTION_IDS = [
-  'services',
-  'experience',
-  'skills',
-  'portfolio',
-  'contact',
-];
+const SECTION_IDS = ['services', 'portfolio', 'contact'];
 
 function useActiveSection() {
-  const router = useRouter();
   const [active, setActive] = useState<string>('home');
 
-  const isResumePage = router.pathname === '/resume';
-
   useEffect(() => {
-    if (isResumePage) {
-      setActive('resume');
-      return;
-    }
-
     const triggers: ScrollTrigger[] = [];
 
     SECTION_IDS.forEach((id) => {
@@ -102,7 +87,7 @@ function useActiveSection() {
     return () => {
       triggers.forEach((st) => st.kill());
     };
-  }, [isResumePage]);
+  }, []);
 
   return active;
 }
@@ -119,11 +104,8 @@ export default function Header(): React.JSX.Element {
   const links = [
     { href: '/#home', label: t.navHome },
     { href: '/#services', label: t.navServices },
-    { href: '/#experience', label: t.navExperience },
-    { href: '/#skills', label: t.navSkills },
     { href: '/#portfolio', label: t.navPortfolio },
     { href: '/#contact', label: t.navContact },
-    { href: '/resume', label: t.navResume },
   ];
 
   useEffect(() => {

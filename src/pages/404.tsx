@@ -2,14 +2,14 @@ import Link from 'next/link';
 import React from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
 
+import { type IconType } from '@/lib/shared/Icons';
+
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
 import { useLocale } from '@/locale/LocaleContext';
 
-const WarningIcon = RiAlarmWarningFill as React.FC<
-  React.SVGProps<SVGSVGElement>
->;
+const WarningIcon = RiAlarmWarningFill as IconType;
 
 export default function NotFoundPage() {
   const { t } = useLocale();
