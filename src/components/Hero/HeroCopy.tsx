@@ -35,7 +35,13 @@ export default function HeroCopy(): React.JSX.Element {
           container would strand the copy in a wide dead gap on large screens. */}
       {/* min-[2000px] tier scales the block up on 1440p+ monitors only; the
           1920px (1080p) layout stays exactly as-is (2xl caps at 1536px). */}
-      <div className='w-full px-6 md:px-10 lg:px-16 xl:pl-20 2xl:pl-28 min-[2000px]:pl-40'>
+      {/* The side-by-side layout needs a landscape viewport of at least lg;
+          on anything narrower or portrait (phones, every tablet held upright —
+          a 12.9" iPad is 1024px wide) the portrait sits under the copy and a
+          vertically centred block lands on the face. The copy splits instead:
+          headline pinned under the header, pitch + CTAs pinned to the bottom,
+          face left clear in between. */}
+      <div className='flex h-full w-full flex-col justify-between px-6 pb-8 pt-20 md:px-10 lg:px-16 xl:pl-20 2xl:pl-28 min-[2000px]:pl-40 lg:landscape:block lg:landscape:h-auto lg:landscape:pb-0 lg:landscape:pt-0'>
         <div className='max-w-[680px] min-[2000px]:max-w-[900px]'>
           <span
             ref={eyebrowRef}
@@ -48,12 +54,14 @@ export default function HeroCopy(): React.JSX.Element {
             <span className='block text-white/70'>{t.heroH1Line1}</span>
             <span className='block text-white'>{t.heroH1Line2}</span>
           </h1>
+        </div>
 
-          <p className='mt-6 max-w-[560px] text-[15px] font-light leading-relaxed text-white/80 drop-shadow-[0_1px_6px_#000000a0] md:text-[17px] min-[2000px]:max-w-[660px] min-[2000px]:text-[20px]'>
+        <div className='max-w-[680px] min-[2000px]:max-w-[900px]'>
+          <p className='max-w-[560px] text-[14px] font-light leading-normal text-white/80 drop-shadow-[0_1px_6px_#000000a0] sm:text-[15px] sm:leading-relaxed md:text-[17px] lg:landscape:mt-6 min-[2000px]:max-w-[660px] min-[2000px]:text-[20px]'>
             {t.heroSubtitle}
           </p>
 
-          <div className='pointer-events-auto mt-8 flex flex-col gap-3 sm:flex-row sm:items-center'>
+          <div className='pointer-events-auto mt-5 flex flex-col gap-3 sm:flex-row sm:items-center lg:landscape:mt-8'>
             <Link
               href='/#contact'
               scroll={false}
@@ -71,7 +79,7 @@ export default function HeroCopy(): React.JSX.Element {
           </div>
 
           {/* TODO(G4): prepend a verified project count once confirmed. */}
-          <ul className='mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] uppercase tracking-[0.2em] text-white/50 sm:text-[11px] min-[2000px]:text-[13px]'>
+          <ul className='mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] uppercase tracking-[0.2em] text-white/50 sm:text-[11px] lg:landscape:mt-8 min-[2000px]:text-[13px]'>
             {t.heroTrust.map((item, i) => (
               <React.Fragment key={item}>
                 {i > 0 && (

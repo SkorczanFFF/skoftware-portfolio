@@ -8,9 +8,10 @@ import { useLocale } from '@/locale/LocaleContext';
 /**
  * The trust/human beat that replaces a standalone `/o-firmie` page (pivot
  * 2026-08-08): craft positioning, not an employer timeline. Rendered on the
- * dark-blue ground (a colour chapter in the white body): text goes light, and
- * the transition arrows are `arrow-down white` at this section's own top (from
- * the white Industries above) and `arrow-down blue` on Faq below (CLAUDE.md §4).
+ * dark-blue ground, closing the chapter Process opens — the raspberry
+ * TechStrip band splits the two, so this section's own top arrow is
+ * `raspberry`, and `arrow-down blue` on Faq below hands the white body
+ * back (CLAUDE.md §4).
  */
 export default function WhyMe(): React.JSX.Element {
   const { t } = useLocale();
@@ -45,13 +46,13 @@ export default function WhyMe(): React.JSX.Element {
       id='why-me'
       className='font-grotesk relative w-full overflow-hidden bg-primary-blue pb-[100px] pt-[80px] md:pb-[130px] md:pt-[120px] [contain:paint]'
     >
-      <div className='arrow-down white absolute -top-[2px] left-0 right-0 mx-auto'></div>
-      <h2 className='font-grotesk text-center text-xl font-normal leading-3 tracking-[10px] text-white xl:absolute xl:left-[80px] xl:top-[60px] xl:origin-top-left xl:rotate-90 xl:py-0'>
+      <div className='arrow-down raspberry absolute -top-[2px] left-0 right-0 mx-auto'></div>
+      <h2 className='font-grotesk text-center mb-12 text-xl font-normal leading-3 tracking-[10px] text-white xl:absolute xl:left-[80px] xl:top-[60px] xl:mb-0 xl:origin-top-left xl:rotate-90 xl:py-0'>
         {t.whyMeSectionTitle}
       </h2>
 
       <div ref={rootRef} className='mx-auto w-full max-w-[1100px] px-6 md:px-10'>
-        <h3 className='why-me-item font-unica max-w-[900px] text-3xl uppercase leading-tight tracking-tight text-white md:text-5xl xl:mt-0'>
+        <h3 className='why-me-item font-unica max-w-[900px] text-3xl uppercase leading-tight tracking-tight text-white md:text-5xl'>
           {t.whyMeHeading}
         </h3>
 

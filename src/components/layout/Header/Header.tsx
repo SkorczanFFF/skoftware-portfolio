@@ -35,7 +35,7 @@ function LocaleToggle({ className }: { className?: string }) {
   );
 }
 
-const SECTION_IDS = ['services', 'industries', 'portfolio', 'contact'];
+const SECTION_IDS = ['services', 'portfolio', 'contact'];
 
 function useActiveSection() {
   const router = useRouter();
@@ -102,7 +102,6 @@ export default function Header(): React.JSX.Element {
   const links = [
     { href: '/#home', label: t.navHome },
     { href: '/#services', label: t.navServices },
-    { href: '/#industries', label: t.navIndustries },
     { href: '/#portfolio', label: t.navPortfolio },
     { href: '/#contact', label: t.navContact },
   ];

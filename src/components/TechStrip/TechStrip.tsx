@@ -22,10 +22,14 @@ const HEADLINE_TECH = [
 ] as const;
 
 /**
- * Load-bearing tech, on the same raspberry ground as Process above — the two
- * read as one chapter, so there is no arrow between them; the raspberry→white
- * handoff arrow lives on Industries below (CLAUDE.md §4). Lead and icons go
- * light, and the icon hover flips to white (raspberry-on-raspberry vanishes).
+ * Load-bearing tech, on a raspberry band that splits the dark chapter: the
+ * dark-blue Process above and WhyMe below would otherwise run together as
+ * ~1200px of unbroken ground. Hence an arrow on both sides — `blue` here,
+ * `raspberry` on WhyMe (CLAUDE.md §4). Top padding clears the 20px arrow;
+ * it was 24px back when the band shared Process's ground and carried none.
+ * Lead and icons stay light — raspberry-on-raspberry vanishes. Their opacity
+ * is a contrast floor, not taste: white/45 icons measured 2.67:1 on this
+ * ground, under the 3:1 WCAG 1.4.11 asks of labelled graphics.
  */
 export default function TechStrip(): React.JSX.Element {
   const { t } = useLocale();
@@ -58,10 +62,11 @@ export default function TechStrip(): React.JSX.Element {
   return (
     <section
       aria-label='Technologie'
-      className='font-grotesk w-full bg-raspberry px-6 pb-[60px] pt-[24px] md:pb-[80px]'
+      className='font-grotesk relative w-full overflow-hidden bg-raspberry px-6 pb-[60px] pt-[56px] md:pb-[80px] md:pt-[80px]'
     >
+      <div className='arrow-down blue absolute -top-[2px] left-0 right-0 mx-auto'></div>
       <div className='mx-auto flex max-w-[1000px] flex-col items-center gap-8'>
-        <p className='max-w-[520px] text-center text-[13px] leading-relaxed text-white/70'>
+        <p className='text-balance text-center text-[14px] font-medium leading-relaxed text-white/90'>
           {t.techStripLead}
         </p>
 
@@ -75,7 +80,7 @@ export default function TechStrip(): React.JSX.Element {
             return (
               <li key={label}>
                 <Icon
-                  className='text-3xl text-white/45 transition-colors duration-200 hover:text-white md:text-4xl'
+                  className='text-3xl text-white/70 transition-colors duration-200 hover:text-white md:text-4xl'
                   role='img'
                   aria-label={label}
                 />

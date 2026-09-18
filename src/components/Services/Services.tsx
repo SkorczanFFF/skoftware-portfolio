@@ -286,7 +286,7 @@ export default function Services(): React.JSX.Element {
   return (
     <section
       id='services'
-      className='font-grotesk relative flex min-h-[50vh] w-full flex-col items-center justify-center overflow-hidden bg-white pt-[100px] lg:pb-[120px] md:pt-[160px] [contain:paint]'
+      className='font-grotesk relative flex min-h-[50vh] w-full flex-col items-center justify-center overflow-hidden bg-white pb-[80px] pt-[100px] md:pt-[160px] lg:pb-[120px] [contain:paint]'
     >
       <h3 className='font-grotesk text-primary-blue py-2 text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:left-[80px] xl:top-[60px] xl:origin-top-left xl:rotate-90 xl:py-0 pb-12'>
         {t.servicesSectionTitle}

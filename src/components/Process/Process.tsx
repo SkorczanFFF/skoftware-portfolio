@@ -6,10 +6,10 @@ import { useScrollTriggers } from '@/hooks/useScrollTriggers';
 import { useLocale } from '@/locale/LocaleContext';
 
 /**
- * "How I work" — the process beat of the craft-leaning home, on a raspberry
- * ground that breaks the white body (transition arrows, CLAUDE.md §4). Accents
- * must be light literals: raspberry-on-raspberry vanishes, and Tailwind scans
- * source text, so no interpolated color classes.
+ * "How I work" — the process beat of the craft-leaning home, opening the dark
+ * chapter that the raspberry TechStrip band then splits before WhyMe closes
+ * it (transition arrows, CLAUDE.md §4). Accents must be light literals:
+ * Tailwind scans source text, so no interpolated color classes.
  */
 export default function Process(): React.JSX.Element {
   const { t } = useLocale();
@@ -42,10 +42,10 @@ export default function Process(): React.JSX.Element {
   return (
     <section
       id='process'
-      className='font-grotesk relative w-full overflow-hidden bg-raspberry pb-[40px] pt-[80px] md:pb-[56px] md:pt-[120px] [contain:paint]'
+      className='font-grotesk relative w-full overflow-hidden bg-primary-blue pb-[100px] pt-[80px] md:pb-[80px] md:pt-[120px] [contain:paint]'
     >
       <div className='arrow-down white absolute -top-[2px] left-0 right-0 mx-auto'></div>
-      <h2 className='font-grotesk text-center text-xl font-normal leading-3 tracking-[10px] text-white xl:absolute xl:left-[80px] xl:top-[60px] xl:origin-top-left xl:rotate-90 xl:py-0'>
+      <h2 className='font-grotesk text-center mb-12 text-xl font-normal leading-3 tracking-[10px] text-white xl:absolute xl:left-[80px] xl:top-[60px] xl:mb-0 xl:origin-top-left xl:rotate-90 xl:py-0'>
         {t.processSectionTitle}
       </h2>
 

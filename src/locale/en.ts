@@ -2,7 +2,7 @@ import { CONTACT_EMAIL } from '@/lib/site';
 
 import type { Dictionary } from '@/locale/types';
 
-import { experiences, industries, projects, services } from './data/en';
+import { experiences, projects, services } from './data/en';
 
 export const en: Dictionary = {
   seoTitle:
@@ -15,7 +15,6 @@ export const en: Dictionary = {
   notFoundBack: 'Back to Home',
 
   navHome: 'Home',
-  navIndustries: 'Industries',
   navPortfolio: 'Portfolio',
   navContact: 'Contact',
   navResume: 'Resume',
@@ -27,8 +26,8 @@ export const en: Dictionary = {
   heroH1Line2: 'Working software out.',
   heroSubtitle:
     'Websites, web and mobile apps, AI and 3D integrations — for companies that need it to simply work. From idea to launch to maintenance. One contractor, VAT invoicing.',
-  heroCtaPrimary: 'Tell me about your project — quote in 48 h',
-  heroCtaSecondary: 'See case studies',
+  heroCtaPrimary: 'Describe your idea — quote in 48 h',
+  heroCtaSecondary: 'See the tech showcase',
   heroTrust: ['VAT invoicing', 'Silesia & remote', 'PL / EN support'],
   heroErrorFallback: '3D scene could not be loaded.',
 
@@ -51,11 +50,6 @@ export const en: Dictionary = {
 
   techStripLead:
     'I build on technology with support and a community behind it — not on whatever is trending this season.',
-
-  industriesSectionTitle: 'INDUSTRIES',
-  industriesLead:
-    'Three domains where the unusual requirements are already familiar — and where I know these projects tend to break.',
-  industries,
 
   whyMeSectionTitle: 'WHY ME',
   whyMeHeading: 'One maker. From idea to upkeep.',

@@ -2,7 +2,7 @@ import { CONTACT_EMAIL } from '@/lib/site';
 
 import type { Dictionary } from '@/locale/types';
 
-import { experiences, industries, projects, services } from './data/pl';
+import { experiences, projects, services } from './data/pl';
 
 export const pl: Dictionary = {
   seoTitle:
@@ -15,7 +15,6 @@ export const pl: Dictionary = {
   notFoundBack: 'Powrót na stronę główną',
 
   navHome: 'Strona główna',
-  navIndustries: 'Branże',
   navPortfolio: 'Portfolio',
   navContact: 'Kontakt',
   navResume: 'CV',
@@ -28,7 +27,7 @@ export const pl: Dictionary = {
   heroSubtitle:
     'Strony, aplikacje webowe i mobilne, integracje AI i 3D — dla firm, które potrzebują, żeby to po prostu działało. Od pomysłu, przez wdrożenie, po utrzymanie. Jeden wykonawca, faktura VAT.',
   heroCtaPrimary: 'Opisz projekt — wycena w 48 h',
-  heroCtaSecondary: 'Zobacz realizacje',
+  heroCtaSecondary: 'Zobacz, co buduję',
   heroTrust: ['Faktura VAT', 'Śląsk i zdalnie', 'Obsługa PL / EN'],
   heroErrorFallback: 'Nie udało się załadować sceny 3D.',
 
@@ -51,11 +50,6 @@ export const pl: Dictionary = {
 
   techStripLead:
     'Buduję w technologiach, które mają wsparcie i społeczność — nie w modzie sezonu.',
-
-  industriesSectionTitle: 'BRANŻE',
-  industriesLead:
-    'Trzy obszary, w których mam przerobione nietypowe wymagania i wiem, gdzie takie projekty potrafią się wyłożyć.',
-  industries,
 
   whyMeSectionTitle: 'DLACZEGO JA',
   whyMeHeading: 'Jeden wykonawca. Od pomysłu po utrzymanie.',
@@ -82,7 +76,7 @@ export const pl: Dictionary = {
     {
       title: 'Budowa z podglądami',
       description:
-        'Pracuję etapami i pokazuję postępy na bieżąco — widzisz, co powstaje, i możesz reagować.',
+        'Pracuję etapami i pokazuję postępy na bieżąco — widzisz, co powstaje, i reagujesz.',
     },
     {
       title: 'Wdrożenie i utrzymanie',

@@ -28,8 +28,20 @@ export const projects: ProjectEntry[] = [
     inResume: true,
   },
   {
+    id: 2,
+    pic: '/projects/pokedex.jpg',
+    pic2: '/projects/pokedex2.jpg',
+    title: 'Pokédex',
+    technos: 'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
+    description:
+      'Pokédex oparty na PokéAPI — z trybem retro, listą ruchów, łańcuchami ewolucji i podglądem sprite\'ów z każdej wersji gry w widoku danego Pokémona. Interfejs po polsku i angielsku. Zaczęło się jako zadanie rekrutacyjne, dalej rozwijane hobbystycznie.',
+    live: 'https://www.pokedex.skoftware.pl/',
+    git: 'https://github.com/SkorczanFFF/pokedex',
+  },
+  {
     id: 3,
-    pic: '/projects/portfolio.jpg',
+    pic: '/projects/skoftware.jpg',
+    pic2: '/projects/skoftware2.jpg',
     title: 'SKOFTWARE - moje portfolio',
     technos: 'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
     description:

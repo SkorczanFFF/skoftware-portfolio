@@ -18,10 +18,12 @@ export default function Hero(): React.JSX.Element {
     >
       <HeroScene />
 
-      {/* Contrast floor for the copy — the particle field is unpredictable. */}
+      {/* Contrast floor for the copy — the particle field is unpredictable.
+          Follows the copy (HeroCopy): top/bottom bands for the split layout
+          (face clear in the middle), left-to-right for the side-by-side one. */}
       <div
         aria-hidden='true'
-        className='from-primary-blue/85 via-primary-blue/45 pointer-events-none absolute inset-0 z-10 bg-gradient-to-r to-transparent lg:via-primary-blue/25'
+        className='pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-primary-blue/75 via-transparent via-45% to-primary-blue/90 lg:landscape:bg-gradient-to-r lg:landscape:from-primary-blue/85 lg:landscape:via-primary-blue/25 lg:landscape:via-50% lg:landscape:to-transparent'
       />
 
       <HeroCopy />

@@ -13,7 +13,6 @@ export type CommonStrings = {
   notFoundBack: string;
 
   navHome: string;
-  navIndustries: string;
   navPortfolio: string;
   navContact: string;
   navResume: string;

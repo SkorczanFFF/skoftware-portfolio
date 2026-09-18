@@ -1,14 +1,13 @@
 import type {
   FaqItem,
-  IndustryEntry,
   ProcessStep,
   ProjectEntry,
   ServiceEntry,
 } from './entries';
 
 /**
- * Landing-page sections: hero, services, tech strip, industries, why-me,
- * process, FAQ and the portfolio grid.
+ * Landing-page sections: hero, services, tech strip, why-me, process, FAQ
+ * and the portfolio grid.
  */
 export type MarketingStrings = {
   heroEyebrow: string;
@@ -31,10 +30,6 @@ export type MarketingStrings = {
   services: ServiceEntry[];
 
   techStripLead: string;
-
-  industriesSectionTitle: string;
-  industriesLead: string;
-  industries: IndustryEntry[];
 
   whyMeSectionTitle: string;
   whyMeHeading: string;

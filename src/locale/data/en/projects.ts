@@ -28,10 +28,24 @@ export const projects: ProjectEntry[] = [
     inResume: true,
   },
   {
+    id: 2,
+    pic: '/projects/pokedex.jpg',
+    pic2: '/projects/pokedex2.jpg',
+    title: 'Pokédex',
+    technos:
+      'React • TypeScript • Vite • TailwindCSS • TanStack Query • i18next • PokéAPI',
+    description:
+      "A PokéAPI-powered Pokédex with a retro mode, move lists, evolution chains and a preview of sprites from every game version on each Pokémon's page. Interface in Polish and English. Started as a recruitment task, developed further as a hobby.",
+    live: 'https://www.pokedex.skoftware.pl/',
+    git: 'https://github.com/SkorczanFFF/pokedex',
+  },
+  {
     id: 3,
-    pic: '/projects/portfolio.jpg',
+    pic: '/projects/skoftware.jpg',
+    pic2: '/projects/skoftware2.jpg',
     title: 'SKOFTWARE - my portfolio',
-    technos: 'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
+    technos:
+      'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
     description:
       'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
     live: SITE_URL,

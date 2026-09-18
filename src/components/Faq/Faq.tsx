@@ -106,7 +106,7 @@ export default function Faq(): React.JSX.Element {
         />
       </Head>
 
-      <h2 className='font-grotesk text-primary-blue text-center text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:left-[80px] xl:top-[60px] xl:origin-top-left xl:rotate-90 xl:py-0'>
+      <h2 className='font-grotesk text-primary-blue mb-12 text-center text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:left-[80px] xl:top-[60px] xl:mb-0 xl:origin-top-left xl:rotate-90 xl:py-0'>
         {t.faqSectionTitle}
       </h2>
 

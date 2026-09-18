@@ -48,19 +48,6 @@ export type ServiceEntry = {
   priceFrom?: string;
 };
 
-/**
- * A domain the business delivers in. Replaces the employer-by-employer
- * `ExperienceEntry` listing on the landing page: same underlying facts,
- * framed as capability rather than job history.
- */
-export type IndustryEntry = {
-  icon: string;
-  title: string;
-  description: string;
-  /** Concrete things shipped in this domain — short noun phrases. */
-  proof: string[];
-};
-
 export type ProcessStep = {
   title: string;
   description: string;

@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import Faq from '@/components/Faq/Faq';
 import Hero from '@/components/Hero/Hero';
-import Industries from '@/components/Industries/Industries';
 import Footer from '@/components/layout/Footer/Footer';
 import Layout from '@/components/layout/Layout';
 import Portfolio from '@/components/Portfolio/Portfolio';
@@ -21,7 +20,6 @@ export default function HomePage() {
         <Services />
         <Process />
         <TechStrip />
-        <Industries />
         <WhyMe />
         <Faq />
         <Portfolio />
