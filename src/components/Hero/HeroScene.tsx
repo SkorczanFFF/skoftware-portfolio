@@ -6,7 +6,10 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { useInView } from 'react-intersection-observer';
 
 import { pulseEnvelope } from '@/lib/envelope';
-import { useDeviceOrientation } from '@/hooks/useDeviceOrientation';
+import {
+  type GyroRef,
+  useDeviceOrientation,
+} from '@/hooks/useDeviceOrientation';
 import {
   type TactilePulseRefs,
   useTactilePulse,
@@ -17,8 +20,6 @@ import Scene from '@/components/Hero/Partials/Scene';
 import TapRipple, { type Ripple } from '@/components/Hero/Partials/TapRipple';
 
 import { useLocale } from '@/locale/LocaleContext';
-
-type GyroRef = React.MutableRefObject<{ x: number; y: number }>;
 
 function Rig({
   isMobile,

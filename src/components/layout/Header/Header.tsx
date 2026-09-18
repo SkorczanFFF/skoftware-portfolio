@@ -6,17 +6,16 @@ import { ScrollTrigger } from '@/lib/gsap';
 import Desktop from '@/components/layout/Header/Partials/Desktop';
 import Logo from '@/components/layout/Header/Partials/Logo';
 import Mobile from '@/components/layout/Header/Partials/Mobile';
+import { sectionIdOf } from '@/components/layout/Header/sectionId';
 
 import { useLocale } from '@/locale/LocaleContext';
 
 function LocaleToggle({ className }: { className?: string }) {
-  const { locale, setLocale } = useLocale();
+  const { locale, setLocale, t } = useLocale();
   return (
     <button
       onClick={() => setLocale(locale === 'en' ? 'pl' : 'en')}
-      aria-label={
-        locale === 'en' ? 'Switch to Polish' : 'Przełącz na angielski'
-      }
+      aria-label={t.switchLanguage}
       className={`font-unica flex items-center gap-1 text-xl md:text-md tracking-wider text-white transition-colors mt-1 ${className ?? ''}`}
     >
       <span
@@ -214,10 +213,7 @@ export default function Header(): React.JSX.Element {
           >
             <ul className='flex flex-col items-center space-y-8'>
               {links.map(({ href, label }) => {
-                const linkId = href.startsWith('/#')
-                  ? href.slice(2)
-                  : href.slice(1);
-                const isActive = linkId === activeSection;
+                const isActive = sectionIdOf(href) === activeSection;
                 return (
                   <li key={`${href}${label}`} className='text-center'>
                     <Link

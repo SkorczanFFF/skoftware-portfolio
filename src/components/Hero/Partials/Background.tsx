@@ -4,6 +4,8 @@ import { easing } from 'maath';
 import React, { useRef } from 'react';
 import * as THREE from 'three';
 
+import type { GyroRef } from '@/hooks/useDeviceOrientation';
+
 import { colors } from '@/components/Hero/Partials/colors';
 
 export type Vector3Tuple = [number, number, number];
@@ -18,8 +20,6 @@ interface TextConfig {
 const FONT_URL = '/fonts/UnicaOne-Regular.ttf';
 const SHIFT_STRENGTH = 4;
 const DAMP_SMOOTHING = 0.25;
-
-type GyroRef = React.MutableRefObject<{ x: number; y: number }>;
 
 function AnimatedTextRow({
   item,

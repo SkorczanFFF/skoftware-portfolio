@@ -10,25 +10,17 @@
   --breakpoint-xxl: 2000px;
 
   --color-primary-blue: #001a25;
-  --color-secondary-blue: #0b0d16;
   --color-real-white: #ffffff;
   --color-white: #e4e4e4;
   --color-raspberry: #801834;
   --color-raspberry-dark: #820025;
   --color-orange: #992210;
-  --color-shadow: #161616;
   --color-orange-dark: #972b1a;
   --color-deep-blue: #0c2835;
   --color-off-white: #f9f9f9;
 
   --container-wide: 1100px;
   --container-prose: 820px;
-}
-
-@utility font-primary {
-  font-family:
-    var(--font-grotesk), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @utility font-grotesk {
@@ -103,22 +95,27 @@ body {
   }
 }
 
-.gradient,
-.gradient-slow {
+/* Brand gradient on badges and bars; the slow drift is part of the look. */
+.gradient {
   background: linear-gradient(
     270deg,
     var(--color-orange-dark),
     var(--color-raspberry)
   );
+  background-size: 200% 400%;
   animation: gradientAnimationX 7s ease infinite;
 }
 
-.gradient {
-  background-size: 200% 400%;
-}
-
-.gradient-slow {
-  background-size: 400% 200%;
+@keyframes gradientAnimationX {
+  0% {
+    background-position: 0% 51%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 51%;
+  }
 }
 
 .arrow-down {
@@ -199,28 +196,6 @@ body {
   }
 }
 
-.arrow-top-left {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 30px 30px 0 0;
-}
-
-.arrow-bottom-right {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 0 30px 30px;
-}
-
-.cv-arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 12px 0 12px 18px;
-  border-color: transparent transparent transparent var(--color-raspberry);
-}
-
 .loader {
   color: var(--color-orange-dark);
   position: relative;
@@ -267,10 +242,6 @@ body {
 ::selection {
   background-color: var(--color-raspberry);
   color: #fff;
-}
-
-li::marker {
-  padding-right: 10px;
 }
 
 .invert-cursor {

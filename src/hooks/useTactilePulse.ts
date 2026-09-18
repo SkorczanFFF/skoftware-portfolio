@@ -9,7 +9,7 @@ export type Pulse = {
 };
 
 export type TactilePulseRefs = {
-  pulses: React.MutableRefObject<Pulse[]>;
+  pulses: React.RefObject<Pulse[]>;
   duration: number;
 };
 

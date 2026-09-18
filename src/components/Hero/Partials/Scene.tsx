@@ -2,6 +2,7 @@ import { ThreeElements, useLoader } from '@react-three/fiber';
 import React, { useEffect } from 'react';
 import * as THREE from 'three';
 
+import type { GyroRef } from '@/hooks/useDeviceOrientation';
 import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
 import type { ViewportTier } from '@/hooks/useViewport';
 
@@ -12,8 +13,6 @@ import HeroBioParticles from '@/components/Hero/Partials/imageParticles/HeroBioP
 import ImageParticleField from '@/components/Hero/Partials/imageParticles/ImageParticleField';
 
 useLoader.preload(THREE.TextureLoader, '/me.png');
-
-type GyroRef = React.MutableRefObject<{ x: number; y: number }>;
 
 // The portrait sits on the right, opposite the offer copy, and centred on
 // phones where the copy splits above and below it (HeroCopy).

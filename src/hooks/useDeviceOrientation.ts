@@ -1,6 +1,8 @@
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
 type OrientationInput = { x: number; y: number };
+/** Normalised device tilt, −1…1 on both axes; mutated in place per event. */
+export type GyroRef = RefObject<OrientationInput>;
 
 const NEUTRAL_BETA = 45;
 const RANGE = 45;
@@ -9,20 +11,21 @@ function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
 }
 
+// iOS 13+ exposes a static requestPermission() that must run on a user gesture.
+type PermissionedOrientationEvent = typeof DeviceOrientationEvent & {
+  requestPermission?: () => Promise<string>;
+};
+const orientationEvent = () =>
+  DeviceOrientationEvent as PermissionedOrientationEvent;
+
 function needsPermission(): boolean {
   return (
     typeof DeviceOrientationEvent !== 'undefined' &&
-    typeof (
-      DeviceOrientationEvent as unknown as {
-        requestPermission?: () => Promise<string>;
-      }
-    ).requestPermission === 'function'
+    typeof orientationEvent().requestPermission === 'function'
   );
 }
 
-export function useDeviceOrientation(
-  enabled: boolean,
-): MutableRefObject<OrientationInput> {
+export function useDeviceOrientation(enabled: boolean): GyroRef {
   const ref = useRef<OrientationInput>({ x: 0, y: 0 });
   const listeningRef = useRef(false);
   const permissionRequestedRef = useRef(false);
@@ -45,16 +48,11 @@ export function useDeviceOrientation(
     };
 
     if (needsPermission()) {
-      // iOS 13+ — request permission on first user gesture
       const onTouch = async () => {
         if (permissionRequestedRef.current) return;
         permissionRequestedRef.current = true;
         try {
-          const perm = await (
-            DeviceOrientationEvent as unknown as {
-              requestPermission: () => Promise<string>;
-            }
-          ).requestPermission();
+          const perm = await orientationEvent().requestPermission!();
           if (perm === 'granted') startListening();
         } catch {
           // Permission denied — graceful degradation (camera stays centered)

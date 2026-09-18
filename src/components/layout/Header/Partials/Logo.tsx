@@ -1,11 +1,14 @@
 import Link from 'next/link';
 
+import { useLocale } from '@/locale/LocaleContext';
+
 export default function Logo() {
+  const { t } = useLocale();
   return (
     <Link
       href='/'
       className='font-unica font-bold select-none relative'
-      aria-label='SKOFTware - Back to home'
+      aria-label={t.backToHome}
     >
       <span className='text-2xl relative'>
         <span

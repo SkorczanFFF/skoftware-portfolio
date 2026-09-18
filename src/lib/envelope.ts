@@ -1,8 +1,8 @@
-export function clamp01(x: number): number {
+function clamp01(x: number): number {
   return x < 0 ? 0 : x > 1 ? 1 : x;
 }
 
-export function smoothstep(edge0: number, edge1: number, x: number): number {
+function smoothstep(edge0: number, edge1: number, x: number): number {
   const t = clamp01((x - edge0) / (edge1 - edge0));
   return t * t * (3 - 2 * t);
 }
