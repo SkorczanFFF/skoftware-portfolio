@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import Faq from '@/components/Faq/Faq';
 import Hero from '@/components/Hero/Hero';
 import Footer from '@/components/layout/Footer/Footer';
 import Layout from '@/components/layout/Layout';
@@ -20,6 +21,7 @@ export default function HomePage() {
         <Process />
         <TechStrip />
         <WhyMe />
+        <Faq />
         <Portfolio />
         <Footer />
       </main>
