@@ -26,7 +26,12 @@ export default function Desktop({
                 scroll={false}
                 className={`relative text-sm uppercase tracking-widest duration-300 ${isActive ? 'text-real-white' : 'text-real-white/60'}`}
               >
-                <span className='absolute right-[-1px] bottom-[-1px] text-primary-blue pointer-events-none' aria-hidden='true'>{label}</span>
+                <span
+                  className='absolute right-[-1px] bottom-[-1px] text-primary-blue pointer-events-none'
+                  aria-hidden='true'
+                >
+                  {label}
+                </span>
                 <span className='relative'>{label}</span>
               </Link>
             </li>

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 
-import BottomBar from '@/components/layout/BottomBar';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { scrambleReveal } from '@/lib/scrambleReveal';
 import {
@@ -13,8 +12,9 @@ import {
   PdfIcon,
 } from '@/lib/shared/Icons';
 
-import { useLocale } from '@/locale/LocaleContext';
+import BottomBar from '@/components/layout/BottomBar';
 
+import { useLocale } from '@/locale/LocaleContext';
 
 const networkLinks = [
   {
@@ -132,14 +132,20 @@ export default function Footer(): React.JSX.Element {
                 className='group flex items-center gap-2 text-lg font-semibold text-deep-blue transition-all duration-200 hover:translate-x-1 hover:text-raspberry'
               >
                 {t.contactEmail}
-                <MailIcon className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100' aria-hidden='true' />
+                <MailIcon
+                  className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100'
+                  aria-hidden='true'
+                />
               </a>
               <a
                 href={`tel:${t.contactPhone.replace(/\s/g, '')}`}
                 className='group flex items-center gap-2 text-lg font-semibold text-deep-blue transition-all duration-200 hover:translate-x-1 hover:text-raspberry'
               >
                 {t.contactPhone}
-                <CallIcon className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100' aria-hidden='true' />
+                <CallIcon
+                  className='text-base opacity-0 transition-opacity duration-200 group-hover:opacity-100'
+                  aria-hidden='true'
+                />
               </a>
             </div>
           </div>

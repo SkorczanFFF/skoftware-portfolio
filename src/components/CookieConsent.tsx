@@ -102,7 +102,10 @@ export default function CookieConsentBanner() {
           <div className='relative z-10 p-4'>
             {/* Header */}
             <div className='mb-3 flex items-center gap-3'>
-              <CookieIcon className='shrink-0 text-2xl text-raspberry' aria-hidden='true' />
+              <CookieIcon
+                className='shrink-0 text-2xl text-raspberry'
+                aria-hidden='true'
+              />
               <h2 className='text-lg font-semibold tracking-wide'>
                 {t.cookieTitle}
               </h2>
@@ -129,10 +132,17 @@ export default function CookieConsentBanner() {
                 className='flex w-full items-center justify-between rounded-[3px] border-2 border-raspberry/50 bg-primary-blue/60 px-3 py-2 text-sm font-semibold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-raspberry/20 backdrop-blur-[3px]'
               >
                 <span className='flex items-center gap-2'>
-                  <WrenchIcon className='text-base text-raspberry' aria-hidden='true' />
+                  <WrenchIcon
+                    className='text-base text-raspberry'
+                    aria-hidden='true'
+                  />
                   {t.cookieSettings}
                 </span>
-                <span className={`text-xs transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`}>▾</span>
+                <span
+                  className={`text-xs transition-transform duration-200 ${settingsOpen ? 'rotate-180' : ''}`}
+                >
+                  ▾
+                </span>
               </button>
 
               <div
@@ -150,7 +160,11 @@ export default function CookieConsentBanner() {
                           {t.cookieNecessaryDescription}
                         </p>
                       </div>
-                      <Toggle checked disabled aria-label={t.cookieNecessaryTitle} />
+                      <Toggle
+                        checked
+                        disabled
+                        aria-label={t.cookieNecessaryTitle}
+                      />
                     </div>
 
                     {/* Analytics — toggleable */}
@@ -228,16 +242,18 @@ function Toggle({
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={onChange}
-      className={`relative ml-4 flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 ${checked
-        ? disabled
-          ? 'bg-orange opacity-80'
-          : 'bg-raspberry cursor-pointer'
-        : 'bg-primary-blue/50 cursor-pointer'
-        } ${disabled ? 'cursor-default' : ''}`}
+      className={`relative ml-4 flex h-6 w-11 shrink-0 items-center rounded-full transition-colors duration-200 ${
+        checked
+          ? disabled
+            ? 'bg-orange opacity-80'
+            : 'bg-raspberry cursor-pointer'
+          : 'bg-primary-blue/50 cursor-pointer'
+      } ${disabled ? 'cursor-default' : ''}`}
     >
       <span
-        className={`inline-block h-4 w-4 rounded-full bg-white shadow-xs transition-transform duration-200 ${checked ? 'translate-x-[22px]' : 'translate-x-1'
-          }`}
+        className={`inline-block h-4 w-4 rounded-full bg-white shadow-xs transition-transform duration-200 ${
+          checked ? 'translate-x-[22px]' : 'translate-x-1'
+        }`}
       />
     </button>
   );

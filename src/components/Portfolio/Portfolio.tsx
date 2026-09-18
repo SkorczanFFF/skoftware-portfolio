@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import { ScrollTrigger } from '@/lib/gsap';
-import {
-  computePanelWidth,
-  isShortViewport,
-} from '@/lib/portfolioPanelWidth';
+import { computePanelWidth, isShortViewport } from '@/lib/portfolioPanelWidth';
 import { usePortfolioScroll } from '@/hooks/usePortfolioScroll';
 import { useViewportSize } from '@/hooks/useViewportSize';
 

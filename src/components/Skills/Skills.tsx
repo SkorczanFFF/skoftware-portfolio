@@ -45,12 +45,25 @@ function animateCategory(
 
   const anim = options?.useFromTo
     ? gsap.fromTo(
-      allIcons,
-      { opacity: 0, scale: 1.4 },
-      {
+        allIcons,
+        { opacity: 0, scale: 1.4 },
+        {
+          opacity: 1,
+          scale: 1,
+          stagger: { each: 0.1, from: options.staggerFrom ?? 'start' },
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: triggerRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+        },
+      )
+    : gsap.to(allIcons, {
         opacity: 1,
         scale: 1,
-        stagger: { each: 0.1, from: options.staggerFrom ?? 'start' },
+        stagger: 0.1,
         duration: 0.8,
         ease: 'power2.out',
         scrollTrigger: {
@@ -58,20 +71,7 @@ function animateCategory(
           start: 'top 80%',
           toggleActions: 'play none none reverse',
         },
-      },
-    )
-    : gsap.to(allIcons, {
-      opacity: 1,
-      scale: 1,
-      stagger: 0.1,
-      duration: 0.8,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: triggerRef.current,
-        start: 'top 80%',
-        toggleActions: 'play none none reverse',
-      },
-    });
+      });
 
   return anim.scrollTrigger ?? undefined;
 }

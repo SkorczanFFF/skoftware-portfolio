@@ -13,9 +13,7 @@ import Skills from '@/components/Skills/Skills';
 
 const HeroNoSSR = dynamic(() => import('@/components/Hero/Hero'), {
   ssr: false,
-  loading: () => (
-    <section className='h-[99vh] w-full bg-[#001a25]' />
-  ),
+  loading: () => <section className='h-[99vh] w-full bg-[#001a25]' />,
 });
 
 export default function HomePage() {

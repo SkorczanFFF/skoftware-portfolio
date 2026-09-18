@@ -2,14 +2,14 @@ import { ThreeElements, useLoader } from '@react-three/fiber';
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
+import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
+import type { Viewport } from '@/hooks/useViewport';
+
 import Background, {
   Vector3Tuple,
 } from '@/components/Hero/Partials/Background';
 import HeroBioParticles from '@/components/Hero/Partials/imageParticles/HeroBioParticles';
 import ImageParticleField from '@/components/Hero/Partials/imageParticles/ImageParticleField';
-
-import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
-import type { Viewport } from '@/hooks/useViewport';
 
 useLoader.preload(THREE.TextureLoader, '/me.png');
 
@@ -21,8 +21,23 @@ const SCENE_CONFIG = {
   desktop: { scale: 1.5, groupX: -10, targetX: -6 },
 } as const;
 
-const Scene = (props: ThreeElements['group'] & { onReady?: () => void; isMobile?: boolean; viewport?: Viewport; gyroRef?: GyroRef; pulse?: TactilePulseRefs }) => {
-  const { onReady, isMobile = false, viewport = 'desktop', gyroRef, pulse, ...groupProps } = props;
+const Scene = (
+  props: ThreeElements['group'] & {
+    onReady?: () => void;
+    isMobile?: boolean;
+    viewport?: Viewport;
+    gyroRef?: GyroRef;
+    pulse?: TactilePulseRefs;
+  },
+) => {
+  const {
+    onReady,
+    isMobile = false,
+    viewport = 'desktop',
+    gyroRef,
+    pulse,
+    ...groupProps
+  } = props;
   const group = useRef<THREE.Group | null>(null);
   const cfg = SCENE_CONFIG[viewport];
 
@@ -39,7 +54,9 @@ const Scene = (props: ThreeElements['group'] & { onReady?: () => void; isMobile?
     <>
       <group ref={group} {...groupProps} dispose={null} scale={groupScale}>
         <ImageParticleField
-          position={[portraitGroupX, isMobile ? -2.429 : -1.029, -2.504] as Vector3Tuple}
+          position={
+            [portraitGroupX, isMobile ? -2.429 : -1.029, -2.504] as Vector3Tuple
+          }
           imagePath='/me.png'
           targetWidth={12.5}
           threshold={80}
@@ -50,7 +67,10 @@ const Scene = (props: ThreeElements['group'] & { onReady?: () => void; isMobile?
           excludeY={[106, 432]}
         />
         <HeroBioParticles pulse={pulse} isMobile={isMobile} />
-        <Background variant={isMobile ? 'mobile' : 'desktop'} gyroRef={gyroRef} />
+        <Background
+          variant={isMobile ? 'mobile' : 'desktop'}
+          gyroRef={gyroRef}
+        />
       </group>
     </>
   );

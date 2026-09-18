@@ -2,9 +2,10 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
+import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
+
 import bioFragShader from '@/components/Hero/Partials/shaders/bioParticles.frag.glsl';
 import bioVertShader from '@/components/Hero/Partials/shaders/bioParticles.vert.glsl';
-import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
 
 const PARTICLE_COUNT = 8000;
 const DURATION = 60;

@@ -43,7 +43,7 @@ export const services: ServiceEntry[] = [
   {
     icon: 'Wrench',
     title: 'Maintenance & growth',
-    tagline: 'Evolve, don\'t rewrite.',
+    tagline: "Evolve, don't rewrite.",
     description:
       'Performance optimization, feature expansion, stack modernization, and ongoing technical support. Your codebase, always moving.',
   },
@@ -165,7 +165,8 @@ export const projects: ProjectEntry[] = [
     id: 3,
     pic: '/projects/portfolio.jpg',
     title: 'SKOFTWARE - my portfolio',
-    technos: 'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
+    technos:
+      'Next.js • TypeScript • TailwindCSS • React Three Fiber/Three.js • GSAP • i18n',
     description:
       'My portfolio website — a playground for web experiments. Features a 3D scene built in React Three Fiber, transitions and animations in GSAP, and i18n for multilingual support. Also includes a built-in web version of my resume in Polish and English. A project in constant evolution, probably never leaving "WIP" status.',
     live: process.env.NEXT_PUBLIC_SITE_URL || 'https://skoftware.pl/',

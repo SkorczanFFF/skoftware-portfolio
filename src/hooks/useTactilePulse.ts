@@ -27,7 +27,9 @@ export function useTactilePulse(opts: Options): TactilePulseRefs {
 
   // Ref-stashed so callback identity changes don't reattach DOM listeners.
   const onTapRef = useRef(onTap);
-  onTapRef.current = onTap;
+  useEffect(() => {
+    onTapRef.current = onTap;
+  }, [onTap]);
 
   useEffect(() => {
     let canvas: HTMLCanvasElement | null = null;

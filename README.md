@@ -30,14 +30,14 @@ Portfolio website for SKOFTWARE / Maciej Skorus — Creative Fullstack Developer
 
 ### Utilities
 
-| Technology                  | Purpose                          |
-| --------------------------- | -------------------------------- |
-| react-icons                 | Icon library (50+ tech icons)    |
-| react-error-boundary        | Error boundary for WebGL canvas  |
-| react-intersection-observer | Viewport visibility detection    |
-| html2canvas-pro + jsPDF     | Resume PDF export                |
-| @vercel/analytics           | Usage analytics                  |
-| @vercel/speed-insights      | Performance monitoring           |
+| Technology                  | Purpose                         |
+| --------------------------- | ------------------------------- |
+| react-icons                 | Icon library (50+ tech icons)   |
+| react-error-boundary        | Error boundary for WebGL canvas |
+| react-intersection-observer | Viewport visibility detection   |
+| html2canvas-pro + jsPDF     | Resume PDF export               |
+| @vercel/analytics           | Usage analytics                 |
+| @vercel/speed-insights      | Performance monitoring          |
 
 ---
 
@@ -123,7 +123,6 @@ src/
 │   ├── gsap.ts                # GSAP + ScrollTrigger registration
 │   ├── breakpoints.ts         # Responsive breakpoint constants
 │   ├── scrambleReveal.ts      # Text scramble/reveal animation
-│   ├── generatePdf.ts         # HTML-to-PDF export utility
 │   └── shared/
 │       ├── Icons.tsx          # Centralized icon exports
 │       └── techMap.ts         # Tech-to-icon mappings
@@ -144,7 +143,6 @@ src/
 | --------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Polonez Autodrive**       | JavaScript, Three.js, 3D Studio Max            | [Live](https://polonez-autodrive.vercel.app/) · [Repo](https://github.com/SkorczanFFF/Polonez-Autodrive)                                               |
 | **VAT-OFF**                 | JavaScript, Chrome Extension API, CSS          | [Chrome Web Store](https://chromewebstore.google.com/detail/vat-off/lplomppbbkgehcldiilhckbdalnblhdl) · [Repo](https://github.com/SkorczanFFF/VAT-OFF) |
-| **Chandrastic** [WIP]       | React, TypeScript, Python, FastAPI             | —                                                                                                                                                      |
 | **SKOFTWARE Portfolio**     | Next.js, TypeScript, TailwindCSS, R3F, Blender | [Live](https://mskorus.vercel.app/) · [Repo](https://github.com/SkorczanFFF/mskorus-remaster)                                                          |
 | **Yet Another Weather App** | React, JavaScript, Sass, Vanta.js, Open-Meteo  | [Live](https://yet-another-weather-app.vercel.app/) · [Repo](https://github.com/SkorczanFFF/YetAnotherWeatherApp/)                                     |
 

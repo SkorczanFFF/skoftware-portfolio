@@ -57,9 +57,7 @@ const config = [
             ['^@?\\w', '^\\u0000'],
             ['^.+\\.s?css$'],
             ['^@/lib', '^@/hooks'],
-            ['^@/data'],
-            ['^@/components', '^@/container'],
-            ['^@/store'],
+            ['^@/components'],
             ['^@/'],
             [
               '^\\./?$',

@@ -15,20 +15,32 @@ function LocaleToggle({ className }: { className?: string }) {
   return (
     <button
       onClick={() => setLocale(locale === 'en' ? 'pl' : 'en')}
-      aria-label={locale === 'en' ? 'Switch to Polish' : 'Przełącz na angielski'}
+      aria-label={
+        locale === 'en' ? 'Switch to Polish' : 'Przełącz na angielski'
+      }
       className={`font-unica flex items-center gap-1 text-xl md:text-md tracking-wider text-white transition-colors mt-1 ${className ?? ''}`}
     >
       <span
         className={`relative duration-200 ${locale === 'en' ? 'font-semibold text-orange' : 'text-white/60'}`}
       >
-        <span className={`absolute right-[-1px] bottom-[-1px] pointer-events-none ${locale === 'en' ? 'text-white' : 'text-primary-blue'}`} aria-hidden='true'>EN</span>
+        <span
+          className={`absolute right-[-1px] bottom-[-1px] pointer-events-none ${locale === 'en' ? 'text-white' : 'text-primary-blue'}`}
+          aria-hidden='true'
+        >
+          EN
+        </span>
         <span className='relative'>EN</span>
       </span>
       <span className='text-white/70'>|</span>
       <span
         className={`relative duration-200 ${locale === 'pl' ? 'font-semibold text-orange' : 'text-white/60'}`}
       >
-        <span className={`absolute right-[-1px] bottom-[-1px] pointer-events-none ${locale === 'pl' ? 'text-white' : 'text-primary-blue'}`} aria-hidden='true'>PL</span>
+        <span
+          className={`absolute right-[-1px] bottom-[-1px] pointer-events-none ${locale === 'pl' ? 'text-white' : 'text-primary-blue'}`}
+          aria-hidden='true'
+        >
+          PL
+        </span>
         <span className='relative'>PL</span>
       </span>
     </button>
@@ -179,8 +191,9 @@ export default function Header(): React.JSX.Element {
   return (
     <>
       <header
-        className={`font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] ${isMenuOpen ? 'opacity-0' : 'opacity-95'
-          }`}
+        className={`font-grotesk fixed top-2 left-2 right-2 z-50 flex h-[46px] items-center justify-between opacity-95 backdrop-blur-[10px] border-2 border-[#80183433] rounded-[3px] ${
+          isMenuOpen ? 'opacity-0' : 'opacity-95'
+        }`}
       >
         <div className='flex h-full w-full items-center justify-between'>
           <div className='flex h-full items-center gap-3'>
@@ -209,8 +222,9 @@ export default function Header(): React.JSX.Element {
           aria-modal={isMenuOpen}
           aria-label={t.navMenuLabel}
           inert={!isMenuOpen || undefined}
-          className={`bg-[#00000024] flex min-h-full w-full items-center justify-center border-b border-primary-blue backdrop-blur-[10px] transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}
+          className={`bg-[#00000024] flex min-h-full w-full items-center justify-center border-b border-primary-blue backdrop-blur-[10px] transition-transform duration-300 ${
+            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
         >
           <nav
             aria-label={t.navMenuLabel}
@@ -230,7 +244,12 @@ export default function Header(): React.JSX.Element {
                       className={`relative text-3xl font-light uppercase tracking-widest transition-all duration-300 hover:tracking-[0.2em] ${isActive ? 'text-real-white tracking-[0.2em]' : 'text-real-white/60'}`}
                       onClick={handleClick}
                     >
-                      <span className='absolute right-[-1px] bottom-[-2px] text-primary-blue pointer-events-none' aria-hidden='true'>{label}</span>
+                      <span
+                        className='absolute right-[-1px] bottom-[-2px] text-primary-blue pointer-events-none'
+                        aria-hidden='true'
+                      >
+                        {label}
+                      </span>
                       <span className='relative'>{label}</span>
                     </Link>
                   </li>

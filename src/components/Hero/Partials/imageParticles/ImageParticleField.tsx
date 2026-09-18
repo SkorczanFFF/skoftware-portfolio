@@ -7,14 +7,15 @@ import {
 import React, { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 
+import { pulseEnvelope } from '@/lib/envelope';
+import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
+
 import {
   getImageSourceFromTexture,
   sampleTextureToParticleGeometry,
 } from '@/components/Hero/Partials/imageParticles/geometryFromImageSource';
 import fragmentShader from '@/components/Hero/Partials/shaders/heroParticles.frag.glsl';
 import vertexShader from '@/components/Hero/Partials/shaders/heroParticles.vert.glsl';
-import { pulseEnvelope } from '@/lib/envelope';
-import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
 
 export type ImageParticleFieldCoreProps = ThreeElements['group'] & {
   texture: THREE.Texture;

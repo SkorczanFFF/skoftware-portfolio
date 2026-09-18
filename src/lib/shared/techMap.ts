@@ -8,8 +8,8 @@ import {
   CursorIcon,
   DockerIcon,
   FigmaIcon,
-  GitIcon,
   FirebaseIcon,
+  GitIcon,
   GitlabIcon,
   GsapIcon,
   HtmlIcon,
@@ -114,16 +114,38 @@ export const techCategoryGroups: Record<string, string[]> = {
 
 /** Flat ordered list for the resume skills section — manually sorted for symmetric 3-per-row wrapping. */
 export const resumeTechList: string[] = [
-  'TypeScript', 'React', 'Next.js',       // frontend core
-  'React Native', 'Redux', 'MobX',        // frontend state
-  'TailwindCSS', 'Sass', 'GSAP',          // frontend styling
-  'Three.js', 'HTML5', 'CSS3',            // frontend web/3D
-  'Python', 'Node.js', 'Java',            // backend languages
+  'TypeScript',
+  'React',
+  'Next.js', // frontend core
+  'React Native',
+  'Redux',
+  'MobX', // frontend state
+  'TailwindCSS',
+  'Sass',
+  'GSAP', // frontend styling
+  'Three.js',
+  'HTML5',
+  'CSS3', // frontend web/3D
+  'Python',
+  'Node.js',
+  'Java', // backend languages
 
-  'PHP', 'Laravel', 'Wordpress',           // backend frameworks
-  'Sanity', 'PostgreSQL', 'MySQL',         // CMS + databases
-  'MongoDB', 'Firebase', 'Docker',         // databases + devops
-  'Photoshop', '3Ds Max', 'Blender',      // design 3D
-  'Figma', 'Canva', 'GitHub',             // design + VCS
-  'npm', 'CursorAI', 'Claude',            // tools + AI
+  'PHP',
+  'Laravel',
+  'Wordpress', // backend frameworks
+  'Sanity',
+  'PostgreSQL',
+  'MySQL', // CMS + databases
+  'MongoDB',
+  'Firebase',
+  'Docker', // databases + devops
+  'Photoshop',
+  '3Ds Max',
+  'Blender', // design 3D
+  'Figma',
+  'Canva',
+  'GitHub', // design + VCS
+  'npm',
+  'CursorAI',
+  'Claude', // tools + AI
 ];

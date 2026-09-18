@@ -12,7 +12,11 @@ function clamp(value: number, min: number, max: number) {
 function needsPermission(): boolean {
   return (
     typeof DeviceOrientationEvent !== 'undefined' &&
-    typeof (DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission === 'function'
+    typeof (
+      DeviceOrientationEvent as unknown as {
+        requestPermission?: () => Promise<string>;
+      }
+    ).requestPermission === 'function'
   );
 }
 
@@ -46,14 +50,21 @@ export function useDeviceOrientation(
         if (permissionRequestedRef.current) return;
         permissionRequestedRef.current = true;
         try {
-          const perm = await (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission();
+          const perm = await (
+            DeviceOrientationEvent as unknown as {
+              requestPermission: () => Promise<string>;
+            }
+          ).requestPermission();
           if (perm === 'granted') startListening();
         } catch {
           // Permission denied — graceful degradation (camera stays centered)
         }
         window.removeEventListener('touchstart', onTouch, true);
       };
-      window.addEventListener('touchstart', onTouch, { capture: true, once: true });
+      window.addEventListener('touchstart', onTouch, {
+        capture: true,
+        once: true,
+      });
 
       return () => {
         window.removeEventListener('touchstart', onTouch, true);

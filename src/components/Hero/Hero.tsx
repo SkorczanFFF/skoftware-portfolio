@@ -267,9 +267,7 @@ export default function Hero(): React.JSX.Element {
           </div>
 
           {/* Names */}
-          <div
-            className='absolute z-20 top-[100px] left-[20px] md:top-[80px] md:left-auto md:right-[20px] lg:top-1/3 lg:right-[5%] pointer-events-none'
-          >
+          <div className='absolute z-20 top-[100px] left-[20px] md:top-[80px] md:left-auto md:right-[20px] lg:top-1/3 lg:right-[5%] pointer-events-none'>
             <div
               className='pointer-events-auto select-text md:text-right'
               onPointerMove={forwardPointerToCanvas}

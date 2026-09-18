@@ -57,7 +57,9 @@ export default function PortfolioProjectItem({
     : 'text-2xl md:text-3xl lg:text-4xl';
 
   return (
-    <div className={`w-full md:max-w-[calc(var(--panel-w)-250px)] flex flex-col ${isLast ? 'pb-[80px] md:pb-0' : ''}`}>
+    <div
+      className={`w-full md:max-w-[calc(var(--panel-w)-250px)] flex flex-col ${isLast ? 'pb-[80px] md:pb-0' : ''}`}
+    >
       {/* Title — above image on desktop (order-1), below on mobile (order-2) */}
       {project.git ? (
         <a
@@ -67,13 +69,17 @@ export default function PortfolioProjectItem({
           aria-label={`${project.title} (opens in new tab)`}
           className='project-title order-2 md:order-1 mt-4 md:mt-0 px-1 md:px-0'
         >
-          <h3 className={`font-unica gradient bg-linear-to-r from-raspberry to-orange-dark px-4 py-1 ${titleSize} font-normal transition-colors duration-150 hover:text-primary-blue block md:inline-block mb-3 md:mb-0`}>
+          <h3
+            className={`font-unica gradient bg-linear-to-r from-raspberry to-orange-dark px-4 py-1 ${titleSize} font-normal transition-colors duration-150 hover:text-primary-blue block md:inline-block mb-3 md:mb-0`}
+          >
             {project.title}
           </h3>
         </a>
       ) : (
         <div className='project-title order-2 md:order-1 mt-4 md:mt-0 px-1 md:px-0'>
-          <h3 className={`font-unica gradient bg-linear-to-r from-raspberry to-orange-dark px-4 py-1 ${titleSize} font-normal block md:inline-block mb-3 md:mb-0`}>
+          <h3
+            className={`font-unica gradient bg-linear-to-r from-raspberry to-orange-dark px-4 py-1 ${titleSize} font-normal block md:inline-block mb-3 md:mb-0`}
+          >
             {project.title}
           </h3>
         </div>
