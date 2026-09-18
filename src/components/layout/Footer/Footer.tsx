@@ -192,7 +192,7 @@ export default function Footer(): React.JSX.Element {
                 </span>
                 <nav className='flex flex-col gap-3 md:items-end'>
                   <Link
-                    href='/resume'
+                    href='/cv'
                     className='flex items-center gap-2 font-bold text-deep-blue/60 transition-all duration-200 hover:translate-x-1 hover:text-raspberry md:flex-row-reverse'
                   >
                     <GlobeIcon className='text-base' aria-hidden='true' />

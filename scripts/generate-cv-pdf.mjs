@@ -5,9 +5,9 @@
  *   1. Start dev server:  npm run dev
  *   2. Run this script:   node scripts/generate-cv-pdf.mjs
  *
- * Outputs:
- *   public/cv-en.pdf
- *   public/cv-pl.pdf
+ * Outputs (in public/):
+ *   Maciej Skorus - CV [EN].pdf
+ *   Maciej Skorus - CV [PL].pdf
  */
 
 import puppeteer from 'puppeteer';
@@ -30,14 +30,8 @@ async function generatePdf(locale) {
 
   await page.setViewport({ width: 1280, height: 900 });
 
-  const url = `${BASE_URL}/resume`;
-  await page.goto(url, { waitUntil: 'networkidle0' });
-
-  // Set locale and reload
-  await page.evaluate((loc) => {
-    localStorage.setItem('locale', loc);
-    document.cookie = `locale=${loc};path=/;max-age=31536000`;
-  }, locale);
+  // Locale lives in the URL (next.config.js i18n): PL is the default, EN is prefixed.
+  const url = locale === 'pl' ? `${BASE_URL}/cv` : `${BASE_URL}/${locale}/cv`;
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   // Wait for fonts
@@ -185,11 +179,11 @@ async function generatePdf(locale) {
   });
 
   await browser.close();
-  console.log(`  cv-${locale}.pdf -> ${outPath}`);
+  console.log(`  ${locale}: ${url} -> ${outPath}`);
 }
 
 console.log('Generating CV PDFs...');
-console.log(`Using: ${BASE_URL}/resume\n`);
+console.log(`Using: ${BASE_URL}\n`);
 
 await generatePdf('en');
 await generatePdf('pl');

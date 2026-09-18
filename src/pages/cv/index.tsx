@@ -19,6 +19,13 @@ import {
   VercelIcon,
 } from '@/lib/shared/Icons';
 import { resumeTechList, techIconMap } from '@/lib/shared/techMap';
+import {
+  COMPANY_FOUNDER,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  SITE_URL,
+  SOCIALS,
+} from '@/lib/site';
 
 import BottomBar from '@/components/layout/BottomBar';
 
@@ -59,6 +66,24 @@ export default function CV(): React.JSX.Element {
     <>
       <Head>
         <title>{t.resumePageTitle}</title>
+        {/* Kept out of the index on purpose: a services site should not rank
+            on its owner's CV. Still crawlable so the links are followed. */}
+        <meta name='robots' content='noindex, follow' />
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: COMPANY_FOUNDER,
+              url: `${SITE_URL}/cv`,
+              email: CONTACT_EMAIL,
+              telephone: CONTACT_PHONE,
+              worksFor: { '@id': `${SITE_URL}/#organization` },
+              sameAs: SOCIALS.map((s) => s.href),
+            }),
+          }}
+        />
       </Head>
       <section className='font-grotesk pt-[60px] flex flex-col items-center justify-start md:justify-between bg-linear-to-b from-[#1A1A28] to-[#3a1323] min-h-screen'>
         <div className='flex justify-end h-auto flex-row items-stretch w-full max-w-[794px] px-2 md:px-0'>
