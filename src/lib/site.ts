@@ -30,6 +30,6 @@ export const CONTACT_PHONE = '+48668366648';
 export const CONTACT_PHONE_DISPLAY = '+48 668 366 648';
 
 export const SOCIALS = [
-  { label: 'GitHub', href: 'https://github.com/SkorczanFFF' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mskorus/' },
+  { label: 'GitHub', href: 'https://github.com/SkorczanFFF' },
 ] as const;

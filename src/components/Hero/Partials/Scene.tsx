@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 import type { TactilePulseRefs } from '@/hooks/useTactilePulse';
-import type { Viewport } from '@/hooks/useViewport';
+import type { ViewportTier } from '@/hooks/useViewport';
 
 import Background, {
   Vector3Tuple,
@@ -25,7 +25,7 @@ const Scene = (
   props: ThreeElements['group'] & {
     onReady?: () => void;
     isMobile?: boolean;
-    viewport?: Viewport;
+    viewport?: ViewportTier;
     gyroRef?: GyroRef;
     pulse?: TactilePulseRefs;
   },

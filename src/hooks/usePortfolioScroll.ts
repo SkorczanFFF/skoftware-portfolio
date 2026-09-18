@@ -1,6 +1,52 @@
 import { useLayoutEffect } from 'react';
 
+import { BREAKPOINTS } from '@/lib/breakpoints';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
+
+type Vars = gsap.TweenVars;
+
+// Each panel part rests in `hidden`, slides to its natural state while the
+// panel enters from the right, then leaves to `exit` on the way out. Enter
+// windows are measured on the panel's left edge, exit on its right.
+const PANEL_PARTS: Array<{
+  selector: string | null;
+  hidden: Vars;
+  exit: Vars;
+  enter: [start: string, end: string];
+}> = [
+  {
+    selector: null,
+    hidden: { opacity: 0.2, x: 150 },
+    exit: { opacity: 0.2, x: -150 },
+    enter: ['left 90%', 'left 40%'],
+  },
+  {
+    selector: '.project-title',
+    hidden: { x: 300 },
+    exit: { x: -300 },
+    enter: ['left 95%', 'left 30%'],
+  },
+  {
+    selector: '.project-overlay',
+    hidden: { opacity: 0, y: 50 },
+    exit: { opacity: 0, y: 50 },
+    enter: ['left 60%', 'left 30%'],
+  },
+  {
+    selector: '.project-meta',
+    hidden: { opacity: 0, y: -30 },
+    exit: { opacity: 0, y: -30 },
+    enter: ['left 55%', 'left 25%'],
+  },
+];
+
+const EXIT: [start: string, end: string] = ['right 60%', 'right 10%'];
+
+/** The visible counterpart of a hidden/exit state: opaque, at rest. */
+const shown = (vars: Vars): Vars =>
+  Object.fromEntries(
+    Object.keys(vars).map((key) => [key, key === 'opacity' ? 1 : 0]),
+  );
 
 export function usePortfolioScroll(
   sectionRef: React.RefObject<HTMLElement | null>,
@@ -13,8 +59,8 @@ export function usePortfolioScroll(
 
     const mm = gsap.matchMedia();
 
-    // Desktop: horizontal scroll with pin
-    mm.add('(min-width: 769px)', () => {
+    // Same boundary as Tailwind's `md:`, which switches the panel layout.
+    mm.add(`(min-width: ${BREAKPOINTS.md}px)`, () => {
       const getScroll = () => track.scrollWidth - window.innerWidth;
 
       const tween = gsap.to(track, {
@@ -29,154 +75,37 @@ export function usePortfolioScroll(
         },
       });
 
-      // Per-panel entrance + overlay reveal animations
-      const panels = track.querySelectorAll<HTMLElement>('.project-panel');
-      panels.forEach((panel) => {
-        const overlay = panel.querySelector<HTMLElement>('.project-overlay');
-        const title = panel.querySelector<HTMLElement>('.project-title');
-        const meta = panel.querySelector<HTMLElement>('.project-meta');
-
-        // Set initial hidden states once — gsap.set is the source of truth
-        gsap.set(panel, { opacity: 0.2, x: 150 });
-        if (title) gsap.set(title, { x: 300 });
-        if (overlay) gsap.set(overlay, { opacity: 0, y: 50 });
-        if (meta) gsap.set(meta, { opacity: 0, y: -30 });
-
-        // Panel enter/exit
-        gsap.fromTo(
-          panel,
-          { opacity: 0.2, x: 150 },
-          {
-            opacity: 1,
-            x: 0,
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: tween,
-              start: 'left 90%',
-              end: 'left 40%',
-              scrub: true,
-            },
+      track.querySelectorAll<HTMLElement>('.project-panel').forEach((panel) => {
+        const scrub = (start: string, end: string): Vars => ({
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: panel,
+            containerAnimation: tween,
+            start,
+            end,
+            scrub: true,
           },
-        );
-        gsap.fromTo(
-          panel,
-          { opacity: 1, x: 0 },
-          {
-            opacity: 0.2,
-            x: -150,
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: tween,
-              start: 'right 60%',
-              end: 'right 10%',
-              scrub: true,
-            },
-          },
-        );
+        });
 
-        if (title) {
-          gsap.fromTo(
-            title,
-            { x: 300 },
-            {
-              x: 0,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: tween,
-                start: 'left 95%',
-                end: 'left 30%',
-                scrub: true,
-              },
-            },
-          );
-          gsap.fromTo(
-            title,
-            { x: 0 },
-            {
-              x: -300,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: tween,
-                start: 'right 60%',
-                end: 'right 10%',
-                scrub: true,
-              },
-            },
-          );
-        }
+        for (const part of PANEL_PARTS) {
+          const el = part.selector
+            ? panel.querySelector<HTMLElement>(part.selector)
+            : panel;
+          if (!el) continue;
 
-        if (overlay) {
+          // `immediateRender: false` leaves the element untouched until its
+          // trigger fires, so the resting state is set explicitly. GSAP
+          // mutates the vars it is handed, hence the copies of the shared table.
+          gsap.set(el, { ...part.hidden });
           gsap.fromTo(
-            overlay,
-            { opacity: 0, y: 50 },
-            {
-              opacity: 1,
-              y: 0,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: tween,
-                start: 'left 60%',
-                end: 'left 30%',
-                scrub: true,
-              },
-            },
+            el,
+            { ...part.hidden },
+            { ...shown(part.hidden), ...scrub(...part.enter) },
           );
-          gsap.fromTo(
-            overlay,
-            { opacity: 1, y: 0 },
-            {
-              opacity: 0,
-              y: 50,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: tween,
-                start: 'right 60%',
-                end: 'right 10%',
-                scrub: true,
-              },
-            },
-          );
-        }
-
-        if (meta) {
-          gsap.fromTo(
-            meta,
-            { opacity: 0, y: -30 },
-            {
-              opacity: 1,
-              y: 0,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: tween,
-                start: 'left 55%',
-                end: 'left 25%',
-                scrub: true,
-              },
-            },
-          );
-          gsap.fromTo(
-            meta,
-            { opacity: 1, y: 0 },
-            {
-              opacity: 0,
-              y: -30,
-              immediateRender: false,
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: tween,
-                start: 'right 60%',
-                end: 'right 10%',
-                scrub: true,
-              },
-            },
-          );
+          gsap.fromTo(el, shown(part.exit), {
+            ...part.exit,
+            ...scrub(...EXIT),
+          });
         }
       });
 
@@ -186,11 +115,9 @@ export function usePortfolioScroll(
       };
     });
 
-    // Mobile: vertical stack with simple fade-in
-    mm.add('(max-width: 768px)', () => {
+    mm.add(`(max-width: ${BREAKPOINTS.md - 1}px)`, () => {
       const triggers: ScrollTrigger[] = [];
-      const items = section.querySelectorAll<HTMLElement>('.mobile-fade');
-      items.forEach((el) => {
+      section.querySelectorAll<HTMLElement>('.mobile-fade').forEach((el) => {
         const tw = gsap.fromTo(
           el,
           { opacity: 0, y: 40 },

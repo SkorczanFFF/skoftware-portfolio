@@ -1,16 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { reducedMotionQuery } from '@/lib/motion';
 import { CursorIcon, CursorOverlayIcon } from '@/lib/shared/Icons';
 
 const CURSOR_SIZE = 50;
 
 const CustomCursor = () => {
   const [isActive, setIsActive] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
   const rafId = useRef(0);
 
+  // Only for a real pointer, and never when motion is reduced.
   useEffect(() => {
     const pointer = window.matchMedia('(pointer: fine)');
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const motion = reducedMotionQuery();
 
     const update = () => setIsActive(pointer.matches && !motion.matches);
     update();
@@ -23,16 +26,14 @@ const CustomCursor = () => {
     };
   }, []);
 
-  // Toggle class on <html> so CSS can conditionally hide OS cursor
+  // `html.custom-cursor` hides the OS cursor (globals.css); it is dropped
+  // while the pointer is outside the window so the OS cursor shows there.
   useEffect(() => {
-    document.documentElement.classList.toggle('custom-cursor', isActive);
-    return () => document.documentElement.classList.remove('custom-cursor');
-  }, [isActive]);
+    const cursor = cursorRef.current;
+    if (!isActive || !cursor) return;
 
-  useEffect(() => {
-    if (!isActive) return;
-    const cursor = document.getElementById('cursor');
-    if (!cursor) return;
+    const root = document.documentElement;
+    root.classList.add('custom-cursor');
 
     const onMouseMove = (event: MouseEvent) => {
       cancelAnimationFrame(rafId.current);
@@ -42,32 +43,31 @@ const CustomCursor = () => {
         cursor.style.opacity = '1';
       });
     };
-
     const onMouseLeave = () => {
       cursor.style.opacity = '0';
-      document.documentElement.classList.remove('custom-cursor');
+      root.classList.remove('custom-cursor');
     };
-
     const onMouseEnter = () => {
       cursor.style.opacity = '1';
-      document.documentElement.classList.add('custom-cursor');
+      root.classList.add('custom-cursor');
     };
 
     document.addEventListener('mousemove', onMouseMove);
-    document.documentElement.addEventListener('mouseleave', onMouseLeave);
-    document.documentElement.addEventListener('mouseenter', onMouseEnter);
+    root.addEventListener('mouseleave', onMouseLeave);
+    root.addEventListener('mouseenter', onMouseEnter);
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
-      document.documentElement.removeEventListener('mouseleave', onMouseLeave);
-      document.documentElement.removeEventListener('mouseenter', onMouseEnter);
+      root.removeEventListener('mouseleave', onMouseLeave);
+      root.removeEventListener('mouseenter', onMouseEnter);
       cancelAnimationFrame(rafId.current);
+      root.classList.remove('custom-cursor');
     };
   }, [isActive]);
 
   if (!isActive) return null;
 
   return (
-    <div id='cursor' className='invert-cursor' aria-hidden='true'>
+    <div ref={cursorRef} className='invert-cursor' aria-hidden='true'>
       <CursorIcon className='text-2xl -scale-x-100 mt-6 ml-6' aria-hidden />
       <CursorOverlayIcon
         className='pointer-events-none absolute z-10 text-2xl text-raspberry -scale-x-100 mt-6 ml-6 drop-shadow-xs'

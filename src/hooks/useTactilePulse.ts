@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
+import { prefersReducedMotion } from '@/lib/motion';
+
 export type Pulse = {
   startedAt: number;
   ndcX: number;
@@ -35,9 +37,7 @@ export function useTactilePulse(opts: Options): TactilePulseRefs {
     let canvas: HTMLCanvasElement | null = null;
     let attached = false;
 
-    const reduceMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const reduceMotion = prefersReducedMotion();
 
     const onDown = (e: PointerEvent) => {
       if (!canvas) return;

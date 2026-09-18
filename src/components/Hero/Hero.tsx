@@ -94,8 +94,8 @@ function FrameloopController({ inView }: { inView: boolean }) {
 
 export default function Hero(): React.JSX.Element {
   const { t } = useLocale();
-  const viewport = useViewport();
-  const isMobile = viewport === 'mobile';
+  const { tier } = useViewport();
+  const isMobile = tier === 'mobile';
   const gyroRef = useDeviceOrientation(isMobile);
   const [ref, inView] = useInView({
     triggerOnce: false,
@@ -257,7 +257,7 @@ export default function Hero(): React.JSX.Element {
                   <Scene
                     onReady={handleReady}
                     isMobile={isMobile}
-                    viewport={viewport}
+                    viewport={tier}
                     gyroRef={isMobile ? gyroRef : undefined}
                     pulse={pulse}
                   />

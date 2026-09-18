@@ -19,11 +19,6 @@ export default function TapRipple({ ripples }: { ripples: Ripple[] }) {
           }}
         />
       ))}
-      <style>{`@keyframes tapRipple {
-        0%   { transform: scale(0.3); opacity: 1; }
-        60%  { opacity: 0.6; }
-        100% { transform: scale(4); opacity: 0; }
-      }`}</style>
     </div>
   );
 }

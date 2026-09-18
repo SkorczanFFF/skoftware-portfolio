@@ -6,6 +6,8 @@ import { useCallback, useEffect, useState } from 'react';
 
 import '@/styles/globals.css';
 
+import { prefersReducedMotion } from '@/lib/motion';
+
 import CookieConsentBanner from '@/components/CookieConsent';
 import CustomCursor from '@/components/CustomCursor';
 import Header from '@/components/layout/Header/Header';
@@ -48,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router, onStart, onEnd]);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (prefersReducedMotion()) return;
 
     const lenis = new Lenis({
       duration: 1.2,
