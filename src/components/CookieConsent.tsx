@@ -5,8 +5,6 @@ import { CookieIcon, WrenchIcon } from '@/lib/shared/Icons';
 
 import { useLocale } from '@/locale/LocaleContext';
 
-/* ── Cookie helpers ── */
-
 const COOKIE_NAME = 'cookie_consent';
 export const COOKIE_DAYS = 182;
 
@@ -41,8 +39,6 @@ let openModalFn: (() => void) | null = null;
 export function showCookiePreferences() {
   openModalFn?.();
 }
-
-/* ── Component ── */
 
 export default function CookieConsentBanner() {
   const { t } = useLocale();
@@ -87,10 +83,9 @@ export default function CookieConsentBanner() {
   if (!visible) return null;
 
   return (
-    <div className='fixed bottom-4 left-4 mr-4 z-9998 md:bottom-6 md:left-6'>
+    <div className='fixed bottom-4 right-4 ml-4 z-9998 md:bottom-6 md:right-6'>
       <div className='rounded-[3px] p-[4px] backdrop-blur-[10px]'>
         <div className='font-grotesk relative w-full max-w-[520px] overflow-hidden rounded-[3px] border-2 border-raspberry/20 bg-primary-blue text-white'>
-          {/* Cookie watermark */}
           <div
             className='pointer-events-none absolute -top-4 -right-4 h-[300px] w-[300px]'
             aria-hidden='true'
@@ -98,9 +93,7 @@ export default function CookieConsentBanner() {
             <CookieIcon className='h-full w-full text-deep-blue' />
           </div>
 
-          {/* Content */}
           <div className='relative z-10 p-4'>
-            {/* Header */}
             <div className='mb-3 flex items-center gap-3'>
               <CookieIcon
                 className='shrink-0 text-2xl text-raspberry'
@@ -111,7 +104,6 @@ export default function CookieConsentBanner() {
               </h2>
             </div>
 
-            {/* Description */}
             <p className='mb-5 text-sm leading-relaxed text-white/70'>
               {t.cookieDescription}{' '}
               <Link
@@ -124,7 +116,6 @@ export default function CookieConsentBanner() {
               .
             </p>
 
-            {/* Settings dropdown */}
             <div className='mb-4'>
               <button
                 type='button'
@@ -150,7 +141,6 @@ export default function CookieConsentBanner() {
               >
                 <div className='overflow-hidden'>
                   <div className='mt-2 space-y-2'>
-                    {/* Necessary — always on */}
                     <div className='flex items-center justify-between rounded-[3px] bg-primary-blue/80 px-4 py-3 backdrop-blur-[3px]'>
                       <div>
                         <p className='text-sm font-medium'>
@@ -167,7 +157,6 @@ export default function CookieConsentBanner() {
                       />
                     </div>
 
-                    {/* Analytics — toggleable */}
                     <div className='flex items-center justify-between rounded-[3px] bg-primary-blue/80 px-4 py-3 backdrop-blur-[3px]'>
                       <div>
                         <p className='text-sm font-medium'>
@@ -184,7 +173,6 @@ export default function CookieConsentBanner() {
                       />
                     </div>
 
-                    {/* Save preferences */}
                     <button
                       type='button'
                       onClick={savePreferences}
@@ -197,7 +185,6 @@ export default function CookieConsentBanner() {
               </div>
             </div>
 
-            {/* Buttons */}
             <div className='flex flex-wrap gap-2'>
               <button
                 type='button'
@@ -220,8 +207,6 @@ export default function CookieConsentBanner() {
     </div>
   );
 }
-
-/* ── Toggle switch ── */
 
 function Toggle({
   checked,
