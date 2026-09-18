@@ -11,7 +11,7 @@ import {
   MailIcon,
   PdfIcon,
 } from '@/lib/shared/Icons';
-import { SOCIALS } from '@/lib/site';
+import { SOCIALS, VAT_NUMBER } from '@/lib/site';
 
 import BottomBar from '@/components/layout/BottomBar';
 import ExternalLink from '@/components/ui/ExternalLink';
@@ -152,6 +152,9 @@ export default function Footer(): React.JSX.Element {
                 </h3>
                 <p className='mt-1 text-sm font-medium tracking-wide text-deep-blue/60'>
                   {t.contactCompanyInfo}
+                </p>
+                <p className='mt-2 text-xs tracking-wide text-deep-blue/45'>
+                  NIP {VAT_NUMBER} · {t.footerInvoiceNote}
                 </p>
               </div>
 
