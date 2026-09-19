@@ -28,6 +28,10 @@
   --container-prose: 820px;
 }
 
+/* Touch counterpart of `group-hover:` — `useActiveOnScroll` adds `.is-active`
+   to an item while it crosses the middle of the viewport. */
+@custom-variant scroll-active (&:where(.is-active, .is-active *));
+
 @utility font-grotesk {
   font-family:
     var(--font-grotesk), ui-sans-serif, system-ui, sans-serif,
