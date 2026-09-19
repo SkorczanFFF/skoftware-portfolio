@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import '@/styles/globals.css';
 
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
 
 import CookieConsentBanner from '@/components/CookieConsent';
@@ -64,17 +65,16 @@ function MyApp({ Component, pageProps }: AppProps) {
       infinite: false,
     });
 
-    let rafId: number;
-
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-
-    rafId = requestAnimationFrame(raf);
+    // One clock for scroll and animation: Lenis ticks from GSAP's ticker and
+    // reports back to ScrollTrigger, so scrubbed tweens land on the same frame
+    // as the scroll position instead of one behind it.
+    lenis.on('scroll', ScrollTrigger.update);
+    const tick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(tick);
       lenis.destroy();
     };
   }, []);
