@@ -18,6 +18,11 @@
   --color-orange-dark: #972b1a;
   --color-deep-blue: #0c2835;
   --color-off-white: #f9f9f9;
+  /* Text-safe tints of the accents: the base raspberry/orange are backgrounds
+     and lines only — as text on primary-blue they land at 3:1 or worse. These
+     sit at 5.5:1 / 5.9:1 on primary-blue. */
+  --color-raspberry-bright: #e8607f;
+  --color-orange-bright: #f26a4f;
 
   --container-wide: 1100px;
   --container-prose: 820px;
