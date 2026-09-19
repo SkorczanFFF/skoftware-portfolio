@@ -21,7 +21,7 @@ import { useLocale } from '@/locale/LocaleContext';
 const SOCIAL_ICONS = { GitHub: GithubIcon, LinkedIn: LinkedinIcon } as const;
 
 const FOOTER_LINK =
-  'flex items-center gap-2 font-bold text-deep-blue/60 transition-all duration-200 hover:translate-x-1 hover:text-raspberry md:flex-row-reverse';
+  'flex items-center gap-2 font-bold text-deep-blue/70 transition-all duration-200 hover:translate-x-1 hover:text-raspberry md:flex-row-reverse';
 
 const FOREIGN_HEADINGS = [
   'LASS UNS REDEN.', // German
@@ -110,12 +110,12 @@ export default function Footer(): React.JSX.Element {
               {t.footerHeading}
             </h2>
 
-            <p className='mb-8 max-w-md text-lg font-light leading-tight text-deep-blue/60 md:text-xl'>
+            <p className='mb-8 max-w-md text-lg font-light leading-tight text-deep-blue/70 md:text-xl'>
               {t.footerNarrative}
             </p>
 
             <div className='flex flex-col gap-2'>
-              <span className='text-[0.65rem] uppercase tracking-[0.2em] text-deep-blue/40'>
+              <span className='text-[0.65rem] uppercase tracking-[0.2em] text-deep-blue/65'>
                 {t.footerDirectLabel}
               </span>
               <a
@@ -150,16 +150,16 @@ export default function Footer(): React.JSX.Element {
                   <span className='text-deep-blue'>ware</span>
                   <span className='text-deep-blue'> Maciej Skorus</span>
                 </h3>
-                <p className='mt-1 text-sm font-medium tracking-wide text-deep-blue/60'>
+                <p className='mt-1 text-sm font-medium tracking-wide text-deep-blue/70'>
                   {t.contactCompanyInfo}
                 </p>
-                <p className='mt-2 text-xs tracking-wide text-deep-blue/45'>
+                <p className='mt-2 text-xs tracking-wide text-deep-blue/65'>
                   NIP {VAT_NUMBER} · {t.footerInvoiceNote}
                 </p>
               </div>
 
               <div className='flex flex-col gap-4 md:items-end'>
-                <span className='text-[0.65rem] uppercase tracking-[0.2em] text-deep-blue/50'>
+                <span className='text-[0.65rem] uppercase tracking-[0.2em] text-deep-blue/65'>
                   {t.footerNetworkLabel}
                 </span>
                 <nav className='flex flex-col gap-3 md:items-end'>
@@ -181,7 +181,7 @@ export default function Footer(): React.JSX.Element {
               </div>
 
               <div className='flex flex-col gap-4 md:items-end mt-6'>
-                <span className='text-[0.65rem] uppercase tracking-[0.2em] text-deep-blue/40'>
+                <span className='text-[0.65rem] uppercase tracking-[0.2em] text-deep-blue/65'>
                   {t.footerResume}
                 </span>
                 <nav className='flex flex-col gap-3 md:items-end'>
@@ -202,7 +202,7 @@ export default function Footer(): React.JSX.Element {
             </div>
 
             <div className='mt-auto'>
-              <p className='mb-2 text-xs uppercase tracking-widest text-deep-blue/50'>
+              <p className='mb-2 text-xs uppercase tracking-widest text-deep-blue/65'>
                 {t.contactLocation} · {t.contactInvoiceInfo}
               </p>
             </div>
