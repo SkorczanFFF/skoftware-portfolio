@@ -15,7 +15,7 @@ import ImageParticleField from '@/components/Hero/Partials/imageParticles/ImageP
 useLoader.preload(THREE.TextureLoader, '/me.png');
 
 // The portrait sits on the right, opposite the offer copy, and centred on
-// phones where the copy splits above and below it (HeroCopy).
+// phones where the copy splits above and below it (Hero).
 const SCENE_CONFIG = {
   mobile: { scale: 0.9, groupX: 0, targetX: 0 },
   tablet: { scale: 1.15, groupX: 4, targetX: 1 },

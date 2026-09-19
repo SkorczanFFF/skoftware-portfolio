@@ -20,7 +20,6 @@ export const pl: Dictionary = {
   toggleMenu: 'Przełącz menu',
   navMenuLabel: 'Nawigacja główna',
 
-  heroEyebrow: 'SKOFTWARE',
   heroH1Line1: 'Pomysły na wejściu.',
   heroH1Line2: 'Software na wyjściu.',
   heroSubtitle:

@@ -95,7 +95,7 @@ body {
   }
 }
 
-/* Brand gradient on badges and bars; the slow drift is part of the look. */
+/* Brand gradient on badges, bars and the hero CTA; the slow drift is part of the look. */
 .gradient {
   background: linear-gradient(
     270deg,

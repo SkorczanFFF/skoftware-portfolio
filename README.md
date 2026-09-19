@@ -103,8 +103,7 @@ Sections, top to bottom: Hero → Services → Process → TechStrip → Why me 
 src/
 ├── components/
 │   ├── Hero/
-│   │   ├── Hero.tsx               # Section shell, contrast gradient, arrows
-│   │   ├── HeroCopy.tsx           # Server-rendered headline + CTAs
+│   │   ├── Hero.tsx               # Section shell, server-rendered copy, arrows
 │   │   ├── HeroScene.tsx          # R3F canvas (client only), tap pulses
 │   │   └── Partials/
 │   │       ├── Scene.tsx          # Portrait + bio particles + background

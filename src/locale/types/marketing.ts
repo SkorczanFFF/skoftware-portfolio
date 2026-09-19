@@ -10,7 +10,6 @@ import type {
  * and the portfolio grid.
  */
 export type MarketingStrings = {
-  heroEyebrow: string;
   heroH1Line1: string;
   heroH1Line2: string;
   heroSubtitle: string;
