@@ -27,22 +27,30 @@ export default function Process(): React.JSX.Element {
         ref={listRef}
         className='mx-auto grid w-full max-w-wide gap-x-8 gap-y-10 px-6 sm:grid-cols-2 md:px-10 xl:grid-cols-4'
       >
+        {/* One column below sm: the numeral and title share a line so a step
+            is not a lone "01" over a full-width gap. From sm the wrapper
+            dissolves (`contents`) and `order` restores numeral / rule / title. */}
         {t.processSteps.map((step, i) => (
-          <div key={step.title} className='process-step'>
+          <div
+            key={step.title}
+            className='process-step max-w-[440px] sm:flex sm:max-w-none sm:flex-col'
+          >
+            <div className='flex items-baseline gap-3 sm:contents'>
+              <span
+                className='font-unica text-3xl leading-none tracking-tighter text-white/30 sm:text-5xl md:text-6xl'
+                aria-hidden='true'
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 className='font-unica text-xl uppercase leading-tight tracking-tight text-white sm:order-2 md:text-2xl'>
+                {step.title}
+              </h3>
+            </div>
             <span
-              className='font-unica text-5xl leading-none tracking-tighter text-white/30 md:text-6xl'
-              aria-hidden='true'
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <span
-              className='mb-4 mt-4 block h-[2px] w-10 bg-white'
+              className='mb-4 mt-4 block h-[2px] w-10 bg-white sm:order-1'
               aria-hidden='true'
             />
-            <h3 className='font-unica text-xl uppercase leading-tight tracking-tight text-white md:text-2xl'>
-              {step.title}
-            </h3>
-            <p className='mt-3 text-[14px] font-light leading-relaxed text-white/70 md:text-[15px]'>
+            <p className='mt-3 text-[14px] font-light leading-relaxed text-white/70 sm:order-3 md:text-[15px]'>
               {step.description}
             </p>
           </div>
