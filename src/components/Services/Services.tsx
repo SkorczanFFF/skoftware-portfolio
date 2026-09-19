@@ -81,7 +81,7 @@ function ServiceCard({
           </h3>
 
           <p
-            className={`text-[13px] -mt-4 font-medium tracking-wide brightness-150 ${isOdd ? 'text-orange' : 'text-raspberry'}`}
+            className={`text-[13px] -mt-4 font-medium tracking-wide ${isOdd ? 'text-orange-bright' : 'text-raspberry-bright'}`}
             style={{ transform: 'translateZ(30px)' }}
           >
             {service.tagline}
@@ -110,7 +110,7 @@ function ServiceCard({
           </ul>
 
           <p
-            className={`mt-auto pt-2 text-[11px] font-medium uppercase tracking-[0.15em] ${isOdd ? 'text-orange/80' : 'text-raspberry/80'}`}
+            className={`mt-auto pt-2 text-[11px] font-medium uppercase tracking-[0.15em] ${isOdd ? 'text-orange-bright' : 'text-raspberry-bright'}`}
             style={{ transform: 'translateZ(15px)' }}
           >
             {pricingNote}

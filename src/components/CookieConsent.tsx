@@ -108,7 +108,7 @@ export default function CookieConsentBanner() {
               {t.cookieDescription}{' '}
               <Link
                 href='/cookies'
-                className='text-orange underline transition-colors hover:text-orange-dark brightness-150'
+                className='text-orange-bright underline transition-colors hover:text-white'
                 onClick={() => setVisible(false)}
               >
                 {t.cookiePolicyTitle}
@@ -146,7 +146,7 @@ export default function CookieConsentBanner() {
                         <p className='text-sm font-medium'>
                           {t.cookieNecessaryTitle}
                         </p>
-                        <p className='mt-0.5 text-xs text-white/50'>
+                        <p className='mt-0.5 text-xs text-white/60'>
                           {t.cookieNecessaryDescription}
                         </p>
                       </div>
@@ -162,7 +162,7 @@ export default function CookieConsentBanner() {
                         <p className='text-sm font-medium'>
                           {t.cookieAnalyticsTitle}
                         </p>
-                        <p className='mt-0.5 text-xs text-white/50'>
+                        <p className='mt-0.5 text-xs text-white/60'>
                           {t.cookieAnalyticsDescription}
                         </p>
                       </div>

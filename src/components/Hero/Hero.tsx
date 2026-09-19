@@ -79,7 +79,7 @@ export default function Hero(): React.JSX.Element {
           {/* TODO: prepend the project count once there is a verified figure. */}
           {/* Tighter below xsm so the line never wraps on 360px phones — a dangling
               separator looks broken where the list acts as the eyebrow. */}
-          <ul className='order-first mb-2 flex flex-wrap items-center gap-x-1.5 gap-y-2 text-[10px] uppercase tracking-widest text-white/50 xsm:gap-x-3 xsm:tracking-[0.2em] sm:text-[11px] lg:landscape:mb-0 lg:landscape:mt-8 xxl:text-[13px]'>
+          <ul className='order-first mb-2 flex flex-wrap items-center gap-x-1.5 gap-y-2 text-[10px] uppercase tracking-widest text-white/60 xsm:gap-x-3 xsm:tracking-[0.2em] sm:text-[11px] lg:landscape:mb-0 lg:landscape:mt-8 xxl:text-[13px]'>
             {t.heroTrust.map((item, i) => (
               <React.Fragment key={item}>
                 {i > 0 && (
