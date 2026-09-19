@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 
 import { techIconMap } from '@/lib/shared/techMap';
+import { useActiveOnScroll } from '@/hooks/useActiveOnScroll';
 import { useReveal } from '@/hooks/useReveal';
+import { useSectionExit } from '@/hooks/useSectionExit';
 
 import Section from '@/components/ui/Section';
 
@@ -27,6 +29,7 @@ const HEADLINE_TECH = [
  */
 export default function TechStrip(): React.JSX.Element {
   const { t } = useLocale();
+  const bodyRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLUListElement>(null);
 
   useReveal(rowRef, {
@@ -37,6 +40,8 @@ export default function TechStrip(): React.JSX.Element {
     ease: 'power2.out',
     start: 'top 90%',
   });
+  useSectionExit(bodyRef);
+  useActiveOnScroll(rowRef, 'li');
 
   return (
     <Section
@@ -45,7 +50,10 @@ export default function TechStrip(): React.JSX.Element {
       aria-label={t.techStripLabel}
       className='px-6 pb-[60px] pt-[56px] md:pb-[80px] md:pt-[80px]'
     >
-      <div className='mx-auto flex max-w-wide flex-col items-center gap-8'>
+      <div
+        ref={bodyRef}
+        className='mx-auto flex max-w-wide flex-col items-center gap-8'
+      >
         <p className='text-balance text-center text-[14px] font-medium leading-relaxed text-white/90'>
           {t.techStripLead}
         </p>
@@ -60,7 +68,7 @@ export default function TechStrip(): React.JSX.Element {
             return (
               <li key={label}>
                 <Icon
-                  className='text-3xl text-white/70 transition-colors duration-200 hover:text-white md:text-4xl'
+                  className='text-3xl text-white/70 transition-[color,transform] duration-300 hover:-translate-y-0.5 hover:text-white scroll-active:-translate-y-0.5 scroll-active:text-white md:text-4xl'
                   role='img'
                   aria-label={label}
                 />

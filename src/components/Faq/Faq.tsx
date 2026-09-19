@@ -3,6 +3,8 @@ import React, { useRef, useState } from 'react';
 
 import { gsap } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
+import { useReveal } from '@/hooks/useReveal';
+import { useSectionExit } from '@/hooks/useSectionExit';
 
 import Section from '@/components/ui/Section';
 import SectionTitle from '@/components/ui/SectionTitle';
@@ -18,6 +20,10 @@ export default function Faq(): React.JSX.Element {
   const { t } = useLocale();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const panelsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useReveal(listRef, { selector: 'li', y: 16, stagger: 0.06 });
+  useSectionExit(listRef);
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -105,7 +111,7 @@ export default function Faq(): React.JSX.Element {
 
       <SectionTitle tone='dark'>{t.faqSectionTitle}</SectionTitle>
 
-      <ul className='mx-auto w-full max-w-prose px-6 md:px-10'>
+      <ul ref={listRef} className='mx-auto w-full max-w-prose px-6 md:px-10'>
         {t.faqItems.map((item, i) => {
           const isOpen = openIndex === i;
           return (
@@ -119,10 +125,10 @@ export default function Faq(): React.JSX.Element {
                 aria-expanded={isOpen}
                 aria-controls={`faq-panel-${i}`}
                 onClick={() => handleToggle(i)}
-                className='flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left'
+                className='group flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left'
               >
                 <span
-                  className={`font-unica text-lg uppercase leading-tight tracking-tight transition-colors duration-300 md:text-xl ${isOpen ? 'text-raspberry' : 'text-primary-blue'}`}
+                  className={`font-unica text-lg uppercase leading-tight tracking-tight transition-colors duration-300 md:text-xl ${isOpen ? 'text-raspberry' : 'text-primary-blue group-hover:text-raspberry'}`}
                 >
                   {item.q}
                 </span>

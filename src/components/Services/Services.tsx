@@ -12,6 +12,7 @@ import {
 } from '@/lib/shared/Icons';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrollTriggers } from '@/hooks/useScrollTriggers';
+import { useSectionExit } from '@/hooks/useSectionExit';
 import { useTilt } from '@/hooks/useTilt';
 
 import Button from '@/components/ui/Button';
@@ -140,7 +141,10 @@ function ServiceCard({
 export default function Services(): React.JSX.Element {
   const { t } = useLocale();
   const gridRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  useSectionExit(bodyRef);
 
   useScrollTriggers(() => {
     if (!gridRef.current) return [];
@@ -176,8 +180,8 @@ export default function Services(): React.JSX.Element {
     gsap.set(cards, {
       opacity: 0,
       y: 28,
-      rotationX: -12,
-      scale: 0.94,
+      rotationX: -8,
+      scale: 0.96,
       transformPerspective: 800,
       transformOrigin: '50% 100%',
     });
@@ -200,8 +204,8 @@ export default function Services(): React.JSX.Element {
           gsap.to(batch, {
             opacity: 0,
             y: 28,
-            rotationX: -12,
-            scale: 0.94,
+            rotationX: -8,
+            scale: 0.96,
             duration: 0.4,
             ease: 'power2.in',
             overwrite: true,
@@ -284,28 +288,30 @@ export default function Services(): React.JSX.Element {
         {t.servicesSectionTitle}
       </SectionTitle>
 
-      <div
-        ref={gridRef}
-        className='service-grid mx-auto grid max-w-[1200px] gap-[60px] md:gap-y-0 grid-cols-1 md:gap-x-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-y-12'
-      >
-        {t.services.map((service, i) => (
-          <div
-            key={service.slug}
-            className={`service-card mx-auto w-full max-w-[370px] ${i % 2 === 1 ? 'md:mt-[60px]' : ''} ${i % 3 === 1 ? 'xl:mt-[24px]' : 'xl:mt-0'}`}
-          >
-            <ServiceCard
-              service={service}
-              index={i}
-              prefersReducedMotion={prefersReducedMotion}
-              pricingNote={t.servicesPricingNote}
-            />
-          </div>
-        ))}
-      </div>
+      <div ref={bodyRef} className='flex w-full flex-col items-center'>
+        <div
+          ref={gridRef}
+          className='service-grid mx-auto grid max-w-[1200px] gap-[60px] md:gap-y-0 grid-cols-1 md:gap-x-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-y-12'
+        >
+          {t.services.map((service, i) => (
+            <div
+              key={service.slug}
+              className={`service-card mx-auto w-full max-w-[370px] ${i % 2 === 1 ? 'md:mt-[60px]' : ''} ${i % 3 === 1 ? 'xl:mt-[24px]' : 'xl:mt-0'}`}
+            >
+              <ServiceCard
+                service={service}
+                index={i}
+                prefersReducedMotion={prefersReducedMotion}
+                pricingNote={t.servicesPricingNote}
+              />
+            </div>
+          ))}
+        </div>
 
-      <Button href='/#contact' className='mt-14'>
-        {t.servicesCtaLabel}
-      </Button>
+        <Button href='/#contact' className='mt-14'>
+          {t.servicesCtaLabel}
+        </Button>
+      </div>
     </Section>
   );
 }
