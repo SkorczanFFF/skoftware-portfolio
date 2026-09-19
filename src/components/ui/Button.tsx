@@ -13,7 +13,8 @@ const VARIANT_CLASS: Record<Variant, string> = {
   primary: 'bg-raspberry text-white hover:bg-orange',
   // `.gradient` is unlayered, so it beats any bg-* utility: hover goes through
   // a filter instead of a background swap.
-  gradient: 'gradient text-white transition-[filter] hover:brightness-110',
+  gradient:
+    'gradient text-white transition-[filter,transform] hover:-translate-y-px hover:brightness-110',
   ghost:
     'border border-white/30 text-white/90 backdrop-blur-[6px] hover:border-white hover:bg-white/10',
 };
