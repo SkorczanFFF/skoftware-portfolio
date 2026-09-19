@@ -3,8 +3,11 @@ import React from 'react';
 
 type Variant = 'primary' | 'ghost' | 'gradient';
 
+// Focus ring is a light-inside / dark-outside pair: variants live on both the
+// dark hero and the light Services section, and no single colour clears 3:1
+// against both backgrounds.
 const BASE =
-  'rounded-[2px] px-6 py-3 text-center text-sm font-medium uppercase tracking-widest transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange';
+  'rounded-[2px] px-6 py-3 text-center text-sm font-medium uppercase tracking-widest transition-colors duration-200 focus-visible:outline-none focus-visible:shadow-[0_0_0_2px_var(--color-white),0_0_0_4px_var(--color-primary-blue)]';
 
 const VARIANT_CLASS: Record<Variant, string> = {
   primary: 'bg-raspberry text-white hover:bg-orange',
