@@ -21,7 +21,7 @@ export const en: Dictionary = {
   navMenuLabel: 'Main navigation',
 
   heroH1Line1: 'Ideas in.',
-  heroH1Line2: 'Working software out.',
+  heroH1Line2: 'Software out.',
   heroSubtitle:
     'Websites, web and mobile apps, AI and 3D integrations — built around your business, not a template. From idea to launch to maintenance. One contractor, VAT invoicing.',
   heroCtaPrimary: 'Describe your idea — quote in 48 h',
