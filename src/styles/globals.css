@@ -157,6 +157,30 @@ body {
   z-index: 20;
 }
 
+/* Route curtain (RouteTransition.tsx). Both edges carry the section arrow at
+   its own size — a full-bleed triangle would flatten into a straight line —
+   and the panel is 20px taller than the viewport at each end so the flat band
+   between the points still covers it completely. */
+.route-curtain {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -20px;
+  height: calc(100% + 40px);
+  clip-path: polygon(
+    0 20px,
+    calc(50% - 32.5px) 20px,
+    50% 0,
+    calc(50% + 32.5px) 20px,
+    100% 20px,
+    100% calc(100% - 20px),
+    calc(50% + 32.5px) calc(100% - 20px),
+    50% 100%,
+    calc(50% - 32.5px) calc(100% - 20px),
+    0 calc(100% - 20px)
+  );
+}
+
 .scroll-arrow {
   position: absolute;
   top: 89%;
@@ -201,58 +225,20 @@ body {
   }
 }
 
-.loader {
-  color: var(--color-orange-dark);
-  position: relative;
-  font-size: 11px;
-  background: var(--color-orange-dark);
-  animation: escaleY 1s infinite ease-in-out;
-  width: 1em;
-  height: 4em;
-  animation-delay: -0.16s;
-}
-
-.loader:before,
-.loader:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 2em;
-  background: var(--color-raspberry);
-  width: 1em;
-  height: 4em;
-  animation: escaleY 1s infinite ease-in-out;
-}
-
-.loader:before {
-  left: -2em;
-  animation-delay: -0.32s;
-}
-
-@keyframes escaleY {
-  0%,
-  80%,
-  100% {
-    box-shadow: 0 0;
-    height: 4em;
-  }
-
-  40% {
-    box-shadow: 0 -2em;
-    height: 5em;
-    background: var(--color-orange-dark);
-  }
-}
-
 ::selection {
   background-color: var(--color-raspberry);
   color: #fff;
 }
 
+/* Placed by transform alone (CustomCursor.tsx), so it starts pinned to the
+   corner and stays invisible until the pointer is first seen. */
 .invert-cursor {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 50px;
   height: 50px;
+  opacity: 0;
   pointer-events: none;
   border-radius: 50%;
   mix-blend-mode: difference;
@@ -261,6 +247,7 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
+  will-change: transform;
 }
 
 /* Hide OS cursor only when custom cursor JS is active */

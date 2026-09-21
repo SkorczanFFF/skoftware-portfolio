@@ -1,8 +1,7 @@
 import Lenis from 'lenis';
 import { AppProps } from 'next/app';
 import localFont from 'next/font/local';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import '@/styles/globals.css';
 
@@ -12,7 +11,7 @@ import { prefersReducedMotion } from '@/lib/motion';
 import CookieConsentBanner from '@/components/CookieConsent';
 import CustomCursor from '@/components/CustomCursor';
 import Header from '@/components/layout/Header/Header';
-import LoaderOverlay from '@/components/LoaderOverlay';
+import RouteTransition from '@/components/RouteTransition';
 import ScrollToTop from '@/components/ScrollToTop';
 
 import { LocaleProvider } from '@/locale/LocaleContext';
@@ -33,22 +32,7 @@ const unicaOne = localFont({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const [routeLoading, setRouteLoading] = useState(false);
-
-  const onStart = useCallback(() => setRouteLoading(true), []);
-  const onEnd = useCallback(() => setRouteLoading(false), []);
-
-  useEffect(() => {
-    router.events.on('routeChangeStart', onStart);
-    router.events.on('routeChangeComplete', onEnd);
-    router.events.on('routeChangeError', onEnd);
-    return () => {
-      router.events.off('routeChangeStart', onStart);
-      router.events.off('routeChangeComplete', onEnd);
-      router.events.off('routeChangeError', onEnd);
-    };
-  }, [router, onStart, onEnd]);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -83,8 +67,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div className={`${spaceGrotesk.variable} ${unicaOne.variable}`}>
       <LocaleProvider>
         <Header />
-        <LoaderOverlay visible={routeLoading} />
-        <Component {...pageProps} />
+        <RouteTransition contentRef={contentRef} />
+        {/* The page, and only the page: a locale switch crossfades this while
+            the header stays put as the frame around it. */}
+        <div ref={contentRef}>
+          <Component {...pageProps} />
+        </div>
         <ScrollToTop />
         <CookieConsentBanner />
         <CustomCursor />
