@@ -16,8 +16,8 @@ const PANEL_PARTS: Array<{
 }> = [
   {
     selector: null,
-    hidden: { opacity: 0.2, x: 150 },
-    exit: { opacity: 0.2, x: -150 },
+    hidden: { opacity: 0.2, x: 150, scale: 0.92 },
+    exit: { opacity: 0.2, x: -150, scale: 0.92 },
     enter: ['left 90%', 'left 40%'],
   },
   {
@@ -42,10 +42,13 @@ const PANEL_PARTS: Array<{
 
 const EXIT: [start: string, end: string] = ['right 60%', 'right 10%'];
 
-/** The visible counterpart of a hidden/exit state: opaque, at rest. */
+/** The visible counterpart of a hidden/exit state: opaque, full size, at rest. */
 const shown = (vars: Vars): Vars =>
   Object.fromEntries(
-    Object.keys(vars).map((key) => [key, key === 'opacity' ? 1 : 0]),
+    Object.keys(vars).map((key) => [
+      key,
+      key === 'opacity' || key === 'scale' ? 1 : 0,
+    ]),
   );
 
 export function usePortfolioScroll(

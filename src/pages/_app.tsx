@@ -1,17 +1,19 @@
 import Lenis from 'lenis';
 import { AppProps } from 'next/app';
 import localFont from 'next/font/local';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import '@/styles/globals.css';
 
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
+import { useScrollVelocity } from '@/hooks/useScrollVelocity';
 
 import CookieConsentBanner from '@/components/CookieConsent';
 import CustomCursor from '@/components/CustomCursor';
+import Grain from '@/components/Grain';
 import Header from '@/components/layout/Header/Header';
-import LoaderOverlay from '@/components/LoaderOverlay';
+import RouteTransition from '@/components/RouteTransition';
 import ScrollToTop from '@/components/ScrollToTop';
 
 import { LocaleProvider } from '@/locale/LocaleContext';
@@ -32,22 +34,9 @@ const unicaOne = localFont({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const [routeLoading, setRouteLoading] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  const onStart = useCallback(() => setRouteLoading(true), []);
-  const onEnd = useCallback(() => setRouteLoading(false), []);
-
-  useEffect(() => {
-    router.events.on('routeChangeStart', onStart);
-    router.events.on('routeChangeComplete', onEnd);
-    router.events.on('routeChangeError', onEnd);
-    return () => {
-      router.events.off('routeChangeStart', onStart);
-      router.events.off('routeChangeComplete', onEnd);
-      router.events.off('routeChangeError', onEnd);
-    };
-  }, [router, onStart, onEnd]);
+  useScrollVelocity();
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -62,19 +51,22 @@ function MyApp({ Component, pageProps }: AppProps) {
       syncTouch: false,
       touchMultiplier: 2,
       infinite: false,
+      // Mid-inertia Lenis ignores native scroll events and writes its own
+      // position back next frame, which would undo the route curtain's jump
+      // to the top. This kills the inertia on any click that leaves the page.
+      stopInertiaOnNavigate: true,
     });
 
-    let rafId: number;
-
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-
-    rafId = requestAnimationFrame(raf);
+    // One clock for scroll and animation: Lenis ticks from GSAP's ticker and
+    // reports back to ScrollTrigger, so scrubbed tweens land on the same frame
+    // as the scroll position instead of one behind it.
+    lenis.on('scroll', ScrollTrigger.update);
+    const tick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(tick);
       lenis.destroy();
     };
   }, []);
@@ -83,10 +75,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div className={`${spaceGrotesk.variable} ${unicaOne.variable}`}>
       <LocaleProvider>
         <Header />
-        <LoaderOverlay visible={routeLoading} />
-        <Component {...pageProps} />
+        <RouteTransition contentRef={contentRef} />
+        {/* The page, and only the page: a locale switch crossfades this while
+            the header stays put as the frame around it. */}
+        <div ref={contentRef}>
+          <Component {...pageProps} />
+        </div>
         <ScrollToTop />
         <CookieConsentBanner />
+        <Grain />
         <CustomCursor />
       </LocaleProvider>
     </div>

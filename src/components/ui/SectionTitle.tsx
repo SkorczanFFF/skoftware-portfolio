@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
+
+import { useLetterReveal } from '@/hooks/useLetterReveal';
 
 type Tone = 'light' | 'dark';
 
@@ -24,17 +26,44 @@ type SectionTitleProps = {
   children: React.ReactNode;
 };
 
+/**
+ * A string title is split into one inline-block per letter so each can stand
+ * up on its own (useLetterReveal). Spaces stay as plain text — an inline-block
+ * holding only a space collapses to nothing. Assistive technology gets the
+ * whole title from `aria-label`; the letters are hidden from it, so nothing
+ * is read out one character at a time.
+ */
 export default function SectionTitle({
   tone,
   layout = 'default',
   className = '',
   children,
 }: SectionTitleProps) {
+  const ref = useRef<HTMLHeadingElement>(null);
+  const text = typeof children === 'string' ? children : null;
+  useLetterReveal(ref, text);
+
   return (
     <h2
-      className={`font-grotesk text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:origin-top-left xl:rotate-90 ${TONE_CLASS[tone]} ${layout === 'default' ? DEFAULT_LAYOUT : ''} ${className}`}
+      ref={ref}
+      aria-label={text ?? undefined}
+      className={`scroll-lean font-grotesk text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:origin-top-left xl:rotate-90 ${TONE_CLASS[tone]} ${layout === 'default' ? DEFAULT_LAYOUT : ''} ${className}`}
     >
-      {children}
+      {text === null ? (
+        children
+      ) : (
+        <span aria-hidden='true'>
+          {[...text].map((letter, i) =>
+            letter === ' ' ? (
+              ' '
+            ) : (
+              <span key={i} data-letter className='inline-block'>
+                {letter}
+              </span>
+            ),
+          )}
+        </span>
+      )}
     </h2>
   );
 }

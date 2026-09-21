@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 
+import { useActiveOnScroll } from '@/hooks/useActiveOnScroll';
 import { useReveal } from '@/hooks/useReveal';
+import { useSectionExit } from '@/hooks/useSectionExit';
 
 import Section from '@/components/ui/Section';
 import SectionTitle from '@/components/ui/SectionTitle';
@@ -15,7 +17,9 @@ export default function WhyMe(): React.JSX.Element {
   const { t } = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useReveal(rootRef, { selector: '.why-me-item', y: 20 });
+  useReveal(rootRef, { selector: '.why-me-item', y: 20, draw: '.why-me-rule' });
+  useSectionExit(rootRef);
+  useActiveOnScroll(rootRef, 'li');
 
   return (
     <Section
@@ -35,15 +39,24 @@ export default function WhyMe(): React.JSX.Element {
           {t.whyMeBody}
         </p>
 
-        <ul className='why-me-item mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-3'>
+        <ul className='mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-3'>
           {t.whyMePoints.map((point, i) => (
-            <li key={point} className='border-white/10 border-t pt-4'>
-              {/* Full literals on purpose: Tailwind only sees classes written out. */}
+            <li
+              key={point}
+              className='why-me-item group border-white/10 border-t pt-4'
+            >
+              {/* Full literals on purpose: Tailwind only sees classes written out.
+                  The rule widens and brightens on hover, or on touch while the
+                  item crosses mid-screen (`scroll-active:`). */}
               <span
-                className={`mb-3 block h-[2px] w-10 ${i % 2 === 0 ? 'bg-raspberry' : 'bg-orange'}`}
+                className={`why-me-rule mb-3 block h-[2px] w-10 transition-[width,background-color] duration-300 ${
+                  i % 2 === 0
+                    ? 'bg-raspberry group-hover:w-20 group-hover:bg-raspberry-bright scroll-active:w-20 scroll-active:bg-raspberry-bright'
+                    : 'bg-orange group-hover:w-20 group-hover:bg-orange-bright scroll-active:w-20 scroll-active:bg-orange-bright'
+                }`}
                 aria-hidden='true'
               />
-              <span className='text-white/80 block text-[15px] font-medium leading-snug'>
+              <span className='block text-[15px] font-medium leading-snug text-white/80 transition-colors duration-300 group-hover:text-white scroll-active:text-white'>
                 {point}
               </span>
             </li>

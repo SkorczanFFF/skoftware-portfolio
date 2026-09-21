@@ -11,7 +11,9 @@ import {
   WrenchIcon,
 } from '@/lib/shared/Icons';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useReveal } from '@/hooks/useReveal';
 import { useScrollTriggers } from '@/hooks/useScrollTriggers';
+import { useSectionExit } from '@/hooks/useSectionExit';
 import { useTilt } from '@/hooks/useTilt';
 
 import Button from '@/components/ui/Button';
@@ -140,74 +142,22 @@ function ServiceCard({
 export default function Services(): React.JSX.Element {
   const { t } = useLocale();
   const gridRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  // Cards come up from depth tipped back around their bottom edge, so they
+  // rise flat into place as they arrive.
+  useReveal(gridRef, { selector: '.service-card', y: 28, rotationX: -8 });
+  useSectionExit(bodyRef);
+
   useScrollTriggers(() => {
-    if (!gridRef.current) return [];
+    if (!gridRef.current || prefersReducedMotion) return [];
 
     const cards = gsap.utils.toArray<Element>('.service-card', gridRef.current);
     if (!cards.length) return [];
 
     const isDesktop3Col = window.innerWidth >= BREAKPOINTS.xl;
     const triggers: ScrollTrigger[] = [];
-
-    // Reduced motion: opacity-only reveal, no 3D.
-    if (prefersReducedMotion) {
-      gsap.set(cards, { opacity: 0 });
-      triggers.push(
-        ...ScrollTrigger.batch(cards, {
-          start: 'top 85%',
-          onEnter: (batch) =>
-            gsap.to(batch, {
-              opacity: 1,
-              duration: 0.5,
-              stagger: 0.06,
-              overwrite: true,
-            }),
-          onLeaveBack: (batch) => gsap.set(batch, { opacity: 0 }),
-        }),
-      );
-      return triggers;
-    }
-
-    // Entrance: cards start tipped back and scaled down, then rise flat into
-    // place. ScrollTrigger.batch staggers each row as it enters, so the same
-    // motion reads on 1/2/3 columns.
-    gsap.set(cards, {
-      opacity: 0,
-      y: 28,
-      rotationX: -12,
-      scale: 0.94,
-      transformPerspective: 800,
-      transformOrigin: '50% 100%',
-    });
-
-    triggers.push(
-      ...ScrollTrigger.batch(cards, {
-        start: 'top 85%',
-        onEnter: (batch) =>
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            rotationX: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: 'power3.out',
-            stagger: 0.09,
-            overwrite: true,
-          }),
-        onLeaveBack: (batch) =>
-          gsap.to(batch, {
-            opacity: 0,
-            y: 28,
-            rotationX: -12,
-            scale: 0.94,
-            duration: 0.4,
-            ease: 'power2.in',
-            overwrite: true,
-          }),
-      }),
-    );
 
     // Touch fallback for hover — cards lift (scale + shadow + glow + title
     // spacing) as they pass through the viewport, mirroring the desktop hover.
@@ -284,28 +234,30 @@ export default function Services(): React.JSX.Element {
         {t.servicesSectionTitle}
       </SectionTitle>
 
-      <div
-        ref={gridRef}
-        className='service-grid mx-auto grid max-w-[1200px] gap-[60px] md:gap-y-0 grid-cols-1 md:gap-x-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-y-12'
-      >
-        {t.services.map((service, i) => (
-          <div
-            key={service.slug}
-            className={`service-card mx-auto w-full max-w-[370px] ${i % 2 === 1 ? 'md:mt-[60px]' : ''} ${i % 3 === 1 ? 'xl:mt-[24px]' : 'xl:mt-0'}`}
-          >
-            <ServiceCard
-              service={service}
-              index={i}
-              prefersReducedMotion={prefersReducedMotion}
-              pricingNote={t.servicesPricingNote}
-            />
-          </div>
-        ))}
-      </div>
+      <div ref={bodyRef} className='flex w-full flex-col items-center'>
+        <div
+          ref={gridRef}
+          className='service-grid mx-auto grid max-w-[1200px] gap-[60px] md:gap-y-0 grid-cols-1 md:gap-x-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-y-12'
+        >
+          {t.services.map((service, i) => (
+            <div
+              key={service.slug}
+              className={`service-card mx-auto w-full max-w-[370px] ${i % 2 === 1 ? 'md:mt-[60px]' : ''} ${i % 3 === 1 ? 'xl:mt-[24px]' : 'xl:mt-0'}`}
+            >
+              <ServiceCard
+                service={service}
+                index={i}
+                prefersReducedMotion={prefersReducedMotion}
+                pricingNote={t.servicesPricingNote}
+              />
+            </div>
+          ))}
+        </div>
 
-      <Button href='/#contact' className='mt-14'>
-        {t.servicesCtaLabel}
-      </Button>
+        <Button href='/#contact' className='mt-14'>
+          {t.servicesCtaLabel}
+        </Button>
+      </div>
     </Section>
   );
 }

@@ -28,6 +28,27 @@
   --container-prose: 820px;
 }
 
+/* Touch counterpart of `group-hover:` — `useActiveOnScroll` adds `.is-active`
+   to an item while it crosses the middle of the viewport. */
+@custom-variant scroll-active (&:where(.is-active, .is-active *));
+
+/* Scroll velocity, −1..1, written by useScrollVelocity every frame it moves.
+   Registered so the browser keeps a number and re-resolves only the rules
+   that read it, instead of re-parsing a token stream across the tree. */
+@property --scroll-velocity {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Text that leans into the scroll direction: the hero h1 and section titles.
+   Uses `transform`, which composes with Tailwind's own `rotate` property on
+   the rotated titles instead of replacing it. */
+.scroll-lean {
+  transform: skewY(calc(var(--scroll-velocity) * -2deg));
+  will-change: transform;
+}
+
 @utility font-grotesk {
   font-family:
     var(--font-grotesk), ui-sans-serif, system-ui, sans-serif,
@@ -129,6 +150,13 @@ body {
   border-style: solid;
   border-width: 20px 32.5px 0 32.5px;
   margin: auto;
+  /* Hangs from the section above and stretches with scroll speed, so the
+     joints pull like taffy on a flick. `max(v, -v)` stands in for abs(). */
+  transform-origin: top center;
+  transform: scaleY(
+    calc(1 + max(var(--scroll-velocity), -1 * var(--scroll-velocity)) * 0.9)
+  );
+  will-change: transform;
 }
 
 .arrow-down.gradient {
@@ -151,6 +179,74 @@ body {
     var(--color-white);
   margin-top: -20px;
   z-index: 20;
+}
+
+/* Film grain (Grain.tsx). The noise is one 300px SVG tile, rasterised once
+   and repeated; the element is a little larger than the viewport so it can
+   be nudged by `transform` — compositor only, no repaint — in hard steps,
+   which reads as flicker. Under reduced motion the animation collapses to a
+   single frame and the grain simply stands still. */
+.grain {
+  position: fixed;
+  inset: -40px;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
+    0 0 / 300px 300px repeat;
+  animation: grain 0.9s steps(1) infinite;
+}
+
+@keyframes grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  12.5% {
+    transform: translate(-14px, 9px);
+  }
+  25% {
+    transform: translate(22px, -31px);
+  }
+  37.5% {
+    transform: translate(-27px, 18px);
+  }
+  50% {
+    transform: translate(9px, 26px);
+  }
+  62.5% {
+    transform: translate(-33px, -12px);
+  }
+  75% {
+    transform: translate(17px, 34px);
+  }
+  87.5% {
+    transform: translate(-6px, -24px);
+  }
+}
+
+/* Route curtain (RouteTransition.tsx). Both edges carry the section arrow at
+   its own size — a full-bleed triangle would flatten into a straight line —
+   and the panel is 20px taller than the viewport at each end so the flat band
+   between the points still covers it completely. */
+.route-curtain {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -20px;
+  height: calc(100% + 40px);
+  clip-path: polygon(
+    0 20px,
+    calc(50% - 32.5px) 20px,
+    50% 0,
+    calc(50% + 32.5px) 20px,
+    100% 20px,
+    100% calc(100% - 20px),
+    calc(50% + 32.5px) calc(100% - 20px),
+    50% 100%,
+    calc(50% - 32.5px) calc(100% - 20px),
+    0 calc(100% - 20px)
+  );
 }
 
 .scroll-arrow {
@@ -197,58 +293,20 @@ body {
   }
 }
 
-.loader {
-  color: var(--color-orange-dark);
-  position: relative;
-  font-size: 11px;
-  background: var(--color-orange-dark);
-  animation: escaleY 1s infinite ease-in-out;
-  width: 1em;
-  height: 4em;
-  animation-delay: -0.16s;
-}
-
-.loader:before,
-.loader:after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 2em;
-  background: var(--color-raspberry);
-  width: 1em;
-  height: 4em;
-  animation: escaleY 1s infinite ease-in-out;
-}
-
-.loader:before {
-  left: -2em;
-  animation-delay: -0.32s;
-}
-
-@keyframes escaleY {
-  0%,
-  80%,
-  100% {
-    box-shadow: 0 0;
-    height: 4em;
-  }
-
-  40% {
-    box-shadow: 0 -2em;
-    height: 5em;
-    background: var(--color-orange-dark);
-  }
-}
-
 ::selection {
   background-color: var(--color-raspberry);
   color: #fff;
 }
 
+/* Placed by transform alone (CustomCursor.tsx), so it starts pinned to the
+   corner and stays invisible until the pointer is first seen. */
 .invert-cursor {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 50px;
   height: 50px;
+  opacity: 0;
   pointer-events: none;
   border-radius: 50%;
   mix-blend-mode: difference;
@@ -257,6 +315,7 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
+  will-change: transform;
 }
 
 /* Hide OS cursor only when custom cursor JS is active */
