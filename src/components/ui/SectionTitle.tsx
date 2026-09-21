@@ -32,7 +32,7 @@ export default function SectionTitle({
 }: SectionTitleProps) {
   return (
     <h2
-      className={`font-grotesk text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:origin-top-left xl:rotate-90 ${TONE_CLASS[tone]} ${layout === 'default' ? DEFAULT_LAYOUT : ''} ${className}`}
+      className={`scroll-lean font-grotesk text-xl font-normal leading-3 tracking-[10px] xl:absolute xl:origin-top-left xl:rotate-90 ${TONE_CLASS[tone]} ${layout === 'default' ? DEFAULT_LAYOUT : ''} ${className}`}
     >
       {children}
     </h2>

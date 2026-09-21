@@ -50,7 +50,7 @@ export default function Hero(): React.JSX.Element {
 
       <div className='pointer-events-none relative z-20 flex flex-1 items-center'>
         <div className='flex h-full w-full flex-col px-6 pb-10 pt-16 md:px-10 lg:px-16 xl:pl-20 2xl:pl-28 xxl:pl-40 lg:landscape:block lg:landscape:h-auto lg:landscape:pb-0 lg:landscape:pt-0'>
-          <h1 className='font-unica max-w-[680px] text-[clamp(2.25rem,calc((100vw_-_3rem)/8.7),3rem)] font-extrabold leading-[0.95] tracking-tighter drop-shadow-[0_2px_10px_#000000a0] sm:text-5xl lg:text-6xl xl:text-7xl xxl:max-w-[900px] xxl:text-8xl'>
+          <h1 className='scroll-lean font-unica max-w-[680px] text-[clamp(2.25rem,calc((100vw_-_3rem)/8.7),3rem)] font-extrabold leading-[0.95] tracking-tighter drop-shadow-[0_2px_10px_#000000a0] sm:text-5xl lg:text-6xl xl:text-7xl xxl:max-w-[900px] xxl:text-8xl'>
             <span className='block text-white/70'>{t.heroH1Line1}</span>
             <span className='block text-white'>{t.heroH1Line2}</span>
           </h1>

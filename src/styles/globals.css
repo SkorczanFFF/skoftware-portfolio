@@ -32,6 +32,23 @@
    to an item while it crosses the middle of the viewport. */
 @custom-variant scroll-active (&:where(.is-active, .is-active *));
 
+/* Scroll velocity, −1..1, written by useScrollVelocity every frame it moves.
+   Registered so the browser keeps a number and re-resolves only the rules
+   that read it, instead of re-parsing a token stream across the tree. */
+@property --scroll-velocity {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Text that leans into the scroll direction: the hero h1 and section titles.
+   Uses `transform`, which composes with Tailwind's own `rotate` property on
+   the rotated titles instead of replacing it. */
+.scroll-lean {
+  transform: skewY(calc(var(--scroll-velocity) * -2deg));
+  will-change: transform;
+}
+
 @utility font-grotesk {
   font-family:
     var(--font-grotesk), ui-sans-serif, system-ui, sans-serif,
@@ -133,6 +150,13 @@ body {
   border-style: solid;
   border-width: 20px 32.5px 0 32.5px;
   margin: auto;
+  /* Hangs from the section above and stretches with scroll speed, so the
+     joints pull like taffy on a flick. `max(v, -v)` stands in for abs(). */
+  transform-origin: top center;
+  transform: scaleY(
+    calc(1 + max(var(--scroll-velocity), -1 * var(--scroll-velocity)) * 0.9)
+  );
+  will-change: transform;
 }
 
 .arrow-down.gradient {

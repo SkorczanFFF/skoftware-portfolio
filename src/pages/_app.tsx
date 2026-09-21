@@ -7,6 +7,7 @@ import '@/styles/globals.css';
 
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
+import { useScrollVelocity } from '@/hooks/useScrollVelocity';
 
 import CookieConsentBanner from '@/components/CookieConsent';
 import CustomCursor from '@/components/CustomCursor';
@@ -33,6 +34,8 @@ const unicaOne = localFont({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const contentRef = useRef<HTMLDivElement>(null);
+
+  useScrollVelocity();
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
