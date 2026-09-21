@@ -11,6 +11,7 @@ import {
   WrenchIcon,
 } from '@/lib/shared/Icons';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useReveal } from '@/hooks/useReveal';
 import { useScrollTriggers } from '@/hooks/useScrollTriggers';
 import { useSectionExit } from '@/hooks/useSectionExit';
 import { useTilt } from '@/hooks/useTilt';
@@ -144,74 +145,19 @@ export default function Services(): React.JSX.Element {
   const bodyRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  // Cards come up from depth tipped back around their bottom edge, so they
+  // rise flat into place as they arrive.
+  useReveal(gridRef, { selector: '.service-card', y: 28, rotationX: -8 });
   useSectionExit(bodyRef);
 
   useScrollTriggers(() => {
-    if (!gridRef.current) return [];
+    if (!gridRef.current || prefersReducedMotion) return [];
 
     const cards = gsap.utils.toArray<Element>('.service-card', gridRef.current);
     if (!cards.length) return [];
 
     const isDesktop3Col = window.innerWidth >= BREAKPOINTS.xl;
     const triggers: ScrollTrigger[] = [];
-
-    // Reduced motion: opacity-only reveal, no 3D.
-    if (prefersReducedMotion) {
-      gsap.set(cards, { opacity: 0 });
-      triggers.push(
-        ...ScrollTrigger.batch(cards, {
-          start: 'top 85%',
-          onEnter: (batch) =>
-            gsap.to(batch, {
-              opacity: 1,
-              duration: 0.5,
-              stagger: 0.06,
-              overwrite: true,
-            }),
-          onLeaveBack: (batch) => gsap.set(batch, { opacity: 0 }),
-        }),
-      );
-      return triggers;
-    }
-
-    // Entrance: cards start tipped back and scaled down, then rise flat into
-    // place. ScrollTrigger.batch staggers each row as it enters, so the same
-    // motion reads on 1/2/3 columns.
-    gsap.set(cards, {
-      opacity: 0,
-      y: 28,
-      rotationX: -8,
-      scale: 0.96,
-      transformPerspective: 800,
-      transformOrigin: '50% 100%',
-    });
-
-    triggers.push(
-      ...ScrollTrigger.batch(cards, {
-        start: 'top 85%',
-        onEnter: (batch) =>
-          gsap.to(batch, {
-            opacity: 1,
-            y: 0,
-            rotationX: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: 'power3.out',
-            stagger: 0.09,
-            overwrite: true,
-          }),
-        onLeaveBack: (batch) =>
-          gsap.to(batch, {
-            opacity: 0,
-            y: 28,
-            rotationX: -8,
-            scale: 0.96,
-            duration: 0.4,
-            ease: 'power2.in',
-            overwrite: true,
-          }),
-      }),
-    );
 
     // Touch fallback for hover — cards lift (scale + shadow + glow + title
     // spacing) as they pass through the viewport, mirroring the desktop hover.

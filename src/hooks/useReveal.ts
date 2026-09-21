@@ -9,6 +9,8 @@ type RevealOptions = {
   y?: number;
   /** Starting depth, in px behind the page. */
   z?: number;
+  /** Starting tip backwards, in degrees around the item's bottom edge. */
+  rotationX?: number;
   /** Rule inside an item that draws in from the left as the item lands. */
   draw?: string;
   /** ScrollTrigger `start` / `end`, relative to each item. */
@@ -34,6 +36,7 @@ export function useReveal(
     selector,
     y = 24,
     z = -180,
+    rotationX = 0,
     draw,
     start = 'top 92%',
     end = 'top 55%',
@@ -57,8 +60,15 @@ export function useReveal(
         // the item takes the whole approach, the rule the second half of it.
         tl.fromTo(
           item,
-          { opacity: 0, y, z },
-          { opacity: 1, y: 0, z: 0, duration: 1, ease: 'power2.out' },
+          { opacity: 0, y, z, rotationX, transformOrigin: '50% 100%' },
+          {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            rotationX: 0,
+            duration: 1,
+            ease: 'power2.out',
+          },
         );
 
         const rule = draw ? item.querySelector(draw) : null;
@@ -74,5 +84,5 @@ export function useReveal(
     });
 
     return () => mm.revert();
-  }, [ref, selector, y, z, draw, start, end]);
+  }, [ref, selector, y, z, rotationX, draw, start, end]);
 }
