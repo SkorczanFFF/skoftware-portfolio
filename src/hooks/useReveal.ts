@@ -1,75 +1,78 @@
-import type { RefObject } from 'react';
+import { type RefObject, useEffect } from 'react';
 
 import { gsap } from '@/lib/gsap';
-import { useScrollTriggers } from '@/hooks/useScrollTriggers';
 
 type RevealOptions = {
-  /** Children of `ref` to stagger in. */
+  /** Children of `ref` that each arrive on their own. */
   selector: string;
+  /** Starting rise, in px. */
   y?: number;
-  /** Start scale — items settle in from slightly behind the page. */
-  scale?: number;
-  /** Rules inside the items that draw in from the left once the item lands. */
+  /** Starting depth, in px behind the page. */
+  z?: number;
+  /** Rule inside an item that draws in from the left as the item lands. */
   draw?: string;
-  duration?: number;
-  stagger?: number;
-  ease?: string;
-  /** ScrollTrigger `start`, relative to `ref`. */
+  /** ScrollTrigger `start` / `end`, relative to each item. */
   start?: string;
+  end?: string;
 };
 
-/** Fade-and-rise the matched children once `ref` scrolls into view. */
+const PERSPECTIVE = 1000;
+
+/**
+ * Scroll-linked depth: every matched item approaches from behind the page
+ * while it enters the viewport and recedes again if the reader scrolls back,
+ * so the section reads as a space moved through rather than a slideshow.
+ *
+ * The perspective goes on each item's parent, not on `ref` — the CSS property
+ * only reaches direct children, and WhyMe spreads its items over two parents.
+ * One vanishing point per list is what makes off-centre items converge as
+ * they recede; a per-item perspective would only shrink them.
+ */
 export function useReveal(
   ref: RefObject<HTMLElement | null>,
   {
     selector,
     y = 24,
-    scale = 0.96,
+    z = -180,
     draw,
-    duration = 0.7,
-    stagger = 0.1,
-    ease = 'power3.out',
-    start = 'top 85%',
+    start = 'top 92%',
+    end = 'top 55%',
   }: RevealOptions,
 ) {
-  useScrollTriggers(() => {
-    if (!ref.current) return [];
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
 
-    const items = gsap.utils.toArray<Element>(selector, ref.current);
-    if (!items.length) return [];
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const items = gsap.utils.toArray<HTMLElement>(selector, root);
+      const parents = new Set(items.map((item) => item.parentElement));
+      gsap.set([...parents], { perspective: PERSPECTIVE });
 
-    const scrollTrigger = {
-      trigger: ref.current,
-      start,
-      toggleActions: 'play none none reverse',
-    };
+      items.forEach((item) => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: item, start, end, scrub: 0.5 },
+        });
+        // Durations are shares of the scroll range, so both tweens end at 1:
+        // the item takes the whole approach, the rule the second half of it.
+        tl.fromTo(
+          item,
+          { opacity: 0, y, z },
+          { opacity: 1, y: 0, z: 0, duration: 1, ease: 'power2.out' },
+        );
 
-    gsap.set(items, { opacity: 0, y, scale });
-    const tween = gsap.to(items, {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration,
-      stagger,
-      ease,
-      scrollTrigger,
-    });
-    const triggers = [tween.scrollTrigger];
-
-    const rules = draw ? gsap.utils.toArray<Element>(draw, ref.current) : [];
-    if (rules.length) {
-      gsap.set(rules, { scaleX: 0, transformOrigin: 'left center' });
-      const drawTween = gsap.to(rules, {
-        scaleX: 1,
-        duration: 0.6,
-        stagger,
-        ease,
-        delay: 0.25,
-        scrollTrigger,
+        const rule = draw ? item.querySelector(draw) : null;
+        if (rule) {
+          tl.fromTo(
+            rule,
+            { scaleX: 0, transformOrigin: 'left center' },
+            { scaleX: 1, duration: 0.55, ease: 'power2.out' },
+            0.45,
+          );
+        }
       });
-      triggers.push(drawTween.scrollTrigger);
-    }
+    });
 
-    return triggers;
-  }, []);
+    return () => mm.revert();
+  }, [ref, selector, y, z, draw, start, end]);
 }

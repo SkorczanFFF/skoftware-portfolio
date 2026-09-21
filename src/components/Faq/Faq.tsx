@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React, { useRef, useState } from 'react';
 
-import { gsap } from '@/lib/gsap';
+import { gsap, ScrollTrigger } from '@/lib/gsap';
 import { prefersReducedMotion } from '@/lib/motion';
 import { useReveal } from '@/hooks/useReveal';
 import { useSectionExit } from '@/hooks/useSectionExit';
@@ -22,7 +22,7 @@ export default function Faq(): React.JSX.Element {
   const panelsRef = useRef<Array<HTMLDivElement | null>>([]);
   const listRef = useRef<HTMLUListElement>(null);
 
-  useReveal(listRef, { selector: 'li', y: 16, stagger: 0.06 });
+  useReveal(listRef, { selector: 'li', y: 16, z: -120 });
   useSectionExit(listRef);
 
   const faqSchema = {
@@ -43,6 +43,9 @@ export default function Faq(): React.JSX.Element {
     if (prefersReducedMotion()) {
       gsap.set(panel, { height: 'auto' });
       gsap.set(inner, { opacity: 1, y: 0 });
+      // Every question below has its own depth trigger, measured against the
+      // collapsed layout; an open answer moves them all.
+      ScrollTrigger.refresh();
       return;
     }
     // Measure the natural height, then tween from 0; restore `auto` so the panel
@@ -58,6 +61,7 @@ export default function Faq(): React.JSX.Element {
         ease: 'power3.out',
         onComplete: () => {
           gsap.set(panel, { height: 'auto' });
+          ScrollTrigger.refresh();
         },
       },
     );
@@ -76,10 +80,16 @@ export default function Faq(): React.JSX.Element {
     if (prefersReducedMotion()) {
       gsap.set(panel, { height: 0 });
       gsap.set(inner, { opacity: 0 });
+      ScrollTrigger.refresh();
       return;
     }
     gsap.set(panel, { height: panel.offsetHeight });
-    gsap.to(panel, { height: 0, duration: 0.38, ease: 'power2.inOut' });
+    gsap.to(panel, {
+      height: 0,
+      duration: 0.38,
+      ease: 'power2.inOut',
+      onComplete: () => ScrollTrigger.refresh(),
+    });
     gsap.to(inner, { opacity: 0, y: 6, duration: 0.25, ease: 'power1.in' });
   };
 

@@ -14,12 +14,7 @@ export default function Process(): React.JSX.Element {
   const { t } = useLocale();
   const listRef = useRef<HTMLDivElement>(null);
 
-  useReveal(listRef, {
-    selector: '.process-step',
-    y: 24,
-    stagger: 0.12,
-    draw: '.process-rule',
-  });
+  useReveal(listRef, { selector: '.process-step', draw: '.process-rule' });
   useSectionExit(listRef);
   useActiveOnScroll(listRef, '.process-step');
 

@@ -32,14 +32,7 @@ export default function TechStrip(): React.JSX.Element {
   const bodyRef = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLUListElement>(null);
 
-  useReveal(rowRef, {
-    selector: 'li',
-    y: 12,
-    duration: 0.5,
-    stagger: 0.06,
-    ease: 'power2.out',
-    start: 'top 90%',
-  });
+  useReveal(rowRef, { selector: 'li', y: 12, z: -120 });
   useSectionExit(bodyRef);
   useActiveOnScroll(rowRef, 'li');
 
