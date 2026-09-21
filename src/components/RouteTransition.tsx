@@ -25,7 +25,10 @@ export default function RouteTransition({
       ref={curtainRef}
       aria-hidden='true'
       className='route-curtain gradient z-[9999] flex items-center justify-center'
-      style={{ visibility: 'hidden', transform: 'translateY(100%)' }}
+      // No starting transform: GSAP would read it back from the computed
+      // matrix as pixels and keep them under its own yPercent. Hidden, the
+      // panel's resting place does not matter; every cover parks it first.
+      style={{ visibility: 'hidden' }}
     >
       {/* Only fades in once a route takes long enough to need an apology. */}
       <span

@@ -50,6 +50,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       syncTouch: false,
       touchMultiplier: 2,
       infinite: false,
+      // Mid-inertia Lenis ignores native scroll events and writes its own
+      // position back next frame, which would undo the route curtain's jump
+      // to the top. This kills the inertia on any click that leaves the page.
+      stopInertiaOnNavigate: true,
     });
 
     // One clock for scroll and animation: Lenis ticks from GSAP's ticker and

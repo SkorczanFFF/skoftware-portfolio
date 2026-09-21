@@ -88,17 +88,25 @@ export function useRouteTransition(
       window.removeEventListener('touchmove', block);
     };
 
+    // Re-measure every trigger, then put the page at `y` ourselves. A refresh
+    // scrolls around to measure pins and afterwards restores the position from
+    // its own memory — which right after a route swap is the clamped position
+    // of the page that just left, not the one the new page should open at.
+    const remeasure = (y: number) => {
+      ScrollTrigger.clearScrollMemory();
+      ScrollTrigger.refresh();
+      window.scrollTo({ top: y, behavior: 'instant' });
+    };
+
     const land = (path: string) => {
-      // Instant, never smooth: Lenis adopts the position from the native
-      // scroll event, and the jump has to happen while the curtain hides it.
+      // Explicitly instant: <html> carries `scroll-smooth`, so a bare jump
+      // would animate out from under the curtain and `scrollY` would still
+      // read the old position. Lenis adopts the new one from the scroll event.
       const hash = path.includes('#') ? path.slice(path.indexOf('#') + 1) : '';
       const anchor = hash ? document.getElementById(hash) : null;
-      if (anchor) anchor.scrollIntoView();
-      else window.scrollTo(0, 0);
-
-      // The page measured its triggers while mounting, under the previous
-      // scroll position; re-measure before anything can be scrubbed.
-      ScrollTrigger.refresh();
+      if (anchor) anchor.scrollIntoView({ behavior: 'instant' });
+      else window.scrollTo({ top: 0, behavior: 'instant' });
+      remeasure(window.scrollY);
     };
 
     const reveal = () => {
@@ -175,7 +183,10 @@ export function useRouteTransition(
       if (phase === 'crossfade') {
         // The other language sets different copy heights, and nothing
         // remounts on a locale switch, so every trigger is stale by now.
-        ScrollTrigger.refresh();
+        // Queued behind Next's own 0ms timer: its root container re-scrolls
+        // to `location.hash` on every update, and this must land after it.
+        const y = window.scrollY;
+        window.setTimeout(() => remeasure(y), 0);
         restoreContent();
         return;
       }
