@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ScrollTrigger } from '@/lib/gsap';
@@ -49,9 +50,14 @@ const SECTION_IDS = ['services', 'portfolio', 'contact'];
 
 function useActiveSection() {
   const [active, setActive] = useState<string>('home');
+  const { pathname } = useRouter();
 
+  // Rebuilt per page: the header never unmounts, so triggers made on one
+  // page would keep pointing at elements the next page has detached.
   useEffect(() => {
+    setActive('home');
     const triggers: ScrollTrigger[] = [];
+    const contact = document.getElementById('contact');
 
     SECTION_IDS.forEach((id) => {
       const el = document.getElementById(id);
@@ -69,10 +75,11 @@ function useActiveSection() {
           // Portfolio is pinned during horizontal scroll — its physical height
           // doesn't reflect the actual scroll range. Use contact as the end marker
           // so portfolio stays active until contact enters the viewport.
-          ...(isPortfolio && {
-            endTrigger: '#contact',
-            end: 'top center',
-          }),
+          ...(isPortfolio &&
+            contact && {
+              endTrigger: contact,
+              end: 'top center',
+            }),
           onToggle: (self) => {
             if (self.isActive) setActive(id);
           },
@@ -86,7 +93,7 @@ function useActiveSection() {
     return () => {
       triggers.forEach((st) => st.kill());
     };
-  }, []);
+  }, [pathname]);
 
   return active;
 }

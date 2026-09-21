@@ -15,12 +15,18 @@ const STUCK_MS = 10000;
 
 type Phase = 'idle' | 'covering' | 'covered' | 'revealing' | 'crossfade';
 
+type InternalClick = {
+  /** Path with the locale prefix the rendered anchor already carries. */
+  path: string;
+  samePage: boolean;
+  hash: string;
+};
+
 /**
- * The path a click should hand to the curtain, or null when the click belongs
- * to the browser or to the page: modified clicks, downloads, new tabs, other
- * origins, and same-document anchors, which scroll instead of navigating.
+ * The internal link a click is aimed at, or null when the click belongs to
+ * the browser: modified clicks, downloads, new tabs, other origins.
  */
-function curtainPath(event: MouseEvent): string | null {
+function internalClick(event: MouseEvent): InternalClick | null {
   if (event.defaultPrevented || event.button !== 0) return null;
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
     return null;
@@ -37,11 +43,12 @@ function curtainPath(event: MouseEvent): string | null {
   // Rejects mailto: and tel: as well — neither carries the page origin.
   const url = new URL(anchor.href, window.location.href);
   if (url.origin !== window.location.origin) return null;
-  if (url.pathname === window.location.pathname) return null;
 
-  // The rendered href already carries the locale prefix, so it is pushed
-  // verbatim with `locale: false` rather than being prefixed a second time.
-  return url.pathname + url.search + url.hash;
+  return {
+    path: url.pathname + url.search + url.hash,
+    samePage: url.pathname === window.location.pathname,
+    hash: url.hash,
+  };
 }
 
 /**
@@ -74,6 +81,7 @@ export function useRouteTransition(
     let phase: Phase = 'idle';
     let slowTimer = 0;
     let stuckTimer = 0;
+    let stayPut = false;
 
     const block = (event: Event) => event.preventDefault();
 
@@ -171,6 +179,10 @@ export function useRouteTransition(
     };
 
     const onRouteStart = () => {
+      if (stayPut) {
+        stayPut = false;
+        return;
+      }
       if (reduced || phase !== 'idle') return;
       phase = 'crossfade';
       gsap.killTweensOf(content);
@@ -203,12 +215,22 @@ export function useRouteTransition(
 
     const onClick = (event: MouseEvent) => {
       if (reduced) return;
-      const path = curtainPath(event);
-      if (!path) return;
+      const click = internalClick(event);
+      if (!click) return;
+
+      if (click.samePage) {
+        // An in-page anchor only moves the hash and never reaches the router.
+        // A link to the page itself does, and re-renders it in place — not a
+        // change of view, so it gets neither the curtain nor the blink.
+        if (!click.hash) stayPut = true;
+        return;
+      }
 
       event.preventDefault();
       if (phase !== 'idle') return;
-      cover(path);
+      // Pushed verbatim with `locale: false`: the rendered href already carries
+      // the locale prefix, and Next would otherwise add a second one.
+      cover(click.path);
     };
 
     document.addEventListener('click', onClick, true);
