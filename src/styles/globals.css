@@ -181,6 +181,50 @@ body {
   z-index: 20;
 }
 
+/* Film grain (Grain.tsx). The noise is one 300px SVG tile, rasterised once
+   and repeated; the element is a little larger than the viewport so it can
+   be nudged by `transform` — compositor only, no repaint — in hard steps,
+   which reads as flicker. Under reduced motion the animation collapses to a
+   single frame and the grain simply stands still. */
+.grain {
+  position: fixed;
+  inset: -40px;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
+    0 0 / 300px 300px repeat;
+  animation: grain 0.9s steps(1) infinite;
+}
+
+@keyframes grain {
+  0% {
+    transform: translate(0, 0);
+  }
+  12.5% {
+    transform: translate(-14px, 9px);
+  }
+  25% {
+    transform: translate(22px, -31px);
+  }
+  37.5% {
+    transform: translate(-27px, 18px);
+  }
+  50% {
+    transform: translate(9px, 26px);
+  }
+  62.5% {
+    transform: translate(-33px, -12px);
+  }
+  75% {
+    transform: translate(17px, 34px);
+  }
+  87.5% {
+    transform: translate(-6px, -24px);
+  }
+}
+
 /* Route curtain (RouteTransition.tsx). Both edges carry the section arrow at
    its own size — a full-bleed triangle would flatten into a straight line —
    and the panel is 20px taller than the viewport at each end so the flat band

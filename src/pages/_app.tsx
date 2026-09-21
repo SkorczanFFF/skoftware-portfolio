@@ -11,6 +11,7 @@ import { useScrollVelocity } from '@/hooks/useScrollVelocity';
 
 import CookieConsentBanner from '@/components/CookieConsent';
 import CustomCursor from '@/components/CustomCursor';
+import Grain from '@/components/Grain';
 import Header from '@/components/layout/Header/Header';
 import RouteTransition from '@/components/RouteTransition';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -82,6 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
         <ScrollToTop />
         <CookieConsentBanner />
+        <Grain />
         <CustomCursor />
       </LocaleProvider>
     </div>
