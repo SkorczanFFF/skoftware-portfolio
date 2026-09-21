@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useRef } from 'react';
+
+import { useMagnetic } from '@/hooks/useMagnetic';
 
 type Variant = 'primary' | 'ghost' | 'gradient';
 
@@ -12,9 +14,10 @@ const BASE =
 const VARIANT_CLASS: Record<Variant, string> = {
   primary: 'bg-raspberry text-white hover:bg-orange',
   // `.gradient` is unlayered, so it beats any bg-* utility: hover goes through
-  // a filter instead of a background swap.
+  // a filter instead of a background swap. The lift is Tailwind's `translate`
+  // property, kept off `transform`, which the magnetic pull writes every frame.
   gradient:
-    'gradient text-white transition-[filter,transform] hover:-translate-y-px hover:brightness-110',
+    'gradient text-white transition-[filter,translate] hover:-translate-y-px hover:brightness-110',
   ghost:
     'border border-white/30 text-white/90 backdrop-blur-[6px] hover:border-white hover:bg-white/10',
 };
@@ -33,8 +36,12 @@ export default function Button({
   className = '',
   children,
 }: ButtonProps) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  useMagnetic(ref);
+
   return (
     <Link
+      ref={ref}
       href={href}
       scroll={false}
       className={`${BASE} ${VARIANT_CLASS[variant]} ${className}`}
